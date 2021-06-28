@@ -1,0 +1,17 @@
+@import url("./_bg.css");
+@import url("./_text.css");
+
+.showModal-enter-active,
+.showModal-leave-active {
+  opacity: 1;
+  transition: .5s;
+}
+
+.showModal-enter,
+.showModal-leave-active {
+  opacity: 0;
+}
+
+.bg-modalHeader {
+  background: linear-gradient(270deg, #178d7b 0%, #1e86ba 99.8%);
+}

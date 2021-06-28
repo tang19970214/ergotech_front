@@ -1,0 +1,14 @@
+.border-primary {
+  --tw-border-opacity: 1;
+  border-color: rgba(22, 142, 199, var(--tw-border-opacity));
+}
+
+.border-ccc {
+  --tw-border-opacity: 1;
+  border-color: rgba(204, 204, 204, var(--tw-border-opacity));
+}
+
+.border-eee {
+  --tw-border-opacity: 1;
+  border-color: rgba(238, 238, 238, var(--tw-border-opacity));
+}

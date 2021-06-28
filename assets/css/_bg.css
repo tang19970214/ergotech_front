@@ -1,0 +1,48 @@
+.bg-primary {
+  background: #168EC7;
+}
+
+.bg-warning {
+  background: #C77300;
+}
+
+.bg-danger {
+  background: #C71616;
+}
+
+.bg-success {
+  background: #149280;
+}
+
+.bg-ccc {
+  background: #CCCCCC;
+}
+
+.bg-eee {
+  background: #EEEEEE;
+}
+
+.bg-footer {
+  background: #FAFAFA;
+}
+
+.bg-tab {
+  background: #909090;
+}
+
+.bg-tableHeader {
+  background: #717171;
+}
+
+.bg-tableOperate {
+  background: #00959F;
+}
+
+.bg-menuActive {
+  background: #4F4F4F;
+}
+
+/* 
+.bg-primary:hover {
+  background: #259cd4;
+} */
