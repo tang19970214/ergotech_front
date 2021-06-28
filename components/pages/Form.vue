@@ -53,26 +53,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="w-full flex items-center justify-center flex-col border border-ccc mt-4 sm:mt-2">
-        <div class="w-full flex items-center justify-center bg-eee">
-          <div class="box w-full flex items-center py-2 px-4" v-for="item in tableHeader" :key="item.id">
-            <div class="border-r border-ccc">
-              <strong>{{item.text}}</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="w-full flex items-center justify-center bg-white">
-          <div class="box w-full flex items py-2 px-4" v-for="item in 3" :key="item">
-            <div class="w-full flex items-center" v-if="item == 1">
-              <label class="text-sm flex items-center font-semibold mr-4"><input class="pr-1" type="radio" name="result" value="1">符合</label>
-              <label class="text-sm flex items-center font-semibold mr-4"><input class="pr-1" type="radio" name="result" value="2">不符合</label>
-              <label class="text-sm flex items-center font-semibold"><input class="pr-1" type="radio" name="result" value="3">不適用</label>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
