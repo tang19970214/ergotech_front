@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="block sm:hidden px-4 mt-3">
+    <!-- <div class="block sm:hidden px-4 mt-3">
       <div class="w-full rounded bg-white shadow">
         <div class="step w-full px-4 py-3 box-border flex items-center" v-for="item in stepList[menuId]" :key="item.id">
           <span class="dot relative rounded-full mr-2 border-2 box-content" :class="{'bg-primary border-blue-100': item.id == defaultStep, 'bg-white border-gray-300': item.id !== defaultStep}"></span>
@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="hidden sm:block">
       <div class="w-full h-24 p-6 box-border flex items-center bg-white shadow-md">
@@ -32,15 +32,15 @@ export default {
   props: {
     stepList: {
       type: Object,
-      require: true,
+      required: true,
     },
     defaultStep: {
       type: Number,
-      require: true,
+      required: true,
     },
     menuId: {
       type: Number,
-      require: true,
+      required: true,
     },
   },
 };

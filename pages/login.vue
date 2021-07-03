@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex items-center justify-center">
+  <div class="w-full min-h-screen flex items-center justify-center">
     <div class="flex items-center justify-center flex-col">
       <div class="font-bold text-white text-5xl mb-16">Login</div>
       <div class="relative p-12 box-border bg-white rounded shadow-md">
@@ -31,23 +31,32 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   layout: "auth",
   data() {
     return {
       temp: {
-        account: "",
-        password: "",
+        account: "System",
+        password: "123456",
       },
     };
   },
   methods: {
     login() {
-      console.log(this.temp);
       if (this.temp.account == "" || this.temp.password == "") {
         alert("請確實填寫");
       } else {
-        this.$router.push({ name: "index" });
+        const vm = this;
+        vm.$store
+          .dispatch("Login", {
+            username: vm.temp.account,
+            password: vm.temp.password,
+          })
+          .then(() => {
+            vm.$router.push("/");
+          });
       }
     },
   },

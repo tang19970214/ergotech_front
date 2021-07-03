@@ -8,9 +8,9 @@
 
         <div class="w-full sm:w-1/4 h-20 mt-2 sm:mt-0 flex items-center justify-start sm:justify-end">
           <div class="h-full flex flex-col items-center justify-between px-3">
-            <img src="@/assets/images/icon/help.png" alt="">
-            <img src="@/assets/images/icon/regulation.png" alt="">
-            <img src="@/assets/images/icon/accident.png" alt="">
+            <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal('help')">
+            <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal('regulation')">
+            <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal('accident')">
           </div>
 
           <div class="w-20 h-20">
@@ -67,6 +67,11 @@ export default {
         { id: 3, text: "現況說明" },
       ],
     };
+  },
+  methods: {
+    openFormModal(value) {
+      this.$emit("openFormModal", value);
+    },
   },
 };
 </script>

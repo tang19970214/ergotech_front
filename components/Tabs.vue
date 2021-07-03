@@ -12,11 +12,11 @@ export default {
   props: {
     tabList: {
       type: Array,
-      require: true,
+      required: true,
     },
     defaultTab: {
       type: Number,
-      require: true,
+      required: true,
     },
   },
   methods: {

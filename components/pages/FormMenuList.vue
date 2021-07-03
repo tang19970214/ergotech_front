@@ -62,11 +62,11 @@ export default {
   props: {
     menuList: {
       type: Array,
-      require: true,
+      required: true,
     },
     defaultMenu: {
       type: Number,
-      require: true,
+      required: true,
     },
   },
   data() {

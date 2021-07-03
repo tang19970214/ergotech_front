@@ -2,11 +2,11 @@ import path from "path";
 
 export default [{
   name: "login",
-  path: "/",
+  path: "/login",
   component: path.resolve(__dirname, "pages/login.vue")
 }, {
   name: "index",
-  path: "/index",
+  path: "/",
   component: path.resolve(__dirname, "pages/index.vue")
 }, {
   name: "checkOperation",

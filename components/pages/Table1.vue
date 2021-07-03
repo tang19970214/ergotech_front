@@ -10,7 +10,7 @@
           </th>
           <th class="w-28 px-4 py-2 bg-tableHeader">
             <div class="w-full text-center">
-              <span class="text-white">建單日期</span>
+              <span class="text-white">預定完成日</span>
             </div>
           </th>
           <th class="w-20 px-4 py-2 bg-tableOperate">

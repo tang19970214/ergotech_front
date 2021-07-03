@@ -21,13 +21,14 @@
 
           <!-- form -->
           <div class="w-full mt-4 shadow">
-            <Form />
+            <Form @openFormModal="openFormModal" />
           </div>
           <FormFooter @formBtn="formBtn" />
         </div>
       </div>
     </div>
 
+    <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :introduceList="modalList.introduceList" @closeModal="closeModal" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
 
   </div>
@@ -39,10 +40,11 @@ import FormSteps from "../components/pages/FormSteps.vue";
 import Form from "../components/pages/Form.vue";
 import FormFooter from "../components/pages/FormFooter.vue";
 import Notice from "../components/Notice.vue";
+import Modal from "../components/Modal.vue";
 
 export default {
   layout: "checkForm",
-  components: { FormMenuList, FormSteps, Form, FormFooter, Notice },
+  components: { FormMenuList, FormSteps, Form, FormFooter, Notice, Modal },
   data() {
     return {
       defaultMenu: 1,
@@ -151,6 +153,14 @@ export default {
       defaultStep: 1,
       stepList: {},
 
+      /* modal */
+      openModal: false,
+      modalList: {
+        headerText: "",
+        title: "",
+        introduceList: [],
+      },
+      /* notice */
       openNotice: false,
       noticeInfo: {
         type: "",
@@ -187,6 +197,56 @@ export default {
     },
 
     /* component */
+    openFormModal(val) {
+      switch (val) {
+        case "help":
+          this.modalList = {
+            headerText: "說明",
+            title:
+              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
+            introduceList: [
+              {
+                text:
+                  "當許多控制器被密集地置於一個範圍內時，容易出現錯誤啟動機器，導致人員受傷，設備損壞，並降低生產效率。對於控制器的設計應採取不同方式預防，如使用防護罩或設計凸、凹式或聯鎖控制器，以防止人員誤觸開關",
+              },
+            ],
+          };
+          this.openModal = true;
+          break;
+        case "regulation":
+          this.modalList = {
+            headerText: "法規",
+            title:
+              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
+            introduceList: [
+              { text: "職業安全衛生管理辦法第13 ~ 49條" },
+              { text: "職業安全衛生管理辦法第13 ~ 49條" },
+            ],
+          };
+          this.openModal = true;
+          break;
+        case "accident":
+          this.modalList = {
+            headerText: "事故要因範例",
+            title:
+              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
+            introduceList: [
+              {
+                text:
+                  "1 從事鎂鋁合金手工研磨作業，其風箱內之灑水系統損壞未修復，致無法有效除塵。",
+              },
+              { text: "2 電壓錶故障不良品無法顯示正確的電壓值。" },
+              { text: "3 因染缸之端板嚴重銹蝕而破裂遭大量的高溫染液噴出。" },
+              {
+                text:
+                  "4 對於發酵箱電路分路之漏電斷路器未定時檢測，使該漏電斷路器故障無人知曉。",
+              },
+            ],
+          };
+          this.openModal = true;
+          break;
+      }
+    },
     formBtn(str) {
       switch (str) {
         case "prev":
@@ -204,6 +264,9 @@ export default {
         case "send":
           break;
       }
+    },
+    closeModal() {
+      this.openModal = false;
     },
     closeNotice() {
       this.openNotice = false;

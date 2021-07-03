@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nuxt --port 8888",
-    "prod": "cross-env NODE_ENV=prod nuxt --port 8888",
+    "dev": "cross-env NODE_ENV=dev nuxt --port 1803",
+    "prod": "cross-env NODE_ENV=prod nuxt --port 1803",
     "build": "cross-env NODE_ENV=prod nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -17,6 +17,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "core-js": "^3.9.1",
     "cross-env": "^7.0.3",
+    "js-cookie": "^2.2.1",
     "nuxt": "^2.15.3",
     "nuxt-fontawesome": "^0.4.0",
     "simple-vue-validator": "^0.16.0"

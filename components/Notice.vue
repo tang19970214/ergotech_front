@@ -29,15 +29,15 @@ export default {
   props: {
     openNotice: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     type: {
       type: String,
-      require: true,
+      required: true,
     },
     message: {
       type: String,
-      require: true,
+      required: true,
     },
     introduce: {
       type: String,
