@@ -32,3 +32,10 @@ export function logout() {
   });
 }
 
+export function LoadMission(params) {
+  return request({
+    url: "/CheckMission/Load",
+    method: "get",
+    params: params
+  });
+}

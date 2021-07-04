@@ -1,8 +1,5 @@
 import axios from 'axios'; //引用axios
 import store from "@/store/index.js";
-// import router from "./router.js";
-// import router from 'vue-router';
-// import router from "@​nuxtjs/router";
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -77,8 +74,9 @@ const errorHandle = (status, msg, response) => {
 
 const tokenExpire = () => {
   store().dispatch("FedLogOut");
-  // console.log(router);
-  // router.replace({ name: "login" });
+  window.$nuxt.$router.replace({
+    name: "login"
+  })
 };
 
 export default service

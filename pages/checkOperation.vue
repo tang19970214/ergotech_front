@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { LoadMission } from "../api/api.js";
+
 import Tabs from "../components/Tabs.vue";
 import Table1 from "../components/pages/Table1.vue";
 import Table2 from "../components/pages/Table2.vue";
@@ -27,6 +29,11 @@ export default {
   components: { Tabs, Table1, Table2, Table3, Pagination },
   data() {
     return {
+      listQuery: {
+        page: 1,
+        limit: 10,
+        key: undefined,
+      },
       defaultTab: 1,
       tabList: [
         { id: 1, text: "待執行作業", text_phone: "待執行" },
@@ -96,12 +103,20 @@ export default {
     };
   },
   methods: {
+    getList() {
+      LoadMission(this.listQuery).then((res) => {
+        console.log(res);
+      });
+    },
     changeTab(id) {
       this.defaultTab = id;
     },
     goCheck1(id) {
       this.$router.push({ name: "checkJobs" });
     },
+  },
+  mounted() {
+    this.getList();
   },
 };
 </script>
