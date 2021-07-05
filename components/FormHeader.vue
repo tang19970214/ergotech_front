@@ -3,7 +3,7 @@
     <div class="fixed top-0 w-full z-30">
       <div class="headerBG bg-primary relative w-full h-14 sm:h-16 flex items-center justify-center">
         <!-- hidden sm:block -->
-        <nuxt-link class="hidden sm:block" to="/index">
+        <nuxt-link class="hidden sm:block" to="/">
           <img class="w-36 sm:w-60 h-10 sm:h-16 ml-2 sm:ml-0" src="@/assets/images/Logo.png" alt="人因工程檢核表">
         </nuxt-link>
 
