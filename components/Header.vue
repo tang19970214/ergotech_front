@@ -110,6 +110,7 @@ export default {
           this.openModal = true;
           break;
         case 2:
+          this.$router.push({ name: "checkOperation" });
           break;
         case 3:
           this.$router.push({ name: "login" });
