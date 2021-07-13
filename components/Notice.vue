@@ -14,10 +14,10 @@
         </div>
         <!--footer-->
         <div class="w-full p-3 space-x-4 flex items-center">
-          <button class="w-full bg-white p-1 box-border text-sm font-medium border rounded-sm" @click="closeNotice()">
+          <button class="w-full bg-white p-1 box-border text-sm font-medium border rounded-sm" @click="closeNotice()" v-if="type !== 'success'">
             留在此頁
           </button>
-          <button class="w-full bg-primary p-1 box-border text-sm font-medium text-white rounded-sm">確定</button>
+          <button class="w-full bg-primary p-1 box-border text-sm font-medium text-white rounded-sm" @click="closeNotice()">確定</button>
         </div>
       </div>
     </div>

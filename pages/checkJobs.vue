@@ -8,8 +8,8 @@
 
         <div class="hidden sm:block flex items-center">
           <button class="w-16 h-8 bg-white rounded border border-gray-400 text-sm font-bold shadow mr-2" @click="goBack()">回列表</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2">暫存</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow">送出</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2" @click="formBtn('save')">暫存</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" @click="formBtn('send')">送出</button>
         </div>
       </div>
 
@@ -185,7 +185,6 @@ export default {
         }
       });
       this.stepList = obj;
-      console.log(this.stepList);
     },
     goBack() {
       this.noticeInfo = {
@@ -260,8 +259,18 @@ export default {
           this.openNotice = true;
           break;
         case "save":
+          this.noticeInfo = {
+            type: "success",
+            message: "暫存成功",
+          };
+          this.openNotice = true;
           break;
         case "send":
+          this.noticeInfo = {
+            type: "success",
+            message: "保存成功",
+          };
+          this.openNotice = true;
           break;
       }
     },

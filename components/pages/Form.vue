@@ -38,6 +38,9 @@
             <strong>上傳檔案(照片)</strong>
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4">
+            <!-- <div class="w-20 h-20 rounded-sm border flex items-center justify-center">
+              <input class="w-full h-full" type="file" accept="image/png, image/jpeg, image/jpg">
+            </div> -->
             <img class="pr-1" src="@/assets/images/example.png" alt="">
             <img class="pr-1" src="@/assets/images/example.png" alt="">
             <img src="@/assets/images/example.png" alt="">
