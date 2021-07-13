@@ -13,15 +13,15 @@
 
     <div class="flex items-center mr-3 sm:mr-6">
       <!-- 上一頁 -->
-      <button class="w-8 h-8 flex items-center justify-center border rounded mr-1">
+      <button class="w-8 h-8 flex items-center justify-center border rounded mr-1" @click="minusPage" :disabled ="isBtnDisabled">
         <font-awesome-icon :icon="['fas', 'chevron-left']" />
       </button>
       <!-- 頁碼 -->
       <button class="w-8 h-8 flex items-center justify-center border rounded mr-1">
-        <strong class="text-sm">1</strong>
+        <strong class="text-sm">{{page}}</strong>
       </button>
       <!-- 下一頁 -->
-      <button class="w-8 h-8 flex items-center justify-center border rounded">
+      <button class="w-8 h-8 flex items-center justify-center border rounded" @click="plusPage">
         <font-awesome-icon :icon="['fas', 'chevron-right']" />
       </button>
     </div>
@@ -35,3 +35,43 @@
     </div>
   </div>
 </template>
+
+
+
+<script>
+export default {
+  // props:['page'],
+  data(){
+    return{
+      page : 1,
+      isBtnDisabled: false
+    }
+  },
+  mounted(){
+    if(this.page == 1){
+      this.isBtnDisabled = true;
+    }
+  },
+  methods:{
+    plusPage:function(){
+      
+      this.page += 1;
+      this.$emit("plusPage",this.page);
+    },
+    minusPage:function(){
+      // if(this.page == 1){
+      //   this.isBtnDisabled = true;
+      // }else{
+        // this.isBtnDisabled = false;
+        if(this.page>=2){
+          isBtnDisabled = false;
+           this.page -= 1;
+          this.$emit("minusPage",this.page);
+        }
+       
+      // }
+      
+    }
+  }
+}
+</script>

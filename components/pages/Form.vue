@@ -37,13 +37,27 @@
           <div class="w-full py-2 px-4 box-border bg-eee text-left">
             <strong>上傳檔案(照片)</strong>
           </div>
-          <div class="w-full flex items-center flex-wrap py-2 px-4">
+          <div class="w-full flex items-center flex-wrap py-2 px-4 uploadContainer">
             <!-- <div class="w-20 h-20 rounded-sm border flex items-center justify-center">
               <input class="w-full h-full" type="file" accept="image/png, image/jpeg, image/jpg">
             </div> -->
+            <label for="uploadOne" :class="uploadTextObj">
+              <input type="file" ref="file" id="uploadOne" @change="onChange">
+              <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
+              <img :src="preview" class="previewImg" />
+            </label>
+            <label for="uploadTwo" :class="uploadTextObj">
+              <input type="file" ref="file" id="uploadTwo" @change="onChange">
+               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
+              <img :src="preview" class="previewImg" />
+            </label>
+             <label for="uploadThree" :class="uploadTextObj">
+              <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
+              <img :src="preview" class="previewImg" />
+            </label>
+            <!-- <img class="pr-1" src="@/assets/images/example.png" alt="">
             <img class="pr-1" src="@/assets/images/example.png" alt="">
-            <img class="pr-1" src="@/assets/images/example.png" alt="">
-            <img src="@/assets/images/example.png" alt="">
+            <img src="@/assets/images/example.png" alt=""> -->
           </div>
         </div>
 
@@ -69,17 +83,87 @@ export default {
         { id: 2, text: "上傳檔案(照片)" },
         { id: 3, text: "現況說明" },
       ],
+      uploadImgObj:{
+        uploadImg:true,
+        NoUploadImg:false,
+      },
+      uploadTextObj:{
+        uploadText:true,
+        NoUploadText:false
+      },
+      preview: null
     };
   },
   methods: {
     openFormModal(value) {
       this.$emit("openFormModal", value);
     },
-  },
+    onChange(event) {
+      
+      var input = event.target;
+      if (input.files) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          this.preview = e.target.result;
+          this.uploadImgObj.uploadImg = false;
+          this.uploadImgObj.NoUploadImg = true;
+          this.uploadTextObj.uploadText = false;
+          this.uploadTextObj.NoUploadText = true;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+  }
+  
 };
 </script>
 
+
 <style>
+.uploadContainer input{
+    display: none;
+}
+.uploadContainer{
+    display: flex;
+}
+.uploadContainer label{
+    margin-right: 8px;
+    width: 80px;
+    height: 80px;
+    border-radius:2px;
+    border:1px solid #000000;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+}
+.uploadText::after{
+ 
+  display: block;
+  content: "上傳圖片";
+  color: rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+}
+.NoUploadText::after{
+   display: none;
+}
+
+.uploadImg{
+  width: 25%;
+  height: 20%;
+  margin-bottom: 4%;
+  padding: 0px;
+}
+.NoUploadImg{
+  display: none;
+}
+.previewImg{
+ 
+  overflow: hidden;
+}
 @media (min-width: 640px) {
   .box:nth-child(1) {
     width: 27%;

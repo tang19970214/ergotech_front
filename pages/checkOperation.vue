@@ -12,7 +12,10 @@
       <Table3 :tableList="tableList3" v-if="defaultTab == 3" />
     </div>
 
-    <Pagination />
+    <Pagination 
+      @plusPage="changePage" 
+      @minusPage="changePage" 
+    />
   </div>
 </template>
 
@@ -102,11 +105,25 @@ export default {
       ],
     };
   },
+  watch:{
+    //21-07-06 TAO,
+    //監聽listQuery.page變化時,非同步call api
+    'listQuery.page': function (val, oldVal) {
+      console.log("val:"+val,"oldVal:"+oldVal);
+      // this.getList();
+    }
+  },
   methods: {
     getList() {
       LoadMission(this.listQuery).then((res) => {
         console.log(res);
       });
+    },
+    //21-07-05 TAO,
+    //接收來自component的頁數,用來call api
+    changePage(page){
+      this.listQuery.page = page;
+      // console.log(page);
     },
     changeTab(id) {
       this.defaultTab = id;
