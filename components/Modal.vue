@@ -1,5 +1,5 @@
 <template>
-  <transition name="showModal">
+  <transition name="alert">
     <div class="w-full h-screen fixed left-0 top-0 flex items-center justify-center inset-0 z-50" v-if="openModal">
       <div class="absolute bg-gray-800 opacity-80 inset-0 z-0"></div>
       <div class="w-80 sm:w-2/5 relative mx-auto my-auto shadow-lg rounded bg-white ">

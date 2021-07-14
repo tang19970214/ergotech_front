@@ -30,7 +30,7 @@
 
     <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :introduceList="modalList.introduceList" @closeModal="closeModal" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
-
+    <Alert :openAlert="openAlert" :alertType="noticeInfo.type" @closeAlert="closeAlert" />
   </div>
 </template>
 
@@ -41,10 +41,12 @@ import Form from "../components/pages/Form.vue";
 import FormFooter from "../components/pages/FormFooter.vue";
 import Notice from "../components/Notice.vue";
 import Modal from "../components/Modal.vue";
+import Alert from "../components/Alert.vue";
+import css from "../assets/css/index.css"
 
 export default {
   layout: "checkForm",
-  components: { FormMenuList, FormSteps, Form, FormFooter, Notice, Modal },
+  components: { FormMenuList, FormSteps, Form, FormFooter, Notice, Modal, Alert},
   data() {
     return {
       defaultMenu: 1,
@@ -162,6 +164,7 @@ export default {
       },
       /* notice */
       openNotice: false,
+      openAlert:false,
       noticeInfo: {
         type: "",
         message: "",
@@ -277,7 +280,20 @@ export default {
     closeModal() {
       this.openModal = false;
     },
-    closeNotice() {
+    closeAlert(){
+      this.openAlert = false;
+      setTimeout(() => {
+         this.$router.push("/")
+      }, 500);
+     
+    },
+    closeNotice(type) {
+      switch (type){
+        case "success":
+          this.openAlert = true
+          break
+
+      }
       this.openNotice = false;
     },
   },
