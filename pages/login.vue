@@ -46,7 +46,12 @@ export default {
   methods: {
     login() {
       if (this.temp.account == "" || this.temp.password == "") {
-        alert("請確實填寫");
+        this.$swal.fire({
+          icon: "error",
+          title: "請確實填寫帳號或密碼!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         const vm = this;
         vm.$store
@@ -55,6 +60,13 @@ export default {
             password: vm.temp.password,
           })
           .then(() => {
+            this.$swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "登入成功",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             vm.$router.push("/");
           });
       }

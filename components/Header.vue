@@ -113,7 +113,31 @@ export default {
           this.$router.push({ name: "checkOperation" });
           break;
         case 3:
-          this.$router.push({ name: "login" });
+          this.$swal
+            .fire({
+              title: "確定要登出嗎?",
+              text: "",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "確定",
+              cancelButtonText: "取消",
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                this.$store.dispatch("LogOut").then(() => {
+                  this.$swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "登出成功",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.$router.push({ name: "login" });
+                });
+              }
+            });
           break;
       }
     },

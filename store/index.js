@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
-  login
+  login, logout
 } from "../api/api"
 
 import {

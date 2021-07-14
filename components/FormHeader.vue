@@ -16,13 +16,13 @@
             <!-- 下拉 -->
             <div class="relative" @mouseenter="openSelect = true" @mouseleave="openSelect = false">
               <div class="py-2 flex items-center">
-                <label class="text-white text-sm tracking-wider">HI! 稽核人員姓名</label>
+                <label class="text-white text-sm tracking-wider">HI! {{userInfo.name}}</label>
                 <font-awesome-icon class="text-white ml-1 text-xs" :icon="['fas', 'chevron-down']" />
               </div>
 
               <div class="absolute t-3 bg-white rounded-sm shadow-lg whitespace-nowrap" v-if="openSelect">
                 <ul>
-                  <li class="py-2 px-4 text-sm hover:bg-gray-200 duration-300 cursor-pointer" v-for="item in optionList" :key="item.id" @click="openModal = true">{{item.text}}</li>
+                  <li class="py-2 px-4 text-sm hover:bg-gray-200 duration-300 cursor-pointer" v-for="item in optionList" :key="item.id" @click="onBtnClick(item.id)">{{item.text}}</li>
                 </ul>
               </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="block sm:hidden">
           <strong class="text-white">執行檢核作業</strong>
           <div class="absolute top-4 left-5">
-            <nuxt-link to="/checkOperation">
+            <nuxt-link to="/">
               <font-awesome-icon class="text-white text-lg" :icon="['fas', 'arrow-left']" />
             </nuxt-link>
           </div>
@@ -99,9 +99,13 @@
 </template>
 
 <script>
+import { getUserProfile } from "../api/api.js";
+
 export default {
   data() {
     return {
+      userInfo: {},
+
       openSelect: false,
       optionList: [
         { id: 1, text: "使用者帳號維護" },
@@ -111,6 +115,57 @@ export default {
       // modal
       openModal: false,
     };
+  },
+  methods: {
+    onBtnClick(id) {
+      switch (id) {
+        case 1:
+          this.openModal = true;
+          break;
+        case 2:
+          this.$router.push({ name: "checkOperation" });
+          break;
+        case 3:
+          this.$swal
+            .fire({
+              title: "確定要登出嗎?",
+              text: "",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "確定",
+              cancelButtonText: "取消",
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                this.$store.dispatch("LogOut").then(() => {
+                  this.$swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "登出成功",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  this.$router.push({ name: "login" });
+                });
+              }
+            });
+          break;
+      }
+    },
+    getProfileList() {
+      getUserProfile().then((res) => {
+        this.userInfo = res.data.result;
+        window.localStorage.setItem(
+          "userInfo",
+          JSON.stringify(res.data.result)
+        );
+      });
+    },
+  },
+  mounted() {
+    this.getProfileList();
   },
 };
 </script>

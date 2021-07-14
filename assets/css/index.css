@@ -18,7 +18,7 @@
 
 
 
-.closeAlert-enter-active,
+/* .closeAlert-enter-active,
 .closeAlert-leave-active {
   opacity: 1;
   transition: .5s;
@@ -27,35 +27,4 @@
 .closeAlert-enter,
 .closeAlert-leave-active {
   opacity: 0;
-}
-
-.alert{
-  width: 25%;
-  background-color: rgb(230,255,250);
-  position: fixed;
-  top:0;
-  z-index: 99;
-  opacity: 1;
-  margin: auto;
-  right: 50%;
-}
-.alert .body{
-  padding: 2%;
-}
-.alert .footer{
-  display: flex;
-  justify-content: flex-end;
-}
-.alert .py-1{
-  display: flex;
-  align-items: center;
-}
-
-.top{
-  background-color: rgb(56,178,172);
-  height: 4px;
-}
-
-.alertFixed{
-  background-color: rgb(75,85,95, 0.8);
-}
+} */

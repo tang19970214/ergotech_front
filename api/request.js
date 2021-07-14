@@ -1,5 +1,6 @@
 import axios from 'axios'; //引用axios
 import store from "@/store/index.js";
+import Swal from "sweetalert2";
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -73,9 +74,34 @@ const errorHandle = (status, msg, response) => {
 };
 
 const tokenExpire = () => {
-  store().dispatch("FedLogOut");
-  window.$nuxt.$router.replace({
-    name: "login"
+  let timerInterval
+  Swal.fire({
+    title: '登入逾時...請重新登入!',
+    html: '將於 <b></b> 毫秒後跳轉至登入頁.',
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      timerInterval = setInterval(() => {
+        const content = Swal.getHtmlContainer()
+        if (content) {
+          const b = content.querySelector('b')
+          if (b) {
+            b.textContent = Swal.getTimerLeft()
+          }
+        }
+      }, 100)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      store().dispatch("FedLogOut");
+      window.$nuxt.$router.replace({
+        name: "login"
+      })
+    }
   })
 };
 

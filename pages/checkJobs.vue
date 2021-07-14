@@ -30,7 +30,6 @@
 
     <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :introduceList="modalList.introduceList" @closeModal="closeModal" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
-    <Alert :openAlert="openAlert" :alertType="noticeInfo.type" @closeAlert="closeAlert" />
   </div>
 </template>
 
@@ -41,12 +40,18 @@ import Form from "../components/pages/Form.vue";
 import FormFooter from "../components/pages/FormFooter.vue";
 import Notice from "../components/Notice.vue";
 import Modal from "../components/Modal.vue";
-import Alert from "../components/Alert.vue";
-import css from "../assets/css/index.css"
+import css from "../assets/css/index.css";
 
 export default {
   layout: "checkForm",
-  components: { FormMenuList, FormSteps, Form, FormFooter, Notice, Modal, Alert},
+  components: {
+    FormMenuList,
+    FormSteps,
+    Form,
+    FormFooter,
+    Notice,
+    Modal,
+  },
   data() {
     return {
       defaultMenu: 1,
@@ -164,7 +169,6 @@ export default {
       },
       /* notice */
       openNotice: false,
-      openAlert:false,
       noticeInfo: {
         type: "",
         message: "",
@@ -190,12 +194,13 @@ export default {
       this.stepList = obj;
     },
     goBack() {
-      this.noticeInfo = {
-        type: "warning",
-        message: "尚有送出資料",
-        introduce: "您尚未送出資料，系統將不會保存變更，\n確定離開當前頁面？",
-      };
-      this.openNotice = true;
+      this.$router.push("/");
+      // this.noticeInfo = {
+      //   type: "warning",
+      //   message: "尚有送出資料",
+      //   introduce: "您尚未送出資料，系統將不會保存變更，\n確定離開當前頁面？",
+      // };
+      // this.openNotice = true;
     },
 
     /* component */
@@ -280,20 +285,7 @@ export default {
     closeModal() {
       this.openModal = false;
     },
-    closeAlert(){
-      this.openAlert = false;
-      setTimeout(() => {
-         this.$router.push("/")
-      }, 500);
-     
-    },
-    closeNotice(type) {
-      switch (type){
-        case "success":
-          this.openAlert = true
-          break
-
-      }
+    closeNotice() {
       this.openNotice = false;
     },
   },

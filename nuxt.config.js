@@ -46,7 +46,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/font-awesome'
+    '~/plugins/font-awesome',
+    '~/plugins/sweet-alert'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -85,7 +86,9 @@ export default {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    publicPath: "http://renyin.mass.org.tw/"
+  },
 
   buildModules: [
     ["@nuxtjs/dotenv", {
