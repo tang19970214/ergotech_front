@@ -21,6 +21,7 @@ export default {
 @media (max-width: 639px) {
   .defaultPage {
     padding-top: 88px;
+    padding-bottom: 60px;
   }
 }
 </style>

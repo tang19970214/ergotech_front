@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="item in 5" :key="item">
+    <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="item in 1" :key="item">
       <div class="w-full flex items-start justify-between flex-col sm:flex-row">
         <div class="w-full sm:w-3/4 text-left">
           <strong class="text-sm sm:text-lg">1 機械設備設有防止誤觸開關之裝置</strong>
@@ -20,16 +20,22 @@
       </div>
 
       <!-- form -->
-      <!-- 改成上下是一起的，flex-col sm:flex-row -->
-      <div class="w-full flex items-start justify-center flex-col sm:flex-row border border-ccc mt-4 sm:mt-2">
+      <div class="w-full flex items-start justify-center flex-col lg:flex-row border border-ccc mt-4 sm:mt-2">
         <div class="w-full flex flex-col">
           <div class="w-full py-2 px-4 box-border bg-eee text-left">
             <strong>檢核結果</strong>
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4">
-            <label class="text-sm flex items-center font-semibold mr-4"><input class="pr-1" type="radio" name="result" value="1">符合</label>
-            <label class="text-sm flex items-center font-semibold mr-4"><input class="pr-1" type="radio" name="result" value="2">不符合</label>
-            <label class="text-sm flex items-center font-semibold"><input class="pr-1" type="radio" name="result" value="3">不適用</label>
+            <label class="text-sm flex items-center font-semibold mr-4">
+              <input class="pr-1" v-model="singleRadio" type="radio" value="1">符合
+            </label>
+            <label class="text-sm flex items-center font-semibold mr-4">
+              <input class="pr-1" v-model="singleRadio" type="radio" value="2" @click="openFormModal('suggest')">不符合
+              <img v-if="singleRadio == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal('suggest')">
+            </label>
+            <label class="text-sm flex items-center font-semibold">
+              <input class="pr-1" v-model="singleRadio" type="radio" value="3">不適用
+            </label>
           </div>
         </div>
 
@@ -38,23 +44,29 @@
             <strong>上傳檔案(照片)</strong>
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4 uploadContainer">
-            <!-- <div class="w-20 h-20 rounded-sm border flex items-center justify-center">
-              <input class="w-full h-full" type="file" accept="image/png, image/jpeg, image/jpg">
-            </div> -->
-            <label for="uploadOne" :class="uploadTextObj">
-              <input type="file" ref="file" id="uploadOne" @change="onChange">
+            <!-- :class需依items賦予，才不會有上傳就都跑有preview的樣式 -->
+            <label :for="'upload' + items" :class="uploadTextObj" v-for="items in 3" :key="items">
+              <input type="file" ref="file" :id="'upload' + items" @change="onChange">
+              <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
+              <img :src="preview[items]" class="previewImg" />
+            </label>
+
+            <!-- <label for="uploadOne" :class="uploadTextObj">
+              <input type="file" ref="file" id="uploadOne" @change="onChange1">
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
               <img :src="preview" class="previewImg" />
             </label>
-            <label for="uploadTwo" :class="uploadTextObj">
-              <input type="file" ref="file" id="uploadTwo" @change="onChange">
-               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
-              <img :src="preview" class="previewImg" />
-            </label>
-             <label for="uploadThree" :class="uploadTextObj">
+            <label for="uploadTwo" :class="uploadTextObj" @change="onChange2">
+              <input type="file" ref="file" id="uploadTwo">
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
-              <img :src="preview" class="previewImg" />
+              <img :src="preview2" class="previewImg" />
             </label>
+            <label for="uploadThree" :class="uploadTextObj" @change="onChange3">
+              <input type="file" ref="file" id="uploadThree">
+              <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
+              <img :src="preview3" class="previewImg" />
+            </label> -->
+
             <!-- <img class="pr-1" src="@/assets/images/example.png" alt="">
             <img class="pr-1" src="@/assets/images/example.png" alt="">
             <img src="@/assets/images/example.png" alt=""> -->
@@ -78,20 +90,26 @@
 export default {
   data() {
     return {
+      singleRadio: "",
       tableHeader: [
         { id: 1, text: "檢核結果" },
         { id: 2, text: "上傳檔案(照片)" },
         { id: 3, text: "現況說明" },
       ],
-      uploadImgObj:{
-        uploadImg:true,
-        NoUploadImg:false,
+      uploadImgObj: {
+        uploadImg: true,
+        NoUploadImg: false,
       },
-      uploadTextObj:{
-        uploadText:true,
-        NoUploadText:false
+      uploadTextObj: {
+        uploadText: true,
+        NoUploadText: false,
       },
-      preview: null
+      defaultQusImg: null,
+      defaultImgId: null,
+      preview: [],
+      // preview1: null,
+      // preview2: null,
+      // preview3: null,
     };
   },
   methods: {
@@ -99,69 +117,113 @@ export default {
       this.$emit("openFormModal", value);
     },
     onChange(event) {
-      
-      var input = event.target;
-      if (input.files) {
-        var reader = new FileReader();
+      /* 取得迴圈的idx */
+      const getId = event?.target?.id;
+      const getIdNum = getId?.split("")[getId.length - 1];
+
+      if (event.target?.files) {
+        let reader = new FileReader();
         reader.onload = (e) => {
-          this.preview = e.target.result;
+          this.preview[getIdNum] = e.target.result;
           this.uploadImgObj.uploadImg = false;
           this.uploadImgObj.NoUploadImg = true;
           this.uploadTextObj.uploadText = false;
           this.uploadTextObj.NoUploadText = true;
-        }
-        
-        reader.readAsDataURL(input.files[0]);
+        };
+
+        reader.readAsDataURL(event.target?.files[0]);
       }
     },
-  }
-  
+    // onChange1(event) {
+    //   var input = event.target;
+    //   if (input.files) {
+    //     var reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       this.preview1 = e.target.result;
+    //       this.uploadImgObj.uploadImg = false;
+    //       this.uploadImgObj.NoUploadImg = true;
+    //       this.uploadTextObj.uploadText = false;
+    //       this.uploadTextObj.NoUploadText = true;
+    //     };
+
+    //     reader.readAsDataURL(input.files[0]);
+    //   }
+    // },
+    // onChange2(event) {
+    //   var input = event.target;
+    //   if (input.files) {
+    //     var reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       this.preview2 = e.target.result;
+    //       this.uploadImgObj.uploadImg = false;
+    //       this.uploadImgObj.NoUploadImg = true;
+    //       this.uploadTextObj.uploadText = false;
+    //       this.uploadTextObj.NoUploadText = true;
+    //     };
+
+    //     reader.readAsDataURL(input.files[0]);
+    //   }
+    // },
+    // onChange3(event) {
+    //   var input = event.target;
+    //   if (input.files) {
+    //     var reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       this.preview = e.target.result;
+    //       this.uploadImgObj.uploadImg = false;
+    //       this.uploadImgObj.NoUploadImg = true;
+    //       this.uploadTextObj.uploadText = false;
+    //       this.uploadTextObj.NoUploadText = true;
+    //     };
+
+    //     reader.readAsDataURL(input.files[0]);
+    //   }
+    // },
+  },
 };
 </script>
 
 
 <style>
-.uploadContainer input{
-    display: none;
+.uploadContainer input {
+  display: none;
 }
-.uploadContainer{
-    display: flex;
+.uploadContainer {
+  display: flex;
 }
-.uploadContainer label{
-    margin-right: 8px;
-    width: 80px;
-    height: 80px;
-    border-radius:2px;
-    border:1px solid #000000;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor:pointer;
+.uploadContainer label {
+  margin-right: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 2px;
+  border: 1px solid #000000;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
-.uploadText::after{
- 
+.uploadText::after {
   display: block;
   content: "上傳圖片";
   color: rgba(0, 0, 0, 0.25);
   font-size: 12px;
 }
-.NoUploadText::after{
-   display: none;
+.NoUploadText::after {
+  display: none;
 }
 
-.uploadImg{
+.uploadImg {
   width: 25%;
   height: 20%;
   margin-bottom: 4%;
   padding: 0px;
 }
-.NoUploadImg{
+.NoUploadImg {
   display: none;
 }
-.previewImg{
- 
+.previewImg {
   overflow: hidden;
 }
 @media (min-width: 640px) {

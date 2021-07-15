@@ -16,11 +16,12 @@
             <!-- 下拉 -->
             <div class="relative" @mouseenter="openSelect = true" @mouseleave="openSelect = false">
               <div class="py-2 flex items-center">
-                <label class="text-white text-sm tracking-wider">HI! {{userInfo.name}}</label>
+                <!-- <label class="text-white text-sm tracking-wider">HI! {{userInfo.name}}</label> -->
+                <label class="text-white text-sm tracking-wider">HI! 王小明</label>
                 <font-awesome-icon class="text-white ml-1 text-xs" :icon="['fas', 'chevron-down']" />
               </div>
 
-              <div class="absolute t-3 bg-white rounded-sm shadow-lg whitespace-nowrap" v-if="openSelect">
+              <div class="absolute right-0 bg-white rounded-sm shadow-lg whitespace-nowrap" v-if="openSelect">
                 <ul>
                   <li class="py-2 px-4 text-sm hover:bg-gray-200 duration-300 cursor-pointer" v-for="item in optionList" :key="item.id" @click="onBtnClick(item.id)">{{item.text}}</li>
                 </ul>
@@ -65,10 +66,10 @@
                 <label class="formLabel text-sm">帳號</label>
                 <strong class="text-sm">abcde123456</strong>
               </div>
-              <div class="w-full flex items-center mb-4">
+              <!-- <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">密碼</label>
                 <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" placeholder="abcde123456">
-              </div>
+              </div> -->
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">部門</label>
                 <strong class="text-sm">生產部門</strong>

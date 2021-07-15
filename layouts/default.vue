@@ -16,4 +16,14 @@ export default {
 </script>
 
 <style scoped>
+.defaultPage {
+  margin: 0 auto;
+}
+
+@media (max-width: 639px) {
+  .defaultPage {
+    padding-top: 88px;
+    padding-bottom: 48px;
+  }
+}
 </style>

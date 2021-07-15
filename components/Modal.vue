@@ -12,7 +12,12 @@
         <div class="w-full p-6 box-border flex flex-col justify-center">
           <strong class="text-primary mb-1">{{title}}</strong>
           <ul>
-            <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceList" :key="idx">{{t.text}}</li>
+            <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceList" :key="idx">
+              <span v-if="headerText == '改善建議'">
+                <input type="checkBox">
+              </span>
+              {{t.text}}
+            </li>
           </ul>
         </div>
         <!--footer-->
