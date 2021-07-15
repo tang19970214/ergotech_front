@@ -1,9 +1,7 @@
 <template>
-    <div class="uploadContainer" @click="openUpload">
-        <!-- <label :for="'upload'" class="containerLabel"> -->
-            <input type="file" ref="input" id="uplaod" @change="onChange" accept="image/*" >
-            <img :src="showImage" alt="">
-        <!-- </label> -->
+    <div class="uploadContainer" :class="uploadTextObj" @click="openUpload">
+        <input type="file" ref="input" id="uplaod" @change="onChange" accept="image/*" >
+        <img :src="showImage" alt="">
     </div>
 </template>
 
@@ -13,7 +11,11 @@
 export default {
     data(){
         return{
-            showImage: require("../../assets/images/uploadImg.png")
+            showImage: require("../../assets/images/uploadImg.png"),
+            uploadTextObj: {
+                uploadText: true,
+                NoUploadText: false,
+            },
         }
     },
     methods: {
@@ -21,6 +23,8 @@ export default {
             this.$refs.input.click()      
         },
         onChange(){
+            this.uploadTextObj.uploadText = false;
+            this.uploadTextObj.NoUploadText = true;
             var reader = new FileReader()
             reader.readAsDataURL(this.$refs.input.files[0])
             
@@ -42,6 +46,7 @@ export default {
     cursor: pointer;
     overflow: hidden;
     margin-right: 8px;
+    margin-bottom: 4px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -49,29 +54,19 @@ export default {
     align-items: center;
 }
 .uploadContainer img{
-   
+   margin-bottom: 4px;
 }
 .uploadContainer input {
   display: none;
 }
-/* .containerLabel{
-   margin-right: 8px;
-   width: 80px;
-  height: 80px;
-  border-radius: 2px;
-  border: 1px solid #000000;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-} */
-
-.uploadContainer::after {
+.uploadText::after {
   display: block;
   content: "上傳圖片";
   color: rgba(0, 0, 0, 0.25);
   font-size: 12px;
 }
+.NoUploadText::after {
+  display: none;
+}
+
 </style>
