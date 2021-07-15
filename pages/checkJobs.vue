@@ -13,7 +13,7 @@
         </div>
       </div>
 
-      <div class="w-full flex flex-col sm:flex-row">
+      <div class="w-full flex flex-col md:flex-row">
         <FormMenuList :menuList="menuList" :defaultMenu="defaultMenu" @changeMenu="changeMenu" />
 
         <div class="w-full flex flex-col pl-0 sm:pl-4 box-border">

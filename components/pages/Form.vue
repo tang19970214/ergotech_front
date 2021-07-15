@@ -13,8 +13,8 @@
             <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal('accident')">
           </div>
 
-          <div class="w-20 h-20">
-            <img src="@/assets/images/example.png" alt="">
+          <div class="w-20 h-20 ">
+            <img src="@/assets/images/example.png" alt="" @click = "openImg()">
           </div>
         </div>
       </div>
@@ -82,18 +82,22 @@
             <strong>現況說明</strong>
           </div>
           <div class="w-full flex items-center py-2 px-4">
-            <input type="text" class="w-full h-20 p-2 border">
+            <!-- <input type="textarea" class="w-full h-20 p-2 border"> -->
+            <textarea class="w-full h-20 p-2 border"></textarea>
           </div>
         </div>
       </div>
     </div>
+    
+    <EnlargeImage v-model="openImgBool" />
   </div>
 </template>
 
 <script>
 import UploadImage from "../../components/pages/UploadImage.vue"
+import EnlargeImage from "../../components/pages/EnlargeImage.vue"
 export default {
-  components:{UploadImage},
+  components:{UploadImage,EnlargeImage},
   data() {
     
     return {
@@ -113,6 +117,7 @@ export default {
       // },
       defaultQusImg: null,
       defaultImgId: null,
+      openImgBool :false,
       // preview: [],
       // preview1: null,
       // preview2: null,
@@ -123,6 +128,9 @@ export default {
     openFormModal(value) {
       this.$emit("openFormModal", value);
     },
+    openImg(){
+      this.openImgBool = true;
+    }
     // onChange(event) {
     //   /* 取得迴圈的idx */
     //   const getId = event?.target?.id;
