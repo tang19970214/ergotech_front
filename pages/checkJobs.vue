@@ -42,6 +42,7 @@ import Notice from "../components/Notice.vue";
 import Modal from "../components/Modal.vue";
 import css from "../assets/css/index.css";
 
+
 export default {
   layout: "checkForm",
   components: {

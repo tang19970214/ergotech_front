@@ -44,12 +44,16 @@
             <strong>上傳檔案(照片)</strong>
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4 uploadContainer">
+
+            <UploadImage />
+            <UploadImage />
+            <UploadImage />
             <!-- :class需依items賦予，才不會有上傳就都跑有preview的樣式 -->
-            <label :for="'upload' + items" :class="uploadTextObj" v-for="items in 3" :key="items">
+            <!-- <label :for="'upload' + items" :class="uploadTextObj" v-for="items in 3" :key="items">
               <input type="file" ref="file" :id="'upload' + items" @change="onChange">
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
               <img :src="preview[items]" class="previewImg" />
-            </label>
+            </label> -->
 
             <!-- <label for="uploadOne" :class="uploadTextObj">
               <input type="file" ref="file" id="uploadOne" @change="onChange1">
@@ -87,8 +91,11 @@
 </template>
 
 <script>
+import UploadImage from "../../components/pages/UploadImage.vue"
 export default {
+  components:{UploadImage},
   data() {
+    
     return {
       singleRadio: "",
       tableHeader: [
@@ -96,17 +103,17 @@ export default {
         { id: 2, text: "上傳檔案(照片)" },
         { id: 3, text: "現況說明" },
       ],
-      uploadImgObj: {
-        uploadImg: true,
-        NoUploadImg: false,
-      },
-      uploadTextObj: {
-        uploadText: true,
-        NoUploadText: false,
-      },
+      // uploadImgObj: {
+      //   uploadImg: true,
+      //   NoUploadImg: false,
+      // },
+      // uploadTextObj: {
+      //   uploadText: true,
+      //   NoUploadText: false,
+      // },
       defaultQusImg: null,
       defaultImgId: null,
-      preview: [],
+      // preview: [],
       // preview1: null,
       // preview2: null,
       // preview3: null,
@@ -116,24 +123,24 @@ export default {
     openFormModal(value) {
       this.$emit("openFormModal", value);
     },
-    onChange(event) {
-      /* 取得迴圈的idx */
-      const getId = event?.target?.id;
-      const getIdNum = getId?.split("")[getId.length - 1];
+    // onChange(event) {
+    //   /* 取得迴圈的idx */
+    //   const getId = event?.target?.id;
+    //   const getIdNum = getId?.split("")[getId.length - 1];
 
-      if (event.target?.files) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-          this.preview[getIdNum] = e.target.result;
-          this.uploadImgObj.uploadImg = false;
-          this.uploadImgObj.NoUploadImg = true;
-          this.uploadTextObj.uploadText = false;
-          this.uploadTextObj.NoUploadText = true;
-        };
+    //   if (event.target?.files) {
+    //     let reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       this.preview[getIdNum] = e.target.result;
+    //       this.uploadImgObj.uploadImg = false;
+    //       this.uploadImgObj.NoUploadImg = true;
+    //       this.uploadTextObj.uploadText = false;
+    //       this.uploadTextObj.NoUploadText = true;
+    //     };
 
-        reader.readAsDataURL(event.target?.files[0]);
-      }
-    },
+    //     reader.readAsDataURL(event.target?.files[0]);
+    //   }
+    // },
     // onChange1(event) {
     //   var input = event.target;
     //   if (input.files) {
@@ -185,7 +192,7 @@ export default {
 
 
 <style>
-.uploadContainer input {
+/* .uploadContainer input {
   display: none;
 }
 .uploadContainer {
@@ -225,7 +232,7 @@ export default {
 }
 .previewImg {
   overflow: hidden;
-}
+} */
 @media (min-width: 640px) {
   .box:nth-child(1) {
     width: 27%;
