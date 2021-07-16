@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="block sm:hidden px-4">
-      <div class="relative w-full h-12 flex items-center">
-        <div class="w-full box-border px-4 py-3 flex items-center justify-between bg-white rounded-l" @click="openMenu = !openMenu">
+    <div class="block md:hidden">
+      <div class="relative w-full h-12 px-4 border-box flex items-center mb-4 md:mb-0">
+        <div class="w-full h-full box-border px-4 py-3 flex items-center justify-between bg-white rounded-l" @click="openMenu = !openMenu">
           <div class="flex items-center">
             <img class="mr-1" :src="menuList[defaultMenu - 1].icon" :alt="menuList[defaultMenu - 1].title">
             <strong class="text-lg">{{menuList[defaultMenu - 1].title}}</strong>
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="hidden sm:block w-72 shadow-md">
+    <div class="hidden md:block w-72 shadow-md">
       <div class="relative w-full p-4 bg-white border-b box-border flex items-center justify-between cursor-pointer" :class="{'bg-menuActive text-white': item.id == defaultMenu, 'hover:bg-gray-100': item.id !== defaultMenu}" v-for="item in menuList" :key="item.id" @click="changeMenu(item.id)">
         <div class="w-full flex items-center">
           <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu">

@@ -1,20 +1,26 @@
 <template>
   <div class="w-full">
     <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="item in 1" :key="item">
-      <div class="w-full flex items-start justify-between flex-col sm:flex-row">
-        <div class="w-full sm:w-3/4 text-left">
+      <div class="w-full flex items-start justify-between flex-col lg:flex-row">
+        <div class="w-full text-left">
           <strong class="text-sm sm:text-lg">1 機械設備設有防止誤觸開關之裝置</strong>
         </div>
 
-        <div class="w-full sm:w-1/4 h-20 mt-2 sm:mt-0 flex items-center justify-start sm:justify-end">
-          <div class="h-full flex flex-col items-center justify-between px-3">
-            <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal('help')">
-            <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal('regulation')">
-            <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal('accident')">
+        <div class="w-full lg:w-48 h-20 mt-2 sm:mt-0 flex items-center justify-end">
+          <div class="w-20 h-20 mr-3">
+            <img class="cursor-pointer" src="@/assets/images/example.png" alt="" @click="openImg()" width="80px" height="80px">
           </div>
 
-          <div class="w-20 h-20 ">
-            <img src="@/assets/images/example.png" alt="" @click = "openImg()">
+          <div class="w-20 h-20 p-1 box-border bg-E6E6E8 grid grid-flow-col grid-cols-2 grid-rows-2">
+            <div class="flex items-center justify-center">
+              <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal('help')">
+            </div>
+            <div class="flex items-center justify-center">
+              <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal('accident')">
+            </div>
+            <div class="flex items-center justify-center">
+              <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal('regulation')">
+            </div>
           </div>
         </div>
       </div>
@@ -88,18 +94,17 @@
         </div>
       </div>
     </div>
-    
+
     <EnlargeImage v-model="openImgBool" />
   </div>
 </template>
 
 <script>
-import UploadImage from "../../components/pages/UploadImage.vue"
-import EnlargeImage from "../../components/pages/EnlargeImage.vue"
+import UploadImage from "./UploadImage.vue";
+import EnlargeImage from "./EnlargeImage.vue";
 export default {
-  components:{UploadImage,EnlargeImage},
+  components: { UploadImage, EnlargeImage },
   data() {
-    
     return {
       singleRadio: "",
       tableHeader: [
@@ -117,7 +122,7 @@ export default {
       // },
       defaultQusImg: null,
       defaultImgId: null,
-      openImgBool :false,
+      openImgBool: false,
       // preview: [],
       // preview1: null,
       // preview2: null,
@@ -128,9 +133,9 @@ export default {
     openFormModal(value) {
       this.$emit("openFormModal", value);
     },
-    openImg(){
+    openImg() {
       this.openImgBool = true;
-    }
+    },
     // onChange(event) {
     //   /* 取得迴圈的idx */
     //   const getId = event?.target?.id;

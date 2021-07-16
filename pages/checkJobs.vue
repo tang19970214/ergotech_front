@@ -16,7 +16,7 @@
       <div class="w-full flex flex-col md:flex-row">
         <FormMenuList :menuList="menuList" :defaultMenu="defaultMenu" @changeMenu="changeMenu" />
 
-        <div class="w-full flex flex-col pl-0 sm:pl-4 box-border">
+        <div class="w-full flex flex-col pl-0 md:pl-4 box-border">
           <FormSteps :stepList="stepList" :defaultStep="defaultStep" :menuId="defaultMenu" />
 
           <!-- form -->
@@ -41,7 +41,6 @@ import FormFooter from "../components/pages/FormFooter.vue";
 import Notice from "../components/Notice.vue";
 import Modal from "../components/Modal.vue";
 import css from "../assets/css/index.css";
-
 
 export default {
   layout: "checkForm",
