@@ -77,7 +77,7 @@ const tokenExpire = () => {
   let timerInterval
   Swal.fire({
     title: '登入逾時...請重新登入!',
-    html: '將於 <b></b> 毫秒後跳轉至登入頁.',
+    html: '將於 <b></b> 秒後跳轉至登入頁.',
     timer: 2000,
     timerProgressBar: true,
     didOpen: () => {
@@ -87,7 +87,7 @@ const tokenExpire = () => {
         if (content) {
           const b = content.querySelector('b')
           if (b) {
-            b.textContent = Swal.getTimerLeft()
+            b.textContent = (Swal.getTimerLeft() / 1000).toFixed(0)
           }
         }
       }, 100)
