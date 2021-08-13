@@ -2,7 +2,7 @@
   <div>
     <div class="fixed top-0 w-full z-30">
       <div class="headerBG bg-primary w-full h-14 sm:h-16 flex items-center justify-center">
-        <nuxt-link to="/">
+        <nuxt-link to="/checkOperation">
           <img class="w-36 sm:w-60 h-10 sm:h-16 ml-2 sm:ml-0" src="@/assets/images/Logo.png" alt="人因工程檢核表">
         </nuxt-link>
 
@@ -87,8 +87,6 @@
 </template>
 
 <script>
-import { getUserProfile } from "../api/api.js";
-
 export default {
   data() {
     return {
@@ -143,7 +141,7 @@ export default {
       }
     },
     getProfileList() {
-      getUserProfile().then((res) => {
+      this.$api.getUserProfile().then((res) => {
         this.userInfo = res.data.result;
         window.localStorage.setItem(
           "userInfo",

@@ -3,7 +3,7 @@
     <!-- title -->
     <div class="w-full py-4 px-0 box-border text-center sm:py-6 sm:px-16 sm:text-left">
       <div class="w-full mb-4 sm:mb-6 flex items-center justify-center sm:justify-between">
-        <strong class="hidden sm:block relative text-lg sm:text-2xl">執行檢核作業 - 工站名稱</strong>
+        <strong class="hidden sm:block relative text-lg sm:text-2xl">執行檢核作業 - {{list.name}}</strong>
         <strong class="block sm:hidden relative text-lg sm:text-2xl">工站名稱</strong>
 
         <div class="hidden sm:block flex items-center">
@@ -160,6 +160,8 @@ export default {
       defaultStep: 1,
       stepList: {},
 
+      list: [],
+
       /* modal */
       openModal: false,
       modalList: {
@@ -180,7 +182,24 @@ export default {
     changeMenu(id) {
       this.defaultMenu = id;
     },
+    /* 取得模組、類型、名稱 */
+    getAllModel() {
+      const commonQuery = {
+        page: 1,
+        limit: 999,
+        key: undefined,
+      };
+      this.$api.LoadCheckModel(commonQuery);
+      this.$api.LoadCheckModelItem(commonQuery);
+      this.$api.LoadCheckModelItemDetail(commonQuery);
+    },
     getList() {
+      this.$api.GetMission({ id: this.$route.params.id }).then((res) => {
+        this.list = res.data.result;
+        console.log(this.list);
+      });
+    },
+    getMenuList() {
       const keys = [];
       const obj = {};
       this.menuList.forEach((item) => {
@@ -194,7 +213,7 @@ export default {
       this.stepList = obj;
     },
     goBack() {
-      this.$router.push("/");
+      this.$router.push("/checkOperation");
       // this.noticeInfo = {
       //   type: "warning",
       //   message: "尚有送出資料",
@@ -315,7 +334,9 @@ export default {
     },
   },
   mounted() {
+    this.getAllModel();
     this.getList();
+    this.getMenuList();
   },
 };
 </script>

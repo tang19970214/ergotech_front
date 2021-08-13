@@ -67,7 +67,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            vm.$router.push("/");
+            vm.$router.push("/checkOperation");
           });
       }
     },

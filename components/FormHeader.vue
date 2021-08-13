@@ -3,7 +3,7 @@
     <div class="fixed top-0 w-full z-30">
       <div class="headerBG bg-primary relative w-full h-14 sm:h-16 flex items-center justify-center">
         <!-- hidden sm:block -->
-        <nuxt-link class="hidden sm:block" to="/">
+        <nuxt-link class="hidden sm:block" to="/checkOperation">
           <img class="w-36 sm:w-60 h-10 sm:h-16 ml-2 sm:ml-0" src="@/assets/images/Logo.png" alt="人因工程檢核表">
         </nuxt-link>
 
@@ -34,7 +34,7 @@
         <div class="block sm:hidden">
           <strong class="text-white">執行檢核作業</strong>
           <div class="absolute top-4 left-5">
-            <nuxt-link to="/">
+            <nuxt-link to="/checkOperation">
               <font-awesome-icon class="text-white text-lg" :icon="['fas', 'arrow-left']" />
             </nuxt-link>
           </div>
@@ -100,8 +100,6 @@
 </template>
 
 <script>
-import { getUserProfile } from "../api/api.js";
-
 export default {
   data() {
     return {
@@ -156,7 +154,7 @@ export default {
       }
     },
     getProfileList() {
-      getUserProfile().then((res) => {
+      this.$api.getUserProfile().then((res) => {
         this.userInfo = res.data.result;
         window.localStorage.setItem(
           "userInfo",

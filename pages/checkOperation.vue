@@ -7,21 +7,16 @@
 
       <Tabs :tabList="tabList" :defaultTab="defaultTab" @changeTab="changeTab" />
 
-      <Table1 :tableList="tableList1" @goCheck="goCheck1" v-if="defaultTab == 1" />
+      <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
       <Table2 :tableList="tableList2" v-if="defaultTab == 2" />
       <Table3 :tableList="tableList3" v-if="defaultTab == 3" />
     </div>
 
-    <Pagination 
-      @plusPage="changePage" 
-      @minusPage="changePage" 
-    />
+    <Pagination @plusPage="changePage" @minusPage="changePage" />
   </div>
 </template>
 
 <script>
-import { LoadMission } from "../api/api.js";
-
 import Tabs from "../components/Tabs.vue";
 import Table1 from "../components/pages/Table1.vue";
 import Table2 from "../components/pages/Table2.vue";
@@ -103,25 +98,27 @@ export default {
           datetime: "2021-06-15",
         },
       ],
+      list: [],
     };
   },
-  watch:{
+  watch: {
     //21-07-06 TAO,
     //監聽listQuery.page變化時,非同步call api
-    'listQuery.page': function (val, oldVal) {
-      console.log("val:"+val,"oldVal:"+oldVal);
+    "listQuery.page": function (val, oldVal) {
+      console.log("val:" + val, "oldVal:" + oldVal);
       // this.getList();
-    }
+    },
   },
   methods: {
     getList() {
-      LoadMission(this.listQuery).then((res) => {
-        console.log(res);
+      this.$api.LoadMission(this.listQuery).then((res) => {
+        this.list = res.data.data;
+        console.log(this.list);
       });
     },
     //21-07-05 TAO,
     //接收來自component的頁數,用來call api
-    changePage(page){
+    changePage(page) {
       this.listQuery.page = page;
       // console.log(page);
     },
@@ -129,7 +126,7 @@ export default {
       this.defaultTab = id;
     },
     goCheck1(id) {
-      this.$router.push({ name: "checkJobs" });
+      this.$router.push({ name: "checkJobs", params: { id: id } });
     },
   },
   mounted() {

@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {
-  login, logout
-} from "../api/api"
 
 import {
   getToken,
@@ -26,7 +23,7 @@ const store = () => new Vuex.Store({
       commit
     }, userInfo) {
       return new Promise((resolve, reject) => {
-        login(userInfo.username, userInfo.password)
+        Vue.prototype.$api.login(userInfo.username, userInfo.password)
           .then((response) => {
             const data = response.data
             setToken(data.token)
@@ -46,7 +43,7 @@ const store = () => new Vuex.Store({
       state
     }) {
       return new Promise((resolve, reject) => {
-        logout(state.token)
+        Vue.prototype.$api.logout(state.token)
           .then(() => {
             commit("SET_TOKEN", "")
             removeToken()

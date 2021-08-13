@@ -46,6 +46,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/apis',
+    '~/plugins/day',
     '~/plugins/font-awesome',
     '~/plugins/sweet-alert'
   ],
