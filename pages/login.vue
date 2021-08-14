@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   layout: "auth",
   data() {
@@ -54,6 +52,7 @@ export default {
         });
       } else {
         const vm = this;
+        vm.$store.dispatch("handleLoading", true);
         vm.$store
           .dispatch("Login", {
             username: vm.temp.account,
@@ -67,6 +66,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
+            vm.$store.dispatch("handleLoading", false);
             vm.$router.push("/checkOperation");
           });
       }

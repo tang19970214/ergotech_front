@@ -1,17 +1,18 @@
 <template>
   <div class="relative w-full min-h-screen bg-gray-200">
+    <Loading />
     <Header />
-
     <Nuxt class="defaultPage min-h-screen sm:pt-16 " />
   </div>
 
 </template>
 
 <script>
+import Loading from "../components/Loading.vue";
 import Header from "../components/Header.vue";
 
 export default {
-  components: { Header },
+  components: { Loading, Header },
 };
 </script>
 

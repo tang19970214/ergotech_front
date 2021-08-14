@@ -12,11 +12,15 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
   state: {
     token: getToken(),
+    loading: false
   },
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
+    SET_LOADING: (state, payload) => {
+      state.loading = payload
+    }
   },
   actions: {
     Login({
@@ -64,6 +68,10 @@ const store = () => new Vuex.Store({
         removeToken()
         resolve()
       })
+    },
+
+    handleLoading(state, payload) {
+      state.commit("SET_LOADING", payload)
     },
   }
 })

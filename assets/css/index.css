@@ -1,5 +1,6 @@
 @import url("./_bg.css");
 @import url("./_text.css");
+@import url("./_border.css");
 
 .showModal-enter-active,
 .showModal-leave-active {
