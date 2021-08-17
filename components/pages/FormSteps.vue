@@ -42,7 +42,6 @@ export default {
     caculateTotalDetailNumber(){
       return (item) => {
         let total = 0
-        console.log(item);
         total += item.detaiList.length
         return total
       }
