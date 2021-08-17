@@ -14,16 +14,16 @@
       </div>
 
       <div class="w-full flex flex-col md:flex-row">
-        <FormMenuList :menuList="menuList" :defaultMenu="defaultMenu" @changeMenu="changeMenu" />
+        <FormMenuList :menuList="list" :defaultMenu="defaultMenu" @changeMenu="changeMenu" />
 
         <div class="w-full flex flex-col pl-0 md:pl-4 box-border">
-          <FormSteps :stepList="stepList" :defaultStep="defaultStep" :menuId="defaultMenu" />
+          <FormSteps :stepList="list[defaultMenu - 1].typeList" :defaultStep="defaultStep" v-if="list.length>0"/>
 
           <!-- form -->
           <div class="w-full mt-4 shadow">
-            <Form @openFormModal="openFormModal" />
+            <!-- <Form @openFormModal="openFormModal" /> -->
           </div>
-          <FormFooter @formBtn="formBtn" />
+          <!-- <FormFooter @formBtn="formBtn" /> -->
         </div>
       </div>
     </div>
@@ -206,12 +206,83 @@ export default {
         resolve();
       });
     },
-    /*  */
+    /* 取得檢核表 */
 
     getList() {
       return new Promise((resolve) => {
-        this.$api.GetMission({ id: this.$route.params.id }).then((res) => {
-          this.list = res.data.result;
+        this.$api.GetMissionById({ id: this.$route.params.id }).then((res) => {
+          const { result, code } = res.data
+          if (code === 200) {
+          // console.log('GetMissionById', result);
+          //   {
+          //   id: 1,
+          //   icon: require("../assets/images/formMenu/icon1.png"),
+          //   icon_active: require("../assets/images/formMenu/icon1_active.png"),
+          //   title: "人",
+          //   introduce: "（避免人為錯誤）",
+          //   qusNum: 8,
+          //   stepList: [
+          //     { id: 1, text: "安全的設計與設備", qusNum: 5 },
+          //     { id: 2, text: "安全的運轉", qusNum: 3 },
+          //   ],
+          // },
+
+
+          // {
+          //   "id": "string",
+          //   "missionResultId": "string",
+          //   "compQuestDetailId": "string",
+          //   "checkResult": "string",
+          //   "description": "string",
+          //   "suggestion": "string",
+          //   "pic1": "string",
+          //   "pic2": "string",
+          //   "pic3": "string",
+          //   "remark": "string"
+          // }
+          // 先取出所有的問題
+          let listResult = result['compQuests'][0]['compQuestDetails'];
+          // 取出所有的模組
+          // 模組、類型、題目
+          // TODO: 這邊之後如果有空翻一下
+          let list = []
+          let modulesKeysArray = []
+          let itemNameKeysList = []
+          listResult.forEach((item) => {
+            if (modulesKeysArray.indexOf(item.modelName) === -1) {
+              modulesKeysArray = modulesKeysArray.concat(item.modelName);
+            }
+            if(itemNameKeysList.indexOf(item.itemName) === -1) {
+              itemNameKeysList = itemNameKeysList.concat(item.itemName);
+            }
+          })
+
+          let itemList = []
+          itemNameKeysList.forEach( (itemDetail) => {
+            let obj = {itemName:itemDetail,modelName: '',detaiList: []}
+            listResult.forEach((item) => {
+              if(item.itemName === obj.itemName) {
+                obj.detaiList.push(item)
+                obj.modelName = item.modelName
+              }
+            })
+            itemList.push(obj)
+          })
+          console.log(itemList);
+          modulesKeysArray.forEach((keyName,index)=>{
+            let obj = {id:index + 1,modelName: keyName, typeList:[]}
+            itemList.forEach(innerItem => {
+              if(obj.modelName === innerItem.modelName){
+                obj.typeList.push(innerItem)
+              }
+            })
+            list.push(obj)
+          })
+          
+          console.log(list);
+          // 取出類別
+            this.list = list;
+          }
           resolve();
         });
       });
@@ -228,6 +299,7 @@ export default {
           obj[item.id].push(item.stepList);
         }
       });
+      console.log(obj);
       this.stepList = obj;
     },
     goBack() {
@@ -347,7 +419,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("handleLoading", true);
-    this.getMenuList();
 
     Promise.all([
       this.getModel(),
@@ -359,6 +430,7 @@ export default {
         this.$store.dispatch("handleLoading", false);
       }, 500);
     });
+    this.getMenuList();
   },
 };
 </script>

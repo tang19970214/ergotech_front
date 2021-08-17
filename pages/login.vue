@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       temp: {
-        account: "System",
+        account: "jungT02",
         password: "123456",
       },
     };
@@ -72,6 +72,9 @@ export default {
       }
     },
   },
+  mounted(){
+    this.$store.dispatch("handleLoading", false);
+  }
 };
 </script>
 

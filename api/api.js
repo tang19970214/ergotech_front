@@ -11,7 +11,7 @@ const api = {
       data: {
         account: username,
         password: password,
-        appKey: "system",
+        appKey: "Client",
         mobileDevice: "",
         pushKey: "",
       },
@@ -36,6 +36,14 @@ const api = {
   },
 
   /* 檢核表 */
+  LoadClientMission(params){
+    return request({
+      url: "/CheckMission/LoadClient",
+      method: "get",
+      params: params
+    })
+  },
+  
   LoadMission(params) {
     return request({
       url: "/CheckMission/Load",
@@ -51,6 +59,15 @@ const api = {
       params: params
     });
   },
+
+  GetMissionById(params) {
+    return request({
+      url: "/CheckMission/GetById",
+      method: "get",
+      params: params
+    })
+  },
+
   /*  */
 
   /* 模組、類型、名稱 */

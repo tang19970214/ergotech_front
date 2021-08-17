@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div v-if="menuList.length>0">
     <div class="block md:hidden">
       <div class="relative w-full h-12 px-4 border-box flex items-center mb-4 md:mb-0">
         <div class="w-full h-full box-border px-4 py-3 flex items-center justify-between bg-white rounded-l" @click="openMenu = !openMenu">
           <div class="flex items-center">
-            <img class="mr-1" :src="menuList[defaultMenu - 1].icon" :alt="menuList[defaultMenu - 1].title">
-            <strong class="text-lg">{{menuList[defaultMenu - 1].title}}</strong>
-            <p class="text-sm">{{menuList[defaultMenu - 1].introduce}}</p>
+            <!-- <img class="mr-1" :src="menuList[defaultMenu - 1].icon" :alt="menuList[defaultMenu - 1].modelName"> -->
+            <strong class="text">{{menuList[defaultMenu - 1].modelName}}</strong>
+            <!-- <p class="text-sm">{{menuList[defaultMenu - 1].introduce}}</p> -->
           </div>
 
           <div>
-            <strong class="text-sm text-warning">(0/{{menuList[defaultMenu - 1].qusNum}})</strong>
+            <strong class="text-sm text-warning">(0/{{caculateTotalDetailNumber(menuList[defaultMenu - 1])}})</strong>
           </div>
         </div>
 
@@ -26,12 +26,12 @@
                 <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu">
                 <img class="mr-2" :src="item.icon" :alt="item.title" v-else>
 
-                <strong class="text-lg">{{item.title}}</strong>
-                <p class="text-sm">{{item.introduce}}</p>
+                <strong class="text-lg">{{item.modelName}}</strong>
+                <!-- <p class="text-sm">{{item.introduce}}</p> -->
               </div>
 
               <div class="w-11">
-                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{item.qusNum}})</strong>
+                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{caculateTotalDetailNumber(item)}})</strong>
               </div>
             </div>
           </div>
@@ -45,12 +45,12 @@
           <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu">
           <img class="mr-2" :src="item.icon" :alt="item.title" v-else>
 
-          <strong class="text-lg">{{item.title}}</strong>
-          <p class="text-sm">{{item.introduce}}</p>
+          <strong class="text">{{item.modelName}}</strong>
+          <!-- <p class="text-sm">{{item.introduce}}</p> -->
         </div>
 
         <div class="w-11">
-          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{item.qusNum}})</strong>
+          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{caculateTotalDetailNumber(item)}})</strong>
         </div>
       </div>
     </div>
@@ -73,6 +73,17 @@ export default {
     return {
       openMenu: false,
     };
+  },
+  computed: {
+    caculateTotalDetailNumber(){
+      return (item) => {
+        let total = 0
+        item.typeList.forEach( item => {
+          total += item.detaiList.length
+        });
+        return total
+      }
+    }
   },
   methods: {
     changeMenu(id) {

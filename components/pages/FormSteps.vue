@@ -17,10 +17,9 @@
 
     <div class="hidden sm:block">
       <div class="w-full h-24 p-6 box-border flex items-center bg-white shadow-md">
-        <div class="stepWeb w-40 flex flex-col items-center justify-center" v-for="item in stepList[menuId]" :key="item.id">
-          <span class="dotWeb relative rounded-full mr-2 border-4 box-content" :class="{'bg-primary border-blue-100': item.id == defaultStep, 'bg-white border-gray-300': item.id !== defaultStep}"></span>
-
-          <strong class="text-sm">{{item.text}} (0/{{item.qusNum}})</strong>
+        <div class="stepWeb w-40 flex flex-col items-center justify-center" v-for="(item, index) in stepList" :key="index + 1">
+          <span class="dotWeb relative rounded-full mr-2 border-4 box-content" :class="{'bg-primary border-blue-100': index+1 == defaultStep, 'bg-white border-gray-300': index+1 !== defaultStep}"></span>
+          <strong class="text-sm">{{item.itemName}} (0/{{caculateTotalDetailNumber(item)}})</strong>
         </div>
       </div>
     </div>
@@ -31,17 +30,23 @@
 export default {
   props: {
     stepList: {
-      type: Object,
+      type: [Object,Array],
       required: true,
     },
     defaultStep: {
       type: Number,
       required: true,
     },
-    menuId: {
-      type: Number,
-      required: true,
-    },
+  },
+  computed: {
+    caculateTotalDetailNumber(){
+      return (item) => {
+        let total = 0
+        console.log(item);
+        total += item.detaiList.length
+        return total
+      }
+    }
   },
 };
 </script>

@@ -8,8 +8,8 @@
       <Tabs :tabList="tabList" :defaultTab="defaultTab" @changeTab="changeTab" />
 
       <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
-      <Table2 :tableList="tableList2" v-if="defaultTab == 2" />
-      <Table3 :tableList="tableList3" v-if="defaultTab == 3" />
+      <Table2 :tableList="list" v-if="defaultTab == 2" />
+      <Table3 :tableList="list" v-if="defaultTab == 3" />
     </div>
 
     <Pagination @plusPage="changePage" @minusPage="changePage" />
@@ -31,6 +31,8 @@ export default {
         page: 1,
         limit: 10,
         key: undefined,
+        isResult: false,
+        resultStatus: ''
       },
       defaultTab: 1,
       tabList: [
@@ -102,7 +104,8 @@ export default {
   },
   methods: {
     async getList() {
-      await this.$api.LoadMission(this.listQuery).then((res) => {
+      this.$store.dispatch("handleLoading", true);
+      await this.$api.LoadClientMission(this.listQuery).then((res) => {
         this.list = res.data.data;
         setTimeout(() => {
           this.$store.dispatch("handleLoading", false);
@@ -117,14 +120,36 @@ export default {
       // console.log(page);
     },
     changeTab(id) {
+      // TODO:看之後要不要判斷同一個按鈕就不要Reload
       this.defaultTab = id;
+      switch (id) {
+        case 1:
+          // 待執行 isResult: false
+          this.listQuery.isResult = false;
+          this.listQuery.resultStatus = '';
+          break;
+        case 2:
+          // 檢核中 isResult: true , resultResult: true
+          this.listQuery.isResult = true;
+          this.listQuery.resultStatus = true;
+          break;
+        case 3:
+          // 已完成 resultStatus: false
+          this.listQuery.isResult = '';
+          this.listQuery.resultStatus = false;
+          break;
+        default:
+          this.listQuery.isResult = false;
+          this.listQuery.resultStatus = '';
+          break;
+      }
+      this.getList()
     },
     goCheck1(id) {
       this.$router.push({ name: "checkJobs", params: { id: id } });
     },
   },
   mounted() {
-    this.$store.dispatch("handleLoading", true);
     this.getList();
   },
 };

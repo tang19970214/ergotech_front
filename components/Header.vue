@@ -15,7 +15,7 @@
           <div class="relative" @mouseenter="openSelect = true" @mouseleave="openSelect = false">
             <div class="py-2 flex items-center">
               <!-- <label class="text-white text-sm tracking-wider">HI! {{userInfo.name}}</label> -->
-              <label class="text-white text-sm tracking-wider">HI! 王小明</label>
+              <label class="text-white text-sm tracking-wider">HI! {{userInfo.name}}</label>
               <font-awesome-icon class="text-white ml-1 text-xs" :icon="['fas', 'chevron-down']" />
             </div>
 
