@@ -8,7 +8,7 @@
       <Tabs :tabList="tabList" :defaultTab="defaultTab" @changeTab="changeTab" />
 
       <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
-      <Table2 :tableList="list" v-if="defaultTab == 2" />
+      <Table2 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 2" />
       <Table3 :tableList="list" v-if="defaultTab == 3" />
     </div>
 
@@ -146,6 +146,7 @@ export default {
       this.getList()
     },
     goCheck1(id) {
+      console.log(id);
       this.$router.push({ name: "checkJobs", params: { id: id } });
     },
   },

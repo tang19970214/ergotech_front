@@ -68,8 +68,8 @@ export default {
     },
   },
   methods: {
-    closeNotice() {
-      this.$emit("closeNotice");
+    closeNotice(value) {
+      this.$emit("closeNotice", value);
     },
   },
 };

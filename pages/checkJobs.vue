@@ -3,8 +3,8 @@
     <!-- title -->
     <div class="w-full py-4 px-0 box-border text-center sm:py-6 sm:px-16 sm:text-left">
       <div class="w-full mb-4 sm:mb-6 flex items-center justify-center sm:justify-between">
-        <strong class="hidden sm:block relative text-lg sm:text-2xl">執行檢核作業 - {{list.name}}</strong>
-        <strong class="block sm:hidden relative text-lg sm:text-2xl">工站名稱</strong>
+        <strong class="hidden sm:block relative text-lg sm:text-2xl">執行檢核作業 - {{listName}}</strong>
+        <strong class="block sm:hidden relative text-lg sm:text-2xl">{{listName}}</strong>
 
         <div class="hidden sm:block flex items-center">
           <button class="w-16 h-8 bg-white rounded border border-gray-400 text-sm font-bold shadow mr-2" @click="goBack()">回列表</button>
@@ -20,10 +20,10 @@
           <FormSteps :stepList="list[defaultMenu - 1].typeList" :defaultStep="defaultStep" v-if="list.length>0"/>
 
           <!-- form -->
-          <div class="w-full mt-4 shadow">
-            <!-- <Form @openFormModal="openFormModal" /> -->
+          <div class="w-full mt-4 shadow" v-if="list.length>0">
+            <Form @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" />
           </div>
-          <!-- <FormFooter @formBtn="formBtn" /> -->
+          <FormFooter @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus" />
         </div>
       </div>
     </div>
@@ -164,16 +164,19 @@ export default {
       ],
       defaultStep: 1,
       stepList: {},
-
+      nexyOrPreType: '',
       list: [],
-
+      listName: '',
       /* modal */
       openModal: false,
       modalList: {
         headerText: "",
         title: "",
-        introduceList: [],
+        introduceList: '',
       },
+      missionResultId: '',
+      /* submitform */
+      submitForm:[],
       /* notice */
       openNotice: false,
       noticeInfo: {
@@ -186,6 +189,7 @@ export default {
   methods: {
     changeMenu(id) {
       this.defaultMenu = id;
+      this.defaultStep = 1
     },
     /* 取得模組、類型、名稱 */
     getModel() {
@@ -213,35 +217,25 @@ export default {
         this.$api.GetMissionById({ id: this.$route.params.id }).then((res) => {
           const { result, code } = res.data
           if (code === 200) {
-          // console.log('GetMissionById', result);
-          //   {
-          //   id: 1,
-          //   icon: require("../assets/images/formMenu/icon1.png"),
-          //   icon_active: require("../assets/images/formMenu/icon1_active.png"),
-          //   title: "人",
-          //   introduce: "（避免人為錯誤）",
-          //   qusNum: 8,
-          //   stepList: [
-          //     { id: 1, text: "安全的設計與設備", qusNum: 5 },
-          //     { id: 2, text: "安全的運轉", qusNum: 3 },
-          //   ],
-          // },
-
-
-          // {
-          //   "id": "string",
-          //   "missionResultId": "string",
-          //   "compQuestDetailId": "string",
-          //   "checkResult": "string",
-          //   "description": "string",
-          //   "suggestion": "string",
-          //   "pic1": "string",
-          //   "pic2": "string",
-          //   "pic3": "string",
-          //   "remark": "string"
-          // }
           // 先取出所有的問題
           let listResult = result['compQuests'][0]['compQuestDetails'];
+          this.submitForm = [];
+          listResult.forEach((item) => {
+            let obj = {
+              id: '',
+              missionResultId: "",
+              compQuestDetailId: item.id,
+              checkResult: "",
+              description: "",
+              suggestion: "",
+              pic1: "",
+              pic2: "",
+              pic3: "",
+              remark: ""
+            }
+            this.submitForm.push(obj)
+          })
+
           // 取出所有的模組
           // 模組、類型、題目
           // TODO: 這邊之後如果有空翻一下
@@ -262,13 +256,19 @@ export default {
             let obj = {itemName:itemDetail,modelName: '',detaiList: []}
             listResult.forEach((item) => {
               if(item.itemName === obj.itemName) {
+                this.submitForm.forEach(submitItem => {
+                  if (submitItem.compQuestDetailId === item.id) {
+                    item['submitItem'] = submitItem
+                    item['missionResultId'] = this.missionResultId
+                  }
+                })
                 obj.detaiList.push(item)
                 obj.modelName = item.modelName
               }
             })
             itemList.push(obj)
           })
-          console.log(itemList);
+
           modulesKeysArray.forEach((keyName,index)=>{
             let obj = {id:index + 1,modelName: keyName, typeList:[]}
             itemList.forEach(innerItem => {
@@ -278,30 +278,53 @@ export default {
             })
             list.push(obj)
           })
+
           
-          console.log(list);
           // 取出類別
             this.list = list;
+            this.listName = result.name
           }
           resolve();
         });
       });
     },
-
-    getMenuList() {
-      const keys = [];
-      const obj = {};
-      this.menuList.forEach((item) => {
-        if (!keys.includes(item.id)) {
-          keys.push(item.id);
-          obj[item.id] = item.stepList;
-        } else {
-          obj[item.id].push(item.stepList);
-        }
-      });
-      console.log(obj);
-      this.stepList = obj;
+    // 取得暫存檔案
+    getTempList() {
+    return new Promise((resolve, reject) => {
+      this.$api.GetByMissionResultByMissionId({ id: this.$route.params.id }).then((res)=> {
+        console.log(res);
+        resolve()
+      })
+    })
     },
+
+    // 暫存創建實體
+    addMissionResult() {
+      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      let data = {
+        userId: userInfo.id,
+        checkMissionId: this.$route.params.id,
+        status: true
+      }
+      this.$api.AddMissionResult(data).then(res => {
+        const {result, code} = res.data
+        if(code === 200) {
+          this.missionResultId = result
+          this.AddOrUpdateDetail()
+        }
+      })
+    },
+    
+    // 填寫內容
+    AddOrUpdateDetail() {
+      this.submitForm.forEach((submitItem)=> {
+        submitItem.missionResultId = this.missionResultId
+      })
+      this.$api.AddOrUpdateDetail(this.submitForm).then((res) => {
+        console.log(res)
+      })
+    },
+
     goBack() {
       this.$router.push("/checkOperation");
       // this.noticeInfo = {
@@ -314,92 +337,76 @@ export default {
 
     /* component */
     openFormModal(val) {
-      switch (val) {
+      /**
+       * params: type,content, title
+       * 
+      */
+      switch (val.type) {
         case "help":
           this.modalList = {
             headerText: "說明",
-            title:
-              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
-            introduceList: [
-              {
-                text: "當許多控制器被密集地置於一個範圍內時，容易出現錯誤啟動機器，導致人員受傷，設備損壞，並降低生產效率。對於控制器的設計應採取不同方式預防，如使用防護罩或設計凸、凹式或聯鎖控制器，以防止人員誤觸開關",
-              },
-            ],
+            title: val.title,
+            introduceList: val.content
           };
           this.openModal = true;
           break;
         case "regulation":
           this.modalList = {
             headerText: "法規",
-            title:
-              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
-            introduceList: [
-              { text: "職業安全衛生管理辦法第13 ~ 49條" },
-              { text: "職業安全衛生管理辦法第13 ~ 49條" },
-            ],
+            title: val.title,
+            introduceList: val.content
           };
           this.openModal = true;
           break;
         case "accident":
           this.modalList = {
             headerText: "事故要因範例",
-            title:
-              "11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
-            introduceList: [
-              {
-                text: "1 從事鎂鋁合金手工研磨作業，其風箱內之灑水系統損壞未修復，致無法有效除塵。",
-              },
-              { text: "2 電壓錶故障不良品無法顯示正確的電壓值。" },
-              { text: "3 因染缸之端板嚴重銹蝕而破裂遭大量的高溫染液噴出。" },
-              {
-                text: "4 對於發酵箱電路分路之漏電斷路器未定時檢測，使該漏電斷路器故障無人知曉。",
-              },
-            ],
+            title: val.title,
+            introduceList: val.content
           };
           this.openModal = true;
           break;
         case "suggest":
           this.modalList = {
             headerText: "改善建議",
-            title:
-              "2-11 應落實設備、機具、工具校正或定期維修與保養，確保正常運轉",
-            introduceList: [
-              {
-                text: "嘗試採用多種措施降低工作場所的氣溫，這在沒有空調時尤其重要。這些措施應包括：避免外部熱量進入工作場所（太陽熱），增加自然通風，隔離產熱的機械和工藝過程， 提供局部排風系統將熱的和被污染的空氣排出工作場所。",
-              },
-              {
-                text: "保護勞動者不直接接觸機械和設施的熱輻射及熱表面（如熱的屋頂和牆面）。降低熱輻射的最佳方法是用屏風或屏障將熱輻射源與勞動者身體隔離，也可使用保溫的天花板和牆面。如勞動者接觸過熱環境不可避免，則應儘量減少接觸時間並配備熱輻射防護服。",
-              },
-              {
-                text: "接觸高溫環境或強熱輻射的勞動者要避免從事重體力勞動。採用機械操作或安排勞動者輪換作業，減少每位勞動者持續接觸過熱環境的時間。",
-              },
-              {
-                text: "使用風扇和通風設備改善工作場所的氣流。",
-              },
-            ],
+            title: val.title,
+            introduceList: val.content
           };
           this.openModal = true;
           break;
       }
     },
     formBtn(str) {
+      console.log(str);
+      this.nexyOrPreType = str
       switch (str) {
         case "prev":
+          if (this.stepPreStatus) {
+            this.noticeInfo = {
+              type: "warning",
+              message: "尚有題目未答",
+              introduce: "此頁尚有題目未填答，確定前往上一頁？",
+            };
+            this.openNotice = true;
+          }
           break;
         case "next":
-          this.noticeInfo = {
-            type: "warning",
-            message: "尚有題目未答",
-            introduce: "此頁尚有題目未填答，確定前往下一頁？",
-          };
-          this.openNotice = true;
+          if (this.stepNextStatus) {
+            this.noticeInfo = {
+              type: "warning",
+              message: "尚有題目未答",
+              introduce: "此頁尚有題目未填答，確定前往下一頁？",
+            };
+            this.openNotice = true;
+          }
           break;
         case "save":
-          this.noticeInfo = {
-            type: "success",
-            message: "暫存成功",
-          };
-          this.openNotice = true;
+          this.addMissionResult()
+          // this.noticeInfo = {
+          //   type: "success",
+          //   message: "暫存成功",
+          // };
+          // this.openNotice = true;
           break;
         case "send":
           this.noticeInfo = {
@@ -414,23 +421,63 @@ export default {
       this.openModal = false;
     },
     closeNotice() {
+      switch (this.nexyOrPreType) {
+        case 'next':
+          if(this.defaultStep < this.list[this.defaultMenu - 1].typeList.length) {
+            this.defaultStep++
+          } else {
+            if(this.defaultMenu < this.list.length){
+              this.defaultMenu++
+              this.defaultStep = 1
+            }
+          }
+          break;
+        case 'prev':
+          console.log(this.defaultStep);
+          if(this.defaultStep > 1) {
+            this.defaultStep--
+          } else {
+            if(this.defaultMenu > 1){
+              this.defaultMenu --
+              this.defaultStep = this.list[this.defaultMenu - 1].typeList.length
+            }
+          }
+          break;
+        default:
+          break;
+      }
       this.openNotice = false;
     },
   },
+  computed: {
+    stepNextStatus(){
+      let status = true
+      if ((this.defaultStep == this.list[this.defaultMenu - 1]?.typeList.length) && (this.defaultMenu == this.list.length)) {
+        status = false
+      }
+      return status
+    },
+    stepPreStatus(){
+      let status = true
+      if (this.defaultMenu == 1 && this.defaultStep == 1) {
+        status = false
+      }
+      return status
+    }
+  },
   mounted() {
     this.$store.dispatch("handleLoading", true);
-
     Promise.all([
       this.getModel(),
       this.getModelItem(),
       this.getModelItemDetail(),
       this.getList(),
+      this.getTempList()
     ]).then(() => {
       setTimeout(() => {
         this.$store.dispatch("handleLoading", false);
       }, 500);
     });
-    this.getMenuList();
   },
 };
 </script>

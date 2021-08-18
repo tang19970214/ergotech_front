@@ -92,6 +92,27 @@ const api = {
       params: params
     });
   },
+  AddMissionResult(data) {
+    return request({
+      url: "/MissionResult/Add",
+      method: "post",
+      data
+    });
+  },
+  AddOrUpdateDetail(data) {
+    return request({
+      url: "/MissionResultDetail/AddOrUpdateBatch",
+      method: "post",
+      data
+    });
+  },
+  GetByMissionResultByMissionId(params) {
+    return request({
+      url: "/MissionResult/GetByMissionId",
+      method: "get",
+      params: params
+    });
+  },
   /*  */
 }
 

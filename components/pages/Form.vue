@@ -1,25 +1,30 @@
 <template>
   <div class="w-full">
-    <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="item in 1" :key="item">
+    <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="(item, index) in list" :key="item.id">
       <div class="w-full flex items-start justify-between flex-col lg:flex-row">
         <div class="w-full text-left">
-          <strong class="text-sm sm:text-lg">1 機械設備設有防止誤觸開關之裝置</strong>
+          <strong class="text-sm sm:text-lg">{{`${defaultStep}-${index + 1 } ${ item.detailName}`}}</strong>
         </div>
 
-        <div class="w-full lg:w-48 h-20 mt-2 sm:mt-0 flex items-center justify-end">
+        <div class="w-full lg:w-68 h-20 mt-2 sm:mt-0 flex items-center justify-end">
           <div class="w-20 h-20 mr-3">
+            <!-- TODO:圖片尚未修改 -->
+            <img class="cursor-pointer" src="@/assets/images/example.png" alt="" @click="openImg()" width="80px" height="80px">
+          </div>
+          <div class="w-20 h-20 mr-3">
+            <!-- TODO:圖片尚未修改 -->
             <img class="cursor-pointer" src="@/assets/images/example.png" alt="" @click="openImg()" width="80px" height="80px">
           </div>
 
           <div class="w-20 h-20 p-1 box-border bg-E6E6E8 grid grid-flow-col grid-cols-2 grid-rows-2">
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal('help')">
+              <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal({type:'help',content:item.description, title: `${defaultStep}-${index + 1}${item.detailName}`})">
             </div>
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal('accident')">
+              <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal({type:'accident', content:item.caseExample, title: `${defaultStep}-${index + 1}${item.detailName}`})">
             </div>
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal('regulation')">
+              <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal({type:'regulation', content: item.compQuestDetailRegulation, title: `${defaultStep}-${index + 1}${item.detailName}`})">
             </div>
           </div>
         </div>
@@ -33,14 +38,14 @@
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4">
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="singleRadio" type="radio" value="1">符合
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="1">符合
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="singleRadio" type="radio" value="2" @click="openFormModal('suggest')">不符合
-              <img v-if="singleRadio == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal('suggest')">
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">不符合
+              <img v-if="singleRadio == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
             </label>
             <label class="text-sm flex items-center font-semibold">
-              <input class="pr-1" v-model="singleRadio" type="radio" value="3">不適用
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="3">不適用
             </label>
           </div>
         </div>
@@ -89,7 +94,7 @@
           </div>
           <div class="w-full flex items-center py-2 px-4">
             <!-- <input type="textarea" class="w-full h-20 p-2 border"> -->
-            <textarea class="w-full h-20 p-2 border"></textarea>
+            <textarea class="w-full h-20 p-2 border" v-model="item.submitItem.description"></textarea>
           </div>
         </div>
       </div>
@@ -104,6 +109,16 @@ import UploadImage from "./UploadImage.vue";
 import EnlargeImage from "./EnlargeImage.vue";
 export default {
   components: { UploadImage, EnlargeImage },
+  props:{
+    list: {
+      type: [Array],
+      require: true
+    },
+    defaultStep: {
+      type: [String, Number],
+      require: true
+    }
+  },
   data() {
     return {
       singleRadio: "",

@@ -12,11 +12,11 @@
         <div class="w-full p-6 box-border flex flex-col justify-center">
           <strong class="text-primary mb-1">{{title}}</strong>
           <ul>
-            <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceList" :key="idx">
+            <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceArr" :key="idx">
               <span v-if="headerText == '改善建議'">
                 <input type="checkBox">
               </span>
-              {{t.text}}
+              {{t}}
             </li>
           </ul>
         </div>
@@ -45,7 +45,7 @@ export default {
       required: true,
     },
     introduceList: {
-      type: Array,
+      type: [Array, String],
       required: true,
     },
   },
@@ -54,5 +54,16 @@ export default {
       this.$emit("closeModal");
     },
   },
+  computed: {
+    introduceArr () {
+      let arr = new Array()
+      if (Array.isArray(this.introduceList)) {
+        arr = this.introduceList
+        } else {
+        arr = this.introduceList.split(',')
+      }
+      return arr
+    }
+  }
 };
 </script>

@@ -30,7 +30,7 @@ export default {
             
             reader.onload = e => {
                 this.showImage = e.target.result
-            } 
+            }
         },
 
     }

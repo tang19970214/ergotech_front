@@ -25,17 +25,17 @@
         <tr class="bg-white border-b" v-for="item in tableList" :key="item.id">
           <td class="px-4 py-4">
             <div class="w-full">
-              <p class="text-sm font-medium">{{item.text}}</p>
+              <p class="text-sm font-medium">{{item.name}}</p>
             </div>
           </td>
           <td class="w-28 py-4">
             <div class="w-full text-center">
-              <p class="text-sm font-medium">{{item.datetime}}</p>
+              <p class="text-sm font-medium">{{formatDate(item.checkDate)}}</p>
             </div>
           </td>
           <td class="w-20 py-4">
             <div class="w-full text-center">
-              <button class="bg-warning py-1 px-3 text-sm text-white">修改</button>
+              <button class="bg-warning py-1 px-3 text-sm text-white"  @click="goCheck(item.id)">修改</button>
             </div>
           </td>
         </tr>
@@ -54,6 +54,19 @@ export default {
   props: {
     tableList: {
       type: Array,
+    },
+  },
+  computed: {
+    formatDate() {
+      return (datetime) => {
+        return this.$dayjs(datetime, "YYYY-MM-DD");
+      };
+    },
+  },
+  methods: {
+    goCheck(id) {
+      console.log(id);
+      this.$emit("goCheck", id);
     },
   },
 };
