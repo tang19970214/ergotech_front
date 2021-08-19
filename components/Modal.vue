@@ -11,14 +11,15 @@
         <!--body-->
         <div class="w-full p-6 box-border flex flex-col justify-center">
           <strong class="text-primary mb-1">{{title}}</strong>
-          <ul>
+          <span v-html="introduceList"></span>
+          <!-- <ul>
             <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceArr" :key="idx">
               <span v-if="headerText == '改善建議'">
                 <input type="checkBox">
               </span>
               {{t}}
             </li>
-          </ul>
+          </ul> -->
         </div>
         <!--footer-->
         <div class="w-full py-2 px-4 text-right">

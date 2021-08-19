@@ -20,7 +20,7 @@ export default {
       required: true,
     },
     imgSrc:{
-      type: Boolean,
+      type: String,
       required: true,
     }
   },

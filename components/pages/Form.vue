@@ -6,13 +6,13 @@
           <strong class="text-sm sm:text-lg">{{`${defaultStep}-${index + 1 } ${ item.detailName}`}}</strong>
         </div>
         <div class="w-full lg:w-68 h-20 mt-2 sm:mt-0 flex items-center justify-end">
-          <div class="w-20 h-20 mr-3">
+          <div class="w-20 h-20 mr-3" v-if="item.pic1">
             <!-- TODO:圖片尚未修改 -->
-            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic1" alt="" @click="openImg(item.pic1)" width="80px" height="80px" v-if="item.pic1">
+            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic1" alt="" @click="openImg(item.pic1)" width="80px" height="80px" >
           </div>
-          <div class="w-20 h-20 mr-3">
+          <div class="w-20 h-20 mr-3" v-if="item.pic2">
             <!-- TODO:圖片尚未修改 -->
-            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic2" alt="" @click="openImg(item.pic2)" width="80px" height="80px" v-if="item.pic2">
+            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic2" alt="" @click="openImg(item.pic2)" width="80px" height="80px">
           </div>
 
           <div class="w-20 h-20 p-1 box-border bg-E6E6E8 grid grid-flow-col grid-cols-2 grid-rows-2">
