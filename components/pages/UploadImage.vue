@@ -1,7 +1,8 @@
 <template>
     <div class="uploadContainer" :class="uploadTextObj" @click="openUpload">
-        <input type="file" ref="input" id="uplaod" @change="onChange" accept="image/*" >
-        <img :src="showImage" alt="">
+        <input type="file" ref="input" id="uplaod" @change="fileUpload($event, item, imgKey)" accept="image/*" >
+        <img :src="PROCESSENVIMGSRC+item[imgKey]" alt="" v-if="!!item[imgKey]">
+        <img :src="showImage" alt="" v-else>
     </div>
 </template>
 
@@ -9,28 +10,44 @@
 
 <script>
 export default {
+    props:{
+        item: {
+            type: [Object],
+            require:true
+        },
+        imgKey: {
+            type: [String],
+            require: true
+        }
+    },
     data(){
         return{
+            PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL,
             showImage: require("../../assets/images/uploadImg.png"),
-            uploadTextObj: {
-                uploadText: true,
-                NoUploadText: false,
-            },
+            // uploadTextObj: {
+            //     uploadText: true,
+            //     NoUploadText: false,
+            // },
+        }
+    },
+    computed:{
+        uploadTextObj() {
+            let uploadText = true
+            let NoUploadText = false
+            if (!!this.item[this.imgKey]) {
+                uploadText = !uploadText
+                NoUploadText = !NoUploadText
+            }
+            return {uploadText, NoUploadText}
         }
     },
     methods: {
         openUpload () {
             this.$refs.input.click()      
         },
-        onChange(){
-            this.uploadTextObj.uploadText = false;
-            this.uploadTextObj.NoUploadText = true;
-            var reader = new FileReader()
-            reader.readAsDataURL(this.$refs.input.files[0])
-            
-            reader.onload = e => {
-                this.showImage = e.target.result
-            }
+        fileUpload(e,item,imgkey){
+            // console.log('fileUpload');
+            this.$emit('fileUpload',{e, item, imgkey})
         },
 
     }

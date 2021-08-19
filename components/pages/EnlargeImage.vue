@@ -4,7 +4,7 @@
 
     <div class="w-full h-full flex items-center justify-center">
       <div class="enlargContainer relative z-50">
-        <img class="img" src="@/assets/images/enlargeImg.png" alt="">
+        <img class="img" :src="PROCESSENVIMGSRC+imgSrc" alt="">
         <img class="absolute top-0 -right-8 z-50 cursor-pointer" src="@/assets/images/colseBtn.png" width="28px" height="28px" @click="show = false">
       </div>
     </div>
@@ -19,9 +19,14 @@ export default {
       default: false,
       required: true,
     },
+    imgSrc:{
+      type: Boolean,
+      required: true,
+    }
   },
   data() {
     return {
+      PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL,
       show: false,
     };
   },

@@ -17,19 +17,19 @@
         <FormMenuList :menuList="list" :defaultMenu="defaultMenu" @changeMenu="changeMenu" />
 
         <div class="w-full flex flex-col pl-0 md:pl-4 box-border">
-          <FormSteps :stepList="list[defaultMenu - 1].typeList" :defaultStep="defaultStep" v-if="list.length>0"/>
+          <FormSteps :stepList="list[defaultMenu - 1].typeList" :defaultStep="defaultStep" v-if="list.length>0" />
 
           <!-- form -->
           <div class="w-full mt-4 shadow" v-if="list.length>0">
-            <Form @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" />
+            <Form @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" :submitForm="submitForm" />
           </div>
-          <FormFooter @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus" />
+          <FormFooter @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus"/>
         </div>
       </div>
     </div>
 
     <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :introduceList="modalList.introduceList" @closeModal="closeModal" />
-    <Notice :openNotice="openNotice" :type="noticeInfo.type" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
+    <Notice :openNotice="openNotice" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
   </div>
 </template>
 
@@ -52,6 +52,9 @@ export default {
     Notice,
     Modal,
   },
+  asyncData({store}) {
+    store.dispatch("handleLoading", true)
+  },
   data() {
     return {
       listQuery: {
@@ -60,109 +63,8 @@ export default {
       },
 
       defaultMenu: 1,
-      menuList: [
-        {
-          id: 1,
-          icon: require("../assets/images/formMenu/icon1.png"),
-          icon_active: require("../assets/images/formMenu/icon1_active.png"),
-          title: "人",
-          introduce: "（避免人為錯誤）",
-          qusNum: 8,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 5 },
-            { id: 2, text: "安全的運轉", qusNum: 3 },
-          ],
-        },
-        {
-          id: 2,
-          icon: require("../assets/images/formMenu/icon2.png"),
-          icon_active: require("../assets/images/formMenu/icon2_active.png"),
-          title: "機",
-          introduce: "（安全機械）",
-          qusNum: 11,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 7 },
-            { id: 2, text: "安全的運轉", qusNum: 3 },
-            { id: 3, text: "落實保養維護", qusNum: 1 },
-          ],
-        },
-        {
-          id: 3,
-          icon: require("../assets/images/formMenu/icon3.png"),
-          icon_active: require("../assets/images/formMenu/icon3_active.png"),
-          title: "料",
-          introduce: "（有害物及化學品）",
-          qusNum: 9,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 7 },
-            { id: 2, text: "安全的運轉", qusNum: 2 },
-          ],
-        },
-        {
-          id: 4,
-          icon: require("../assets/images/formMenu/icon4.png"),
-          icon_active: require("../assets/images/formMenu/icon4_active.png"),
-          title: "法",
-          introduce: "（安全作業方法）",
-          qusNum: 12,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 6 },
-            { id: 2, text: "安全的運轉", qusNum: 3 },
-            { id: 3, text: "落實保養維護", qusNum: 3 },
-          ],
-        },
-        {
-          id: 5,
-          icon: require("../assets/images/formMenu/icon5.png"),
-          icon_active: require("../assets/images/formMenu/icon5_active.png"),
-          title: "環",
-          introduce: "（安全環境）",
-          qusNum: 9,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 7 },
-            { id: 2, text: "安全的運轉", qusNum: 1 },
-            { id: 3, text: "落實保養維護", qusNum: 1 },
-          ],
-        },
-        {
-          id: 6,
-          icon: require("../assets/images/formMenu/icon6.png"),
-          icon_active: require("../assets/images/formMenu/icon6_active.png"),
-          title: "重複性傷害作業",
-          introduce: "",
-          qusNum: 4,
-          stepList: [
-            { id: 1, text: "安全的運轉", qusNum: 3 },
-            { id: 2, text: "落實保養維護", qusNum: 1 },
-          ],
-        },
-        {
-          id: 7,
-          icon: require("../assets/images/formMenu/icon7.png"),
-          icon_active: require("../assets/images/formMenu/icon7_active.png"),
-          title: "管理",
-          introduce: "（充分的督導與支持）",
-          qusNum: 8,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 4 },
-            { id: 2, text: "安全的運轉", qusNum: 3 },
-            { id: 3, text: "落實保養維護", qusNum: 1 },
-          ],
-        },
-        {
-          id: 8,
-          icon: require("../assets/images/formMenu/icon8.png"),
-          icon_active: require("../assets/images/formMenu/icon8_active.png"),
-          title: "組織",
-          introduce: "（遵守法規）",
-          qusNum: 7,
-          stepList: [
-            { id: 1, text: "安全的設計與設備", qusNum: 6 },
-            { id: 2, text: "落實保養維護", qusNum: 1 },
-          ],
-        },
-      ],
       defaultStep: 1,
+      stepValidate: false,
       stepList: {},
       nexyOrPreType: '',
       list: [],
@@ -187,6 +89,17 @@ export default {
     };
   },
   methods: {
+    stepValidation() {
+      let status
+      const resultArray =  this.list[this.defaultMenu - 1].typeList[this.defaultStep - 1].detaiList.find(submitItemDetail=> submitItemDetail.submitItem.checkResult === '')
+      console.log(resultArray);
+      if (resultArray) {
+        status = false
+      } else {
+        status = true
+      }
+      return status
+    },
     changeMenu(id) {
       this.defaultMenu = id;
       this.defaultStep = 1
@@ -213,7 +126,7 @@ export default {
     /* 取得檢核表 */
 
     getList() {
-      return new Promise((resolve) => {
+      return new Promise((resolve) => { 
         this.$api.GetMissionById({ id: this.$route.params.id }).then((res) => {
           const { result, code } = res.data
           if (code === 200) {
@@ -292,36 +205,72 @@ export default {
     getTempList() {
     return new Promise((resolve, reject) => {
       this.$api.GetByMissionResultByMissionId({ id: this.$route.params.id }).then((res)=> {
+        const {result, code} = res.data
         console.log(res);
+        if(code === 200 && result) { // 如果有資料(result)代表是暫存，並把值帶回去submitForm
+          this.missionResultId = result.id
+          let missionResult = result.missionQuest
+          missionResult.forEach((item) => {
+            this.submitForm.forEach((submitItem)=> {
+              if(item.compQuestDetailId === submitItem.compQuestDetailId) {
+                let submitItemKeysArray = Object.keys(submitItem)
+                submitItemKeysArray.forEach((keys) => {
+                  submitItem[keys] = item[keys]
+                })
+              }
+            })
+          })
+        }
         resolve()
       })
     })
     },
 
     // 暫存創建實體
-    addMissionResult() {
-      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
-      let data = {
-        userId: userInfo.id,
-        checkMissionId: this.$route.params.id,
-        status: true
-      }
-      this.$api.AddMissionResult(data).then(res => {
-        const {result, code} = res.data
+    async addMissionResult() {
+      if(this.missionResultId !== ''){
+        await this.AddOrUpdateDetail()
+      } else {
+        let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+        let data = {
+          userId: userInfo.id,
+          checkMissionId: this.$route.params.id,
+          status: true // 布林值 true 代表可以修改 false 代表不能修改
+        }
+        const {result, code} = (await this.$api.AddMissionResult(data)).data
         if(code === 200) {
           this.missionResultId = result
-          this.AddOrUpdateDetail()
+          await this.AddOrUpdateDetail()
         }
-      })
+      }
     },
-    
+    // 送出填寫任務
+    async UpdateMissionResult() {
+      await this.addMissionResult()
+      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      let data = {
+        id: this.missionResultId,
+        userId: userInfo.id,
+        checkMissionId: this.$route.params.id,
+        status: false
+      }
+      this.$api.UpdateMissionResult(data).then((res)=> {
+        console.log(res)
+      })
+      
+    },
     // 填寫內容
     AddOrUpdateDetail() {
-      this.submitForm.forEach((submitItem)=> {
-        submitItem.missionResultId = this.missionResultId
-      })
-      this.$api.AddOrUpdateDetail(this.submitForm).then((res) => {
-        console.log(res)
+      return new Promise((resolve,reject)=> {   
+        this.submitForm.forEach((submitItem)=> {
+          // 填寫表單內容的id送到submitform裡面
+          submitItem.missionResultId = this.missionResultId
+        })
+
+        this.$api.AddOrUpdateDetail(this.submitForm).then((res) => {
+          console.log(res)
+          resolve()
+        })
       })
     },
 
@@ -376,51 +325,70 @@ export default {
           break;
       }
     },
-    formBtn(str) {
-      console.log(str);
+    async formBtn(str) {
       this.nexyOrPreType = str
       switch (str) {
         case "prev":
-          if (this.stepPreStatus) {
+          if (this.stepPreStatus && !this.stepValidation()) {
             this.noticeInfo = {
               type: "warning",
               message: "尚有題目未答",
               introduce: "此頁尚有題目未填答，確定前往上一頁？",
             };
             this.openNotice = true;
+          } else {
+            this.closeNotice('prev');
           }
           break;
         case "next":
-          if (this.stepNextStatus) {
+          if (this.stepNextStatus && !this.stepValidation()) {
+            // if(){}
             this.noticeInfo = {
               type: "warning",
               message: "尚有題目未答",
               introduce: "此頁尚有題目未填答，確定前往下一頁？",
             };
             this.openNotice = true;
+          } else {
+            this.closeNotice('next');
           }
           break;
         case "save":
-          this.addMissionResult()
-          // this.noticeInfo = {
-          //   type: "success",
-          //   message: "暫存成功",
-          // };
-          // this.openNotice = true;
-          break;
-        case "send":
+          console.log(this.submitForm)
+          await this.addMissionResult()
           this.noticeInfo = {
             type: "success",
-            message: "保存成功",
+            message: "暫存成功",
           };
           this.openNotice = true;
+          break;
+        case "send":
+          let status = this.submitForm.find((submitItem)=> submitItem.checkResult === '')
+          if(!!status) {
+            this.nexyOrPreType = ''
+            this.noticeInfo = {
+                type: "warning",
+                message: "尚有題目未答",
+            };
+            this.openNotice = true;
+            return
+          } else {
+            await this.UpdateMissionResult()
+            this.nexyOrPreType = 'send'
+            this.noticeInfo = {
+              type: "success",
+              message: "保存成功",
+            };
+            this.openNotice = true;
+          }
           break;
       }
     },
     closeModal() {
       this.openModal = false;
     },
-    closeNotice() {
+    closeNotice(value) {
+      if (value) this.nexyOrPreType = value
       switch (this.nexyOrPreType) {
         case 'next':
           if(this.defaultStep < this.list[this.defaultMenu - 1].typeList.length) {
@@ -433,7 +401,6 @@ export default {
           }
           break;
         case 'prev':
-          console.log(this.defaultStep);
           if(this.defaultStep > 1) {
             this.defaultStep--
           } else {
@@ -442,6 +409,9 @@ export default {
               this.defaultStep = this.list[this.defaultMenu - 1].typeList.length
             }
           }
+          break;
+        case 'send':
+          this.goBack();
           break;
         default:
           break;
@@ -466,14 +436,14 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("handleLoading", true);
     Promise.all([
       this.getModel(),
       this.getModelItem(),
       this.getModelItemDetail(),
-      this.getList(),
-      this.getTempList()
-    ]).then(() => {
+      this.getList()
+    ]).then(()=>{
+      return this.getTempList()
+    }).then(()=> {
       setTimeout(() => {
         this.$store.dispatch("handleLoading", false);
       }, 500);

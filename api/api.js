@@ -99,6 +99,13 @@ const api = {
       data
     });
   },
+  UpdateMissionResult(data) {
+    return request({
+      url: "/MissionResult/Update",
+      method: "post",
+      data
+    });
+  },
   AddOrUpdateDetail(data) {
     return request({
       url: "/MissionResultDetail/AddOrUpdateBatch",
@@ -113,6 +120,13 @@ const api = {
       params: params
     });
   },
+  upload(data) {
+    return request({
+      url: "/Files/Upload",
+      method: "post",
+      data,
+    })
+  }
   /*  */
 }
 

@@ -50,7 +50,7 @@
         </div>
 
         <div class="w-11">
-          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{caculateTotalDetailNumber(item)}})</strong>
+          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">({{caculateTotalDetailCheckedNumber(item)}}/{{caculateTotalDetailNumber(item)}})</strong>
         </div>
       </div>
     </div>
@@ -80,6 +80,19 @@ export default {
         let total = 0
         item.typeList.forEach( item => {
           total += item.detaiList.length
+        });
+        return total
+      }
+    },
+    caculateTotalDetailCheckedNumber(){
+      return (item) => {
+        let total = 0
+        item.typeList.forEach( item => {
+          item.detaiList.forEach(detailItem => {
+            if(detailItem.submitItem.checkResult!=='') {
+              total++
+            }
+          });
         });
         return total
       }

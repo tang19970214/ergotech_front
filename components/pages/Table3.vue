@@ -20,12 +20,12 @@
         <tr class="bg-white border-b" v-for="item in tableList" :key="item.id">
           <td class="px-4 py-4">
             <div class="w-full">
-              <p class="text-sm font-medium">{{item.text}}</p>
+              <p class="text-sm font-medium">{{item.name}}</p>
             </div>
           </td>
           <td class="w-28 py-4">
             <div class="w-full text-center">
-              <p class="text-sm font-medium">{{item.datetime}}</p>
+              <p class="text-sm font-medium">{{item.modifyDate}}</p>
             </div>
           </td>
         </tr>
