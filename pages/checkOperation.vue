@@ -2,10 +2,16 @@
   <div class="w-full h-full">
     <div class="py-4 px-0 text-center sm:py-6 sm:px-16 sm:text-left box-border">
       <div class="mb-4 sm:mb-6">
-        <strong class="checkOperationTitle relative text-lg sm:text-2xl">檢核作業</strong>
+        <strong class="checkOperationTitle relative text-lg sm:text-2xl"
+          >檢核作業</strong
+        >
       </div>
 
-      <Tabs :tabList="tabList" :defaultTab="defaultTab" @changeTab="changeTab" />
+      <Tabs
+        :tabList="tabList"
+        :defaultTab="defaultTab"
+        @changeTab="changeTab"
+      />
 
       <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
       <Table2 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 2" />
@@ -32,7 +38,7 @@ export default {
         limit: 10,
         key: undefined,
         isResult: false,
-        resultStatus: ''
+        resultStatus: "",
       },
       defaultTab: 1,
       tabList: [
@@ -126,7 +132,7 @@ export default {
         case 1:
           // 待執行 isResult: false
           this.listQuery.isResult = false;
-          this.listQuery.resultStatus = '';
+          this.listQuery.resultStatus = "";
           break;
         case 2:
           // 檢核中 isResult: true , resultResult: true
@@ -135,15 +141,15 @@ export default {
           break;
         case 3:
           // 已完成 resultStatus: false
-          this.listQuery.isResult = '';
+          this.listQuery.isResult = "";
           this.listQuery.resultStatus = false;
           break;
         default:
           this.listQuery.isResult = false;
-          this.listQuery.resultStatus = '';
+          this.listQuery.resultStatus = "";
           break;
       }
-      this.getList()
+      this.getList();
     },
     goCheck1(id) {
       console.log(id);

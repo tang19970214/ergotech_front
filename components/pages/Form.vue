@@ -1,54 +1,189 @@
 <template>
   <div class="w-full">
-    <div class="w-full p-4 sm:p-6 box-border bg-white" :class="{'border-b': item !== 5}" v-for="(item, index) in list" :key="item.id">
+    <div
+      class="w-full p-4 sm:p-6 box-border bg-white"
+      :class="{ 'border-b': item !== 5 }"
+      v-for="(item, index) in list"
+      :key="item.id"
+    >
       <div class="w-full flex items-start justify-between flex-col lg:flex-row">
         <div class="w-full text-left">
-          <strong class="text-sm sm:text-lg">{{`${defaultStep}-${index + 1 } ${ item.detailName}`}}</strong>
+          <strong class="text-sm sm:text-lg">{{
+            `${defaultStep}-${index + 1} ${item.detailName}`
+          }}</strong>
         </div>
-        <div class="w-full lg:w-68 h-20 mt-2 sm:mt-0 flex items-center justify-end">
+        <div
+          class="w-full lg:w-68 h-20 mt-2 sm:mt-0 flex items-center justify-end"
+        >
           <div class="w-20 h-20 mr-3" v-if="item.pic1">
             <!-- TODO:圖片尚未修改 -->
-            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic1" alt="" @click="openImg(item.pic1)" width="80px" height="80px" >
+            <img
+              class="cursor-pointer"
+              :src="PROCESSENVIMGSRC + item.pic1"
+              alt=""
+              @click="openImg(item.pic1)"
+              width="80px"
+              height="80px"
+            />
           </div>
           <div class="w-20 h-20 mr-3" v-if="item.pic2">
             <!-- TODO:圖片尚未修改 -->
-            <img class="cursor-pointer" :src="PROCESSENVIMGSRC+item.pic2" alt="" @click="openImg(item.pic2)" width="80px" height="80px">
+            <img
+              class="cursor-pointer"
+              :src="PROCESSENVIMGSRC + item.pic2"
+              alt=""
+              @click="openImg(item.pic2)"
+              width="80px"
+              height="80px"
+            />
           </div>
 
-          <div class="w-20 h-20 p-1 box-border bg-E6E6E8 grid grid-flow-col grid-cols-2 grid-rows-2">
+          <div
+            class="
+              w-20
+              h-20
+              p-1
+              box-border
+              bg-E6E6E8
+              grid grid-flow-col grid-cols-2 grid-rows-2
+            "
+          >
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/help.png" alt="說明" @click="openFormModal({type:'help',content:item.description, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <img
+                class="cursor-pointer"
+                src="@/assets/images/icon/help.png"
+                alt="說明"
+                @click="
+                  openFormModal({
+                    type: 'help',
+                    content: item.description,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />
             </div>
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/accident.png" alt="事故要因範例" @click="openFormModal({type:'accident', content:item.caseExample, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <img
+                class="cursor-pointer"
+                src="@/assets/images/icon/accident.png"
+                alt="事故要因範例"
+                @click="
+                  openFormModal({
+                    type: 'accident',
+                    content: item.caseExample,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />
             </div>
             <div class="flex items-center justify-center">
-              <img class="cursor-pointer" src="@/assets/images/icon/regulation.png" alt="法規" @click="openFormModal({type:'regulation', content: item.compQuestDetailRegulation, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <img
+                class="cursor-pointer"
+                src="@/assets/images/icon/regulation.png"
+                alt="法規"
+                @click="
+                  openFormModal({
+                    type: 'regulation',
+                    content: item.compQuestDetailRegulation,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />
             </div>
           </div>
         </div>
       </div>
 
       <!-- form -->
-      <div class="w-full flex items-start justify-center flex-col lg:flex-row border border-ccc mt-4 sm:mt-2">
+      <div
+        class="
+          w-full
+          flex
+          items-start
+          justify-center
+          flex-col
+          lg:flex-row
+          border border-ccc
+          mt-4
+          sm:mt-2
+        "
+      >
         <div class="w-full flex flex-col">
           <div class="w-full py-2 px-4 box-border bg-eee text-left">
             <strong>檢核結果</strong>
           </div>
           <div class="w-full flex items-center flex-wrap py-2 px-4">
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="1">符合
+              <input
+                class="pr-1"
+                v-model="item.submitItem.checkResult"
+                type="radio"
+                value="1"
+              />符合
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">不符合
-              <img v-if="item.submitItem.checkResult == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <input
+                class="pr-1"
+                v-model="item.submitItem.checkResult"
+                type="radio"
+                value="2"
+                @click="
+                  openFormModal({
+                    type: 'suggest',
+                    content: item.suggestion,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />不符合
+              <img
+                v-if="item.submitItem.checkResult == '2'"
+                class="cursor-pointer"
+                src="@/assets/images/icon/suggest.png"
+                alt="改善建議"
+                @click="
+                  openFormModal({
+                    type: 'suggest',
+                    content: item.suggestion,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">部分符合
-              <img v-if="item.submitItem.checkResult == '4'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <input
+                class="pr-1"
+                v-model="item.submitItem.checkResult"
+                type="radio"
+                value="4"
+                @click="
+                  openFormModal({
+                    type: 'suggest',
+                    content: item.suggestion,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />部分符合
+              <img
+                v-if="item.submitItem.checkResult == '4'"
+                class="cursor-pointer"
+                src="@/assets/images/icon/suggest.png"
+                alt="改善建議"
+                @click="
+                  openFormModal({
+                    type: 'suggest',
+                    content: item.suggestion,
+                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                  })
+                "
+              />
             </label>
             <label class="text-sm flex items-center font-semibold">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="3">不適用
+              <input
+                class="pr-1"
+                v-model="item.submitItem.checkResult"
+                type="radio"
+                value="3"
+              />不適用
             </label>
           </div>
         </div>
@@ -57,17 +192,34 @@
           <div class="w-full py-2 px-4 box-border bg-eee text-left">
             <strong>上傳檔案(照片)</strong>
           </div>
-          <div class="w-full flex items-center flex-wrap py-2 px-4 uploadContainer">
-            <UploadImage :item="item.submitItem" :imgKey="'pic1'" @fileUpload="fileUpload" />
-            <UploadImage :item="item.submitItem" :imgKey="'pic2'" @fileUpload="fileUpload" />
-            <UploadImage :item="item.submitItem" :imgKey="'pic3'" @fileUpload="fileUpload" />
+          <div
+            class="w-full flex items-center flex-wrap py-2 px-4 uploadContainer"
+          >
+            <UploadImage
+              :item="item.submitItem"
+              :imgKey="'pic1'"
+              @fileUpload="fileUpload"
+              @deletePic="deletePic"
+            />
+            <UploadImage
+              :item="item.submitItem"
+              :imgKey="'pic2'"
+              @fileUpload="fileUpload"
+              @deletePic="deletePic"
+            />
+            <UploadImage
+              :item="item.submitItem"
+              :imgKey="'pic3'"
+              @fileUpload="fileUpload"
+              @deletePic="deletePic"
+            />
             <!-- :class需依items賦予，才不會有上傳就都跑有preview的樣式 -->
             <!-- <label :for="'upload' + item[`pic${index}`]" :class="uploadTextObj" v-for="(item, index) in 3" :key="item">
               <input type="file" ref="file" :id="'upload' + item[`pic${index}`]" @change="onChange">
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
               <img :src="preview[item[`pic${index}`]]" class="previewImg" />
             </label> -->
- 
+
             <!-- <label for="uploadOne" :class="uploadTextObj">
               <input type="file" ref="file" id="uploadOne" @change="onChange1">
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
@@ -83,7 +235,6 @@
               <img class="pr-1" :class="uploadImgObj" src="@/assets/images/uploadImg.png" alt="">
               <img :src="item.pic3" class="previewImg" />
             </label> -->
-
           </div>
         </div>
 
@@ -93,7 +244,10 @@
           </div>
           <div class="w-full flex items-center py-2 px-4">
             <!-- <input type="textarea" class="w-full h-20 p-2 border"> -->
-            <textarea class="w-full h-20 p-2 border" v-model="item.submitItem.description"></textarea>
+            <textarea
+              class="w-full h-20 p-2 border"
+              v-model="item.submitItem.description"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -108,19 +262,19 @@ import UploadImage from "./UploadImage.vue";
 import EnlargeImage from "./EnlargeImage.vue";
 export default {
   components: { UploadImage, EnlargeImage },
-  props:{
+  props: {
     list: {
       type: [Array],
-      require: true
+      require: true,
     },
     defaultStep: {
       type: [String, Number],
-      require: true
+      require: true,
     },
-    submitForm:{
+    submitForm: {
       type: [Array, Object],
-      require: true
-    }
+      require: true,
+    },
   },
   data() {
     return {
@@ -142,7 +296,7 @@ export default {
       defaultQusImg: null,
       defaultImgId: null,
       openImgBool: false,
-      imgSrc: '',
+      imgSrc: "",
       preview: [],
       preview1: null,
       preview2: null,
@@ -154,27 +308,38 @@ export default {
       this.$emit("openFormModal", value);
     },
     openImg(imgSrc) {
-      this.imgSrc = imgSrc
+      this.imgSrc = imgSrc;
       this.openImgBool = true;
     },
 
     fileUpload(uploadTarget) {
-      const {e,item,imgkey} = uploadTarget
-      console.log(e,item,imgkey);
-      const formFile = new FormData()
-      formFile.append("files", e.target.files[0], e.target.files[0].name)
-      this.$api.upload(formFile)
+      const { e, item, imgkey } = uploadTarget;
+      console.log(e, item, imgkey);
+      const formFile = new FormData();
+      formFile.append("files", e.target.files[0], e.target.files[0].name);
+      this.$api
+        .upload(formFile)
         .then((res) => {
           console.log(res);
-          this.submitForm.forEach((submitItem)=> {
-            if(submitItem.compQuestDetailId === item.compQuestDetailId){
-              submitItem[imgkey] = res.data.result[0].filePath
+          this.submitForm.forEach((submitItem) => {
+            if (submitItem.compQuestDetailId === item.compQuestDetailId) {
+              submitItem[imgkey] = res.data.result[0].filePath;
             }
-          })
+          });
         })
         .catch((error) => {
-          console.log("fileUpload", error)
-        })
+          console.log("fileUpload", error);
+        });
+    },
+    deletePic(uploadTarget) {
+      const { e, item, imgkey } = uploadTarget;
+      console.log(e, item, imgkey);
+
+      this.submitForm.forEach((submitItem) => {
+        if (submitItem.compQuestDetailId === item.compQuestDetailId) {
+          submitItem[imgkey] = "";
+        }
+      });
     },
 
     onChange(event) {
