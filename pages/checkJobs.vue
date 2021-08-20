@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :introduceList="modalList.introduceList" @closeModal="closeModal" />
+    <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :introduceList="modalList.introduceList" @closeModal="closeModal" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
   </div>
 </template>
@@ -41,6 +41,7 @@ import FormFooter from "../components/pages/FormFooter.vue";
 import Notice from "../components/Notice.vue";
 import Modal from "../components/Modal.vue";
 import css from "../assets/css/index.css";
+
 
 export default {
   layout: "checkForm",
@@ -295,7 +296,8 @@ export default {
           this.modalList = {
             headerText: "說明",
             title: val.title,
-            introduceList: val.content
+            introduceList: val.content,
+            contentType:val.type
           };
           this.openModal = true;
           break;
@@ -303,7 +305,8 @@ export default {
           this.modalList = {
             headerText: "法規",
             title: val.title,
-            introduceList: val.content
+            introduceList: val.content,
+            contentType:val.type
           };
           this.openModal = true;
           break;
@@ -311,7 +314,8 @@ export default {
           this.modalList = {
             headerText: "事故要因範例",
             title: val.title,
-            introduceList: val.content
+            introduceList: val.content,
+            contentType:val.type
           };
           this.openModal = true;
           break;
@@ -319,7 +323,8 @@ export default {
           this.modalList = {
             headerText: "改善建議",
             title: val.title,
-            introduceList: val.content
+            introduceList: val.content,
+            contentType:val.type
           };
           this.openModal = true;
           break;
@@ -391,6 +396,7 @@ export default {
       if (value) this.nexyOrPreType = value
       switch (this.nexyOrPreType) {
         case 'next':
+          window.scrollTo(0, 0);
           if(this.defaultStep < this.list[this.defaultMenu - 1].typeList.length) {
             this.defaultStep++
           } else {
@@ -402,6 +408,7 @@ export default {
           break;
         case 'prev':
           if(this.defaultStep > 1) {
+            window.scrollTo(0, 0);
             this.defaultStep--
           } else {
             if(this.defaultMenu > 1){
@@ -436,6 +443,10 @@ export default {
     }
   },
   mounted() {
+    window.onbeforeunload = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
     Promise.all([
       this.getModel(),
       this.getModelItem(),

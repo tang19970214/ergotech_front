@@ -11,15 +11,16 @@
         <!--body-->
         <div class="w-full p-6 box-border flex flex-col justify-center">
           <strong class="text-primary mb-1">{{title}}</strong>
-          <span v-html="introduceList"></span>
-          <!-- <ul>
-            <li class="text-sm font-semibold py-1" v-for="(t, idx) in introduceArr" :key="idx">
+          <span v-if="contentType==='help' || contentType==='accident'" v-html="introduceList"></span>
+          <span v-else-if="contentType === 'regulation'" v-html="regulationArr(introduceList)"></span>
+          <ul v-else-if="contentType === 'suggest'">
+            <li class="flex text-sm font-semibold py-1" v-for="(t, idx) in introduceArr(introduceList)" :key="idx" >
               <span v-if="headerText == '改善建議'">
-                <input type="checkBox">
+                <input  type="checkBox" class="h-5 mr-1 ml-1">
               </span>
-              {{t}}
+              <p class="ml-1">{{t.title}}</p>
             </li>
-          </ul> -->
+          </ul>
         </div>
         <!--footer-->
         <div class="w-full py-2 px-4 text-right">
@@ -49,6 +50,9 @@ export default {
       type: [Array, String],
       required: true,
     },
+    contentType: {
+      type: String,
+    }
   },
   methods: {
     closeModal() {
@@ -57,13 +61,23 @@ export default {
   },
   computed: {
     introduceArr () {
-      let arr = new Array()
-      if (Array.isArray(this.introduceList)) {
-        arr = this.introduceList
-        } else {
-        arr = this.introduceList.split(',')
+     return (item) => {
+       let introduceArr = JSON.parse(item)
+       return introduceArr
+     }
+    },
+    regulationArr() {
+      return (item) => {
+        console.log(item)
+        let StringTemplate = ''
+        item.forEach(element => {
+          if(element.title !=='') {
+            StringTemplate = `${StringTemplate}<p>${element.title}<a href="${element.links}" target="blank"> <i class="iconfont icon-link-url"> </i></a></p>`
+          }
+        });
+        if (StringTemplate === '') StringTemplate = '<p>無</p>'
+        return StringTemplate
       }
-      return arr
     }
   }
 };

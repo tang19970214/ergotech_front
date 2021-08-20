@@ -41,7 +41,11 @@
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
               <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">不符合
-              <img v-if="singleRadio == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+              <img v-if="item.submitItem.checkResult == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
+            </label>
+            <label class="text-sm flex items-center font-semibold mr-4">
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">部分符合
+              <img v-if="item.submitItem.checkResult == '4'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`})">
             </label>
             <label class="text-sm flex items-center font-semibold">
               <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="3">不適用

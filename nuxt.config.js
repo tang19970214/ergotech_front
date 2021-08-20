@@ -41,7 +41,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "@/assets/css/index.css"
+    "@/assets/css/index.css",
+    "@/assets/css/iconfont.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -49,7 +50,8 @@ export default {
     '~/plugins/apis',
     '~/plugins/day',
     '~/plugins/font-awesome',
-    '~/plugins/sweet-alert'
+    '~/plugins/sweet-alert',
+    {src: '@/assets/js/iconfont.js', ssr: false} // ssr: false 代表只會在客戶端被打包引入
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
