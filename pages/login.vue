@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       temp: {
-        account: "jungT02",
+        account: "JungT03",
         password: "123456",
       },
     };
