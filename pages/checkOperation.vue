@@ -2,17 +2,30 @@
   <div class="w-full h-full">
     <div class="py-4 px-0 text-center sm:py-6 sm:px-16 sm:text-left box-border">
       <div class="mb-4 sm:mb-6">
-        <strong class="checkOperationTitle relative text-lg sm:text-2xl">檢核作業</strong>
+        <strong class="checkOperationTitle relative text-lg sm:text-2xl"
+          >檢核作業</strong
+        >
       </div>
 
-      <Tabs :tabList="tabList" :defaultTab="defaultTab" @changeTab="changeTab" />
+      <Tabs
+        :tabList="tabList"
+        :defaultTab="defaultTab"
+        @changeTab="changeTab"
+      />
 
       <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
       <Table2 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 2" />
       <Table3 :tableList="list" v-if="defaultTab == 3" />
     </div>
 
-    <Pagination @plusPage="changePage" @minusPage="changePage" />
+    <Pagination
+      @plusPage="changePage"
+      @minusPage="changePage"
+      @onChange="changePage"
+      :page="listQuery.page"
+      :limit="listQuery.limit"
+      :total="total"
+    />
   </div>
 </template>
 
@@ -29,11 +42,12 @@ export default {
     return {
       listQuery: {
         page: 1,
-        limit: 10,
+        limit: 3,
         key: undefined,
         isResult: false,
-        resultStatus: ''
+        resultStatus: "",
       },
+      total: 0,
       defaultTab: 1,
       tabList: [
         { id: 1, text: "待執行作業", text_phone: "待執行" },
@@ -94,19 +108,22 @@ export default {
       list: [],
     };
   },
-  watch: {
-    //21-07-06 TAO,
-    //監聽listQuery.page變化時,非同步call api
-    "listQuery.page": function (val, oldVal) {
-      console.log("val:" + val, "oldVal:" + oldVal);
-      // this.getList();
-    },
-  },
+  // watch: {
+  //   //21-07-06 TAO,
+  //   //監聽listQuery.page變化時,非同步call api
+  //   "listQuery.page": function (val, oldVal) {
+  //     console.log("val:" + val, "oldVal:" + oldVal);
+  //     // this.getList();
+  //   },
+  // },
   methods: {
-    async getList() {
+    getList() {
       this.$store.dispatch("handleLoading", true);
-      await this.$api.LoadClientMission(this.listQuery).then((res) => {
+      this.$api.LoadClientMission(this.listQuery).then((res) => {
         this.list = res.data.data;
+        this.total = res.data.count;
+        console.log(res);
+        console.log(this.total);
         setTimeout(() => {
           this.$store.dispatch("handleLoading", false);
         }, 500);
@@ -116,7 +133,9 @@ export default {
     //21-07-05 TAO,
     //接收來自component的頁數,用來call api
     changePage(page) {
+      console.log(page);
       this.listQuery.page = page;
+      this.getList()
       // console.log(page);
     },
     changeTab(id) {
@@ -126,7 +145,7 @@ export default {
         case 1:
           // 待執行 isResult: false
           this.listQuery.isResult = false;
-          this.listQuery.resultStatus = '';
+          this.listQuery.resultStatus = "";
           break;
         case 2:
           // 檢核中 isResult: true , resultResult: true
@@ -135,15 +154,15 @@ export default {
           break;
         case 3:
           // 已完成 resultStatus: false
-          this.listQuery.isResult = '';
+          this.listQuery.isResult = "";
           this.listQuery.resultStatus = false;
           break;
         default:
           this.listQuery.isResult = false;
-          this.listQuery.resultStatus = '';
+          this.listQuery.resultStatus = "";
           break;
       }
-      this.getList()
+      this.getList();
     },
     goCheck1(id) {
       console.log(id);

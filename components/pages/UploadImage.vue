@@ -1,77 +1,100 @@
 <template>
+  <div class="">
     <div class="uploadContainer" :class="uploadTextObj" @click="openUpload">
-        <input type="file" ref="input" id="uplaod" @change="fileUpload($event, item, imgKey)" accept="image/*" >
-        <img :src="PROCESSENVIMGSRC+item[imgKey]" alt="" v-if="!!item[imgKey]">
-        <img :src="showImage" alt="" v-else>
+      <input
+        type="file"
+        ref="input"
+        id="uplaod"
+        @change="fileUpload($event, item, imgKey)"
+        accept="image/*"
+      />
+      <img
+        :src="PROCESSENVIMGSRC + item[imgKey]"
+        alt=""
+        v-if="!!item[imgKey]"
+      />
+      <img :src="showImage" alt="" v-else />
     </div>
+    <div class="trash">
+        <img 
+        :src="showTrashImage" alt=""
+        v-if="!!item[imgKey]"
+        @click ="deletePic($event, item, imgKey)"
+        >
+    </div>
+  </div>
 </template>
 
 
 
 <script>
 export default {
-    props:{
-        item: {
-            type: [Object],
-            require:true
-        },
-        imgKey: {
-            type: [String],
-            require: true
-        }
+  props: {
+    item: {
+      type: [Object],
+      require: true,
     },
-    data(){
-        return{
-            PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL,
-            showImage: require("../../assets/images/uploadImg.png"),
-            // uploadTextObj: {
-            //     uploadText: true,
-            //     NoUploadText: false,
-            // },
-        }
+    imgKey: {
+      type: [String],
+      require: true,
     },
-    computed:{
-        uploadTextObj() {
-            let uploadText = true
-            let NoUploadText = false
-            if (!!this.item[this.imgKey]) {
-                uploadText = !uploadText
-                NoUploadText = !NoUploadText
-            }
-            return {uploadText, NoUploadText}
-        }
+  },
+  data() {
+    return {
+      PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL,
+      showImage: require("../../assets/images/uploadImg.png"),
+      showTrashImage: require("../../assets/images/trash.webp"),
+      // uploadTextObj: {
+      //     uploadText: true,
+      //     NoUploadText: false,
+      // },
+    };
+  },
+  computed: {
+    uploadTextObj() {
+      let uploadText = true;
+      let NoUploadText = false;
+      if (!!this.item[this.imgKey]) {
+        uploadText = !uploadText;
+        NoUploadText = !NoUploadText;
+      }
+      return { uploadText, NoUploadText };
     },
-    methods: {
-        openUpload () {
-            this.$refs.input.click()      
-        },
-        fileUpload(e,item,imgkey){
-            // console.log('fileUpload');
-            this.$emit('fileUpload',{e, item, imgkey})
-        },
-
+  },
+  methods: {
+    openUpload() {
+      this.$refs.input.click();
+    },
+    fileUpload(e, item, imgkey) {
+      console.log('fileUpload',e, item, imgkey);
+      this.$emit("fileUpload", { e, item, imgkey });
+    },
+    deletePic(e, item, imgkey){
+         console.log('fileUpload',e, item, imgkey);
+        this.$emit("deletePic", { e, item, imgkey });
     }
-}
+  },
+};
 </script>
 
 <style scoped>
-.uploadContainer{
-    width: 80px;
-    height: 80px;
-    border-radius: 2px;
-    border: 1px solid #000000;
-    cursor: pointer;
-    overflow: hidden;
-    margin-right: 8px;
-    margin-bottom: 4px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.uploadContainer {
+  width: 80px;
+  height: 80px;
+  border-radius: 2px;
+  border: 1px solid #000000;
+  cursor: pointer;
+  overflow: hidden;
+  margin-right: 8px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.uploadContainer img{
-   margin-bottom: 4px;
+.uploadContainer img {
+  margin-bottom: 4px;
 }
 .uploadContainer input {
   display: none;
@@ -85,5 +108,11 @@ export default {
 .NoUploadText::after {
   display: none;
 }
-
+.trash{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 8px;
+}
 </style>
