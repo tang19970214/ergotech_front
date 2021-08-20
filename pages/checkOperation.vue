@@ -18,7 +18,14 @@
       <Table3 :tableList="list" v-if="defaultTab == 3" />
     </div>
 
-    <Pagination @plusPage="changePage" @minusPage="changePage" />
+    <Pagination
+      @plusPage="changePage"
+      @minusPage="changePage"
+      @onChange="changePage"
+      :page="listQuery.page"
+      :limit="listQuery.limit"
+      :total="total"
+    />
   </div>
 </template>
 
@@ -35,11 +42,12 @@ export default {
     return {
       listQuery: {
         page: 1,
-        limit: 10,
+        limit: 3,
         key: undefined,
         isResult: false,
         resultStatus: "",
       },
+      total: 0,
       defaultTab: 1,
       tabList: [
         { id: 1, text: "待執行作業", text_phone: "待執行" },
@@ -100,19 +108,22 @@ export default {
       list: [],
     };
   },
-  watch: {
-    //21-07-06 TAO,
-    //監聽listQuery.page變化時,非同步call api
-    "listQuery.page": function (val, oldVal) {
-      console.log("val:" + val, "oldVal:" + oldVal);
-      // this.getList();
-    },
-  },
+  // watch: {
+  //   //21-07-06 TAO,
+  //   //監聽listQuery.page變化時,非同步call api
+  //   "listQuery.page": function (val, oldVal) {
+  //     console.log("val:" + val, "oldVal:" + oldVal);
+  //     // this.getList();
+  //   },
+  // },
   methods: {
-    async getList() {
+    getList() {
       this.$store.dispatch("handleLoading", true);
-      await this.$api.LoadClientMission(this.listQuery).then((res) => {
+      this.$api.LoadClientMission(this.listQuery).then((res) => {
         this.list = res.data.data;
+        this.total = res.data.count;
+        console.log(res);
+        console.log(this.total);
         setTimeout(() => {
           this.$store.dispatch("handleLoading", false);
         }, 500);
@@ -122,7 +133,9 @@ export default {
     //21-07-05 TAO,
     //接收來自component的頁數,用來call api
     changePage(page) {
+      console.log(page);
       this.listQuery.page = page;
+      this.getList()
       // console.log(page);
     },
     changeTab(id) {
