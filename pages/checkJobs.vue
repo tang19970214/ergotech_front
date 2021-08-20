@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <Modal :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :introduceList="modalList.introduceList" @closeModal="closeModal" />
+    <Modal :submitForm="submitForm" :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :targetItem="modalList.targetItem" :introduceList="modalList.introduceList" @closeModal="closeModal" :currentSugNum="modalList.currentSugNum" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
   </div>
 </template>
@@ -286,11 +286,13 @@ export default {
     },
 
     /* component */
-    openFormModal(val) {
+    openFormModal(value) {
       /**
        * params: type,content, title
        * 
       */
+     let val = JSON.parse(JSON.stringify(value))
+     console.log(val);
       switch (val.type) {
         case "help":
           this.modalList = {
@@ -324,7 +326,9 @@ export default {
             headerText: "改善建議",
             title: val.title,
             introduceList: val.content,
-            contentType:val.type
+            contentType:val.type,
+            targetItem: val.targetItem,
+            currentSugNum: val.currentSugNum
           };
           this.openModal = true;
           break;
