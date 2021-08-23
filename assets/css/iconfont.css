@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2677711 */
-  src: url('../fonts/iconfont.woff2?t=1629427882744') format('woff2'),
-       url('../fonts/iconfont.woff?t=1629427882744') format('woff'),
-       url('../fonts/iconfont.ttf?t=1629427882744') format('truetype');
+  src: url('../fonts//iconfont.woff2?t=1629712053070') format('woff2'),
+       url('../fonts//iconfont.woff?t=1629712053070') format('woff'),
+       url('../fonts//iconfont.ttf?t=1629712053070') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,42 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-liao:before {
+  content: "\e63d";
+}
+
+.icon-ren:before {
+  content: "\e63e";
+}
+
+.icon-zhongfuxingzuoyeshanghai:before {
+  content: "\e63f";
+}
+
+.icon-fa:before {
+  content: "\e640";
+}
+
+.icon-ji:before {
+  content: "\e641";
+}
+
+.icon-huan:before {
+  content: "\e642";
+}
+
+.icon-zuzhi:before {
+  content: "\e643";
+}
+
+.icon-guanli:before {
+  content: "\e644";
+}
+
+.icon-a-bx_bxs-download1:before {
+  content: "\e63c";
 }
 
 .icon-link-url:before {

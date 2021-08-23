@@ -101,10 +101,11 @@ export default {
         item.forEach(element => {
           if(element.title !=='') {
             let filesArr = JSON.parse(element.files);
+            console.log(filesArr);
             let fileToStringTag = ''
             filesArr.forEach((filesItem) => {
               if(!!filesItem.file && !!filesItem.fileName) {
-                fileToStringTag = `${fileToStringTag}<a href="${this.PROCESSENVIMGSRC + filesItem.file}" download taget="_blank">${file.fileName}</a>`
+                fileToStringTag = `${fileToStringTag}<a href="${this.PROCESSENVIMGSRC + filesItem.file}" download="${filesItem.fileName}" target="_blank">${filesItem.fileName} <i class="iconfont icon-a-bx_bxs-download1"> </i></a>`
               }
             })
             console.log(element)
