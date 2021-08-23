@@ -195,10 +195,11 @@ export default {
           })
 
           modulesKeysArray.forEach((keyName,index)=>{
-            let obj = {id:index + 1,modelName: keyName, typeList:[]}
+            let obj = {id:index + 1,modelName: keyName, typeList:[], modelIcon: ''}
             itemList.forEach(innerItem => {
               if(obj.modelName === innerItem.modelName){
                 obj.typeList.push(innerItem)
+                obj.modelIcon = innerItem?.detaiList[0]?.modelIcon
               }
             })
             list.push(obj)

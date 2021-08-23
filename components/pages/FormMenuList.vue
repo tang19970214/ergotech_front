@@ -42,9 +42,9 @@
     <div class="hidden md:block w-72 shadow-md">
       <div class="relative w-full p-4 bg-white border-b box-border flex items-center justify-between cursor-pointer" :class="{'bg-menuActive text-white': item.id == defaultMenu, 'hover:bg-gray-100': item.id !== defaultMenu}" v-for="item in menuList" :key="item.id" @click="changeMenu(item.id)">
         <div class="w-full flex items-center">
-          <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu">
-          <img class="mr-2" :src="item.icon" :alt="item.title" v-else>
-
+          <!-- <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu"> -->
+          <!-- <img class="mr-2" :src="item.icon" :alt="item.title" v-else> -->
+          <i class="mr-2 iconfont text-3xl" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
           <strong class="text">{{item.modelName}}</strong>
           <!-- <p class="text-sm">{{item.introduce}}</p> -->
         </div>
