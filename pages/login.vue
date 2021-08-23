@@ -15,12 +15,12 @@
         <form id="form" novalidate>
           <label class="text-sm font-bold">帳號</label>
           <div class="w-full mt-2 mb-6">
-            <input v-model="temp.account" class="w-64 md:w-80 p-1 border" type="text">
+            <input v-model.trim="temp.account" class="w-64 md:w-80 p-1 border" type="text">
           </div>
 
           <label class="text-sm font-bold">密碼</label>
           <div class="w-full mt-2">
-            <input v-model="temp.password" class="w-64 md:w-80 p-1 border" type="text">
+            <input v-model.trim="temp.password" class="w-64 md:w-80 p-1 border" type="text">
           </div>
         </form>
 
@@ -36,8 +36,10 @@ export default {
   data() {
     return {
       temp: {
-        account: "JungT03",
-        password: "123456",
+        account: "",
+        password: "",
+        // account: "JungT03",
+        // password: "123456",
       },
     };
   },

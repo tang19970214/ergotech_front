@@ -3,13 +3,13 @@
     <div
       class="w-full p-4 sm:p-6 box-border bg-white"
       :class="{ 'border-b': item !== 5 }"
-      v-for="(item, index) in list"
+      v-for="(item) in list"
       :key="item.id"
     >
       <div class="w-full flex items-start justify-between flex-col lg:flex-row">
         <div class="w-full text-left">
           <strong class="text-sm sm:text-lg">{{
-            `${defaultStep}-${index + 1} ${item.detailName}`
+            `${item.detailNo} ${item.detailName}`
           }}</strong>
         </div>
         <div
@@ -57,7 +57,7 @@
                   openFormModal({
                     type: 'help',
                     content: item.description,
-                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                    title: `${item.detailNo}${item.detailName}`,
                   })
                 "
               />
@@ -71,7 +71,7 @@
                   openFormModal({
                     type: 'accident',
                     content: item.caseExample,
-                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                    title: `${item.detailNo}${item.detailName}`,
                   })
                 "
               />
@@ -85,7 +85,7 @@
                   openFormModal({
                     type: 'regulation',
                     content: item.compQuestDetailRegulation,
-                    title: `${defaultStep}-${index + 1}${item.detailName}`,
+                    title: `${item.detailNo}${item.detailName}`,
                   })
                 "
               />
@@ -122,12 +122,12 @@
               />符合
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">不符合
-              <img v-if="item.submitItem.checkResult == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">不符合
+              <img v-if="item.submitItem.checkResult == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">部分符合
-              <img v-if="item.submitItem.checkResult == '4'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${defaultStep}-${index + 1}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">
+              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">部分符合
+              <img v-if="item.submitItem.checkResult == '4'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">
             </label>
             <label class="text-sm flex items-center font-semibold">
               <input

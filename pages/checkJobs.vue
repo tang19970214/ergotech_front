@@ -133,6 +133,17 @@ export default {
           if (code === 200) {
           // 先取出所有的問題
           let listResult = result['compQuests'][0]['compQuestDetails'];
+          // 排序
+          listResult.sort((itemA,itemB)=> {
+            let diffStatus = -1
+            let detailNoA = itemA.detailNo.split('-')
+            let detailNoB = itemB.detailNo.split('-')
+            if(+detailNoA[0] <= +detailNoB[0] && +detailNoA[1] < +detailNoB[1]) {
+              diffStatus = +1
+            }   
+            return diffStatus
+          })
+          listResult.reverse()
           this.submitForm = [];
           listResult.forEach((item) => {
             let obj = {
