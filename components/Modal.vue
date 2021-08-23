@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       suggestCheckList: [],
+      PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL
     }
   },
   methods: {
@@ -99,7 +100,15 @@ export default {
         let StringTemplate = ''
         item.forEach(element => {
           if(element.title !=='') {
-            StringTemplate = `${StringTemplate}<a href="${element.links}" target="blank"><p>${element.title}  <i class="iconfont icon-link-url"> </p></i></a>`
+            let filesArr = JSON.parse(element.files);
+            let fileToStringTag = ''
+            filesArr.forEach((filesItem) => {
+              if(!!filesItem.file && !!filesItem.fileName) {
+                fileToStringTag = `${fileToStringTag}<a href="${this.PROCESSENVIMGSRC + filesItem.file}" download taget="_blank">${file.fileName}</a>`
+              }
+            })
+            console.log(element)
+            StringTemplate = `${StringTemplate}<div><a href="${element.links}" target="_blank"><span>${element.title}  <i class="iconfont icon-link-url"> </span></i></a>${fileToStringTag}</div>`
           }
         });
         if (StringTemplate === '') StringTemplate = '<p>無</p>'
