@@ -43,7 +43,7 @@ export default {
     return {
       listQuery: {
         page: 1,
-        limit: 3,
+        limit: 10,
         key: undefined,
         isResult: false,
         resultStatus: "",
@@ -150,16 +150,19 @@ export default {
           // 待執行 isResult: false
           this.listQuery.isResult = false;
           this.listQuery.resultStatus = "";
+          this.listQuery.page = 1
           break;
         case 2:
           // 檢核中 isResult: true , resultResult: true
           this.listQuery.isResult = true;
           this.listQuery.resultStatus = true;
+          this.listQuery.page = 1
           break;
         case 3:
           // 已完成 resultStatus: false
           this.listQuery.isResult = "";
           this.listQuery.resultStatus = false;
+          this.listQuery.page = 1
           break;
         default:
           this.listQuery.isResult = false;
