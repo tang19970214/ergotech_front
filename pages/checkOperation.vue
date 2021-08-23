@@ -19,12 +19,13 @@
     </div>
 
     <Pagination
-      @plusPage="changePage"
-      @minusPage="changePage"
-      @onChange="changePage"
+      @plusPage="listQuery.page=$event"
+      @minusPage="listQuery.page=$event"
+      @onChange="listQuery.page=$event"
       :page="listQuery.page"
       :limit="listQuery.limit"
       :total="total"
+      :listsize="list.length"
     />
   </div>
 </template>
@@ -47,6 +48,7 @@ export default {
         isResult: false,
         resultStatus: "",
       },
+      listsize:null,
       total: 0,
       defaultTab: 1,
       tabList: [
@@ -108,35 +110,37 @@ export default {
       list: [],
     };
   },
-  // watch: {
-  //   //21-07-06 TAO,
-  //   //監聽listQuery.page變化時,非同步call api
-  //   "listQuery.page": function (val, oldVal) {
-  //     console.log("val:" + val, "oldVal:" + oldVal);
-  //     // this.getList();
-  //   },
-  // },
+  watch: {
+    'listQuery.page':{
+       handler(){
+         this.getList()
+       }
+    },
+    
+  },
   methods: {
+    // forceRerender(){
+    //    // Remove my-component from the DOM
+    //     this.renderComponent = false;
+
+    //     this.$nextTick(() => {
+    //       // Add the component back in
+    //       this.renderComponent = true;
+    //     });
+    // },
     getList() {
       this.$store.dispatch("handleLoading", true);
       this.$api.LoadClientMission(this.listQuery).then((res) => {
         this.list = res.data.data;
+        this.listsize = this.list.length
         this.total = res.data.count;
-        console.log(res);
-        console.log(this.total);
+        // console.log(res);
+        // console.log(this.total);
         setTimeout(() => {
           this.$store.dispatch("handleLoading", false);
         }, 500);
-        console.log(this.list);
+        console.log(this.list.length);
       });
-    },
-    //21-07-05 TAO,
-    //接收來自component的頁數,用來call api
-    changePage(page) {
-      console.log(page);
-      this.listQuery.page = page;
-      this.getList()
-      // console.log(page);
     },
     changeTab(id) {
       // TODO:看之後要不要判斷同一個按鈕就不要Reload

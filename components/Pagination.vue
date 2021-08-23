@@ -20,7 +20,7 @@
     <div class="flex flex-col sm:flex-row">
       <div class="flex items-center mr-0 sm:mr-6">
         <strong>總筆數：</strong>
-        <p class="text-primary">{{ total }}</p>
+        <p class="text-primary">{{ listsize }}</p>
       </div>
       <div class="flex items-center mr-0 sm:mr-6">
         <strong>總頁數：</strong>
@@ -41,7 +41,7 @@
       <button
         class="w-8 h-8 flex items-center justify-center border rounded mr-1"
       >
-        <strong class="text-sm">{{ page }}</strong>
+        <strong class="text-sm">{{ componentpage }}</strong>
       </button>
       <!-- 下一頁 -->
       <button
@@ -61,12 +61,10 @@
         @change="onChange"
       >
         <option
-          v-for="(number, index) in allPages"
-          :label="number"
-          :value="number"
+          v-for="(page, index) in allPages"
           :key="index"
         >
-          {{ number }}
+          {{ page }}
         </option>
       </select>
       <strong class="text-sm">頁</strong>
@@ -88,16 +86,26 @@ export default {
     total: {
       type: Number,
     },
+    listsize: {
+      type: Number,
+    },
   },
   data() {
     return {
+      optionPage:null,
       minActive: false,
       plusActive: false,
+      componentpage:null,
     };
   },
   mounted() {
-    if (this.page == 1) {
-      this.isBtnDisabled = true;
+   this.componentpage = this.page
+  //  console.log(this.page);
+  },
+  watch:{
+    componentpage(val){
+      console.log(val);
+      this.optionPage = val
     }
   },
   computed: {
@@ -111,11 +119,11 @@ export default {
     // }
     plusPage() {
       
-      if (this.page == this.allPages) {
+      if (this.componentpage === this.allPages) {
         this.plusActive = true;
       } else {
-        this.page += 1;
-        this.$emit("plusPage", this.page);
+        this.componentpage += 1;
+        this.$emit("plusPage", this.componentpage);
         this.minActive = false;
        
       }
@@ -123,10 +131,10 @@ export default {
       // console.log("plusActive",this.plusActive);
     },
     minusPage() {
-      if (this.page >= 2) {
+      if (this.componentpage >= 2) {
         this.plusActive = false;
-        this.page -= 1;
-        this.$emit("minusPage", this.page);
+        this.componentpage -= 1;
+        this.$emit("minusPage", this.componentpage);
       } else {
         this.minActive = true;
       }
@@ -134,11 +142,9 @@ export default {
       // console.log("plusActive",this.plusActive);
     },
     onChange(event) {
-      // console.log("change");
-      this.page = event.target.value * 1;
-      console.log(this.page);
-      // console.log(event.target.value);
-      this.$emit("onChange", this.page);
+      
+      this.componentpage = event.target.value * 1;
+      this.$emit("onChange", this.componentpage);
     },
   },
 };
