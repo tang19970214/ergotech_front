@@ -44,7 +44,7 @@
         <div class="w-full flex items-center">
           <!-- <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu"> -->
           <!-- <img class="mr-2" :src="item.icon" :alt="item.title" v-else> -->
-          <i class="mr-2 iconfont text-3xl" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
+          <i class="mr-2 text-3xl iconfont" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
           <strong class="text">{{item.modelName}}</strong>
           <!-- <p class="text-sm">{{item.introduce}}</p> -->
         </div>
