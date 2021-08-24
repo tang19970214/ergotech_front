@@ -23,9 +23,9 @@
           <div class="absolute top-12 left-0 w-full z-20" v-if="openMenu">
             <div class="w-full h-12 px-4 box-border flex items-center bg-white shadow" :class="{'bg-menuActive text-white': item.id == defaultMenu}" v-for="item in menuList" :key="item.id" @click="changeMenu(item.id)">
               <div class="w-full flex items-center">
-                <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu">
-                <img class="mr-2" :src="item.icon" :alt="item.title" v-else>
-
+                <!-- <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu"> -->
+                <!-- <img class="mr-2" :src="item.icon" :alt="item.title" v-else> -->
+                <i class="mr-2 text-3xl text-3xl-im iconfont" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
                 <strong class="text-lg">{{item.modelName}}</strong>
                 <!-- <p class="text-sm">{{item.introduce}}</p> -->
               </div>
@@ -44,7 +44,7 @@
         <div class="w-full flex items-center">
           <!-- <img class="mr-2" :src="item.icon_active" :alt="item.title" v-if="item.id == defaultMenu"> -->
           <!-- <img class="mr-2" :src="item.icon" :alt="item.title" v-else> -->
-          <i class="mr-2 text-3xl iconfont" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
+          <i class="mr-2 text-3xl text-3xl-im iconfont" :class="[item.modelIcon,item.id !== defaultMenu ? 'text-primary':'text-white']"></i>
           <strong class="text">{{item.modelName}}</strong>
           <!-- <p class="text-sm">{{item.introduce}}</p> -->
         </div>
@@ -106,3 +106,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.text-3xl-im{
+  font-size: 1.875rem !important;
+}  
+</style>
