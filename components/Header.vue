@@ -8,7 +8,7 @@
 
         <div class="w-full h-full px-6 box-border flex items-center justify-end sm:justify-between">
           <div class="hidden sm:block flex items-center">
-            <label class="text-white text-sm">公司名 首頁</label>
+            <label class="text-white text-sm">公司名 {{userInfo.organizations}}</label>
           </div>
 
           <!-- 下拉 -->
@@ -67,11 +67,11 @@
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">手機號碼</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" placeholder="0987654321">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.phone" placeholder="0987654321">
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">email</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" placeholder="abcde123456@gmail.com">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.email" placeholder="abcde123456@gmail.com">
               </div>
             </form>
           </div>
