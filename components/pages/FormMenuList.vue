@@ -10,7 +10,7 @@
           </div>
 
           <div>
-            <strong class="text-sm text-warning">(0/{{caculateTotalDetailNumber(menuList[defaultMenu - 1])}})</strong>
+            <strong class="text-sm text-warning">({{caculateTotalDetailCheckedNumber(menuList[defaultMenu - 1])}}/{{caculateTotalDetailNumber(menuList[defaultMenu - 1])}})</strong>
           </div>
         </div>
 
@@ -31,7 +31,7 @@
               </div>
 
               <div class="w-11">
-                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(0/{{caculateTotalDetailNumber(item)}})</strong>
+                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">({{caculateTotalDetailCheckedNumber(item)}}/{{caculateTotalDetailNumber(item)}})</strong>
               </div>
             </div>
           </div>
