@@ -117,22 +117,24 @@
               <input
                 class="pr-1"
                 v-model="item.submitItem.checkResult"
+                :disabled="(readable && item.submitItem.checkResult !== '1')"
                 type="radio"
                 value="1"
               />符合
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">不符合
+              <input class="pr-1" v-model="item.submitItem.checkResult" :disabled="(readable && item.submitItem.checkResult !== '2')" type="radio" value="2" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">不符合
               <img v-if="item.submitItem.checkResult == '2'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '2'})">
             </label>
             <label class="text-sm flex items-center font-semibold mr-4">
-              <input class="pr-1" v-model="item.submitItem.checkResult" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">部分符合
+              <input class="pr-1" v-model="item.submitItem.checkResult" :disabled="(readable && item.submitItem.checkResult !== '4')" type="radio" value="4" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">部分符合
               <img v-if="item.submitItem.checkResult == '4'" class="cursor-pointer" src="@/assets/images/icon/suggest.png" alt="改善建議" @click="openFormModal({type:'suggest', content: item.suggestion, title: `${item.detailNo}${item.detailName}`,targetItem: item.submitItem, currentSugNum: '4'})">
             </label>
             <label class="text-sm flex items-center font-semibold">
               <input
                 class="pr-1"
                 v-model="item.submitItem.checkResult"
+                :disabled="(readable && item.submitItem.checkResult !== '3')"
                 type="radio"
                 value="3"
               />不適用
@@ -150,18 +152,24 @@
             <UploadImage
               :item="item.submitItem"
               :imgKey="'pic1'"
+              :readable="readable"
+              @openImg="openImg"
               @fileUpload="fileUpload"
               @deletePic="deletePic"
             />
             <UploadImage
               :item="item.submitItem"
               :imgKey="'pic2'"
+              :readable="readable"
+              @openImg="openImg"
               @fileUpload="fileUpload"
               @deletePic="deletePic"
             />
             <UploadImage
               :item="item.submitItem"
               :imgKey="'pic3'"
+              :readable="readable"
+              @openImg="openImg"
               @fileUpload="fileUpload"
               @deletePic="deletePic"
             />
@@ -199,6 +207,7 @@
             <textarea
               class="w-full h-20 p-2 border"
               v-model="item.submitItem.description"
+              :disabled="readable"
             ></textarea>
           </div>
         </div>
@@ -227,6 +236,10 @@ export default {
       type: [Array, Object],
       require: true,
     },
+    readable: {
+      type: Boolean,
+      require: true
+    }
   },
   data() {
     return {
@@ -363,7 +376,11 @@ export default {
 };
 </script>
 
-
+<style scoped>
+  input[type="radio"]:disabled {
+    background-color: red;
+  }
+</style>
 <style>
 /* .uploadContainer input {
   display: none;

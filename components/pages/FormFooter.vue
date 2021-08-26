@@ -16,12 +16,12 @@
           </button>
 
           <!-- 暫存 -->
-          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" @click="formBtn('save')">
+          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" v-if="!readable" @click="formBtn('save')">
             <strong class="text-sm text-white">暫存</strong>
           </button>
 
           <!-- 送出 -->
-          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" @click="formBtn('send')">
+          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" v-if="!readable" @click="formBtn('send')">
             <strong class="text-sm text-white">送出</strong>
           </button>
         </div>
@@ -43,12 +43,12 @@
         </button>
 
         <!-- 暫存 -->
-        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" @click="formBtn('save')">
+        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" v-if="!readable" @click="formBtn('save')">
           <strong class="text-sm text-white">暫存</strong>
         </button>
 
         <!-- 送出 -->
-        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" @click="formBtn('send')">
+        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" v-if="!readable" @click="formBtn('send')">
           <strong class="text-sm text-white">送出</strong>
         </button>
       </div>
@@ -64,6 +64,10 @@ export default {
       require: true
     },
     stepPreStatus: {
+      type: Boolean,
+      require: true
+    },
+    readable: {
       type: Boolean,
       require: true
     }

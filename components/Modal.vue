@@ -16,7 +16,7 @@
           <ul v-else-if="contentType === 'suggest'" class="modal-mh-50">
             <li class="flex text-sm font-semibold py-1" v-for="(t, idx) in introduceArr(introduceList)" :key="idx" >
               <span v-if="headerText == '改善建議'">
-                <input  type="checkbox" class="h-5 mr-1 ml-1" :value="t.id" v-model="suggestCheckList">
+                <input  type="checkbox" class="h-5 mr-1 ml-1" :value="t.id" v-if="!readable" v-model="suggestCheckList">
               </span>
               <p class="ml-1">{{t.title}}</p>
             </li>
@@ -65,6 +65,10 @@ export default {
     },
     currentSugNum:{
       type: [String, Number]
+    },
+    readable: {
+      type: Boolean,
+      require: true
     }
   },
   data() {

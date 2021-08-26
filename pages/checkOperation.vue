@@ -15,7 +15,7 @@
 
       <Table1 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 1" />
       <Table2 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 2" />
-      <Table3 :tableList="list" v-if="defaultTab == 3" />
+      <Table3 :tableList="list" @goCheck="goCheck1" v-if="defaultTab == 3" />
     </div>
 
     <Pagination

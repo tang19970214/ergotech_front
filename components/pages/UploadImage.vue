@@ -5,17 +5,24 @@
         type="file"
         ref="input"
         id="uplaod"
+        :disabled="readable"
         @change="fileUpload($event, item, imgKey)"
         accept="image/*"
       />
       <img
         :src="PROCESSENVIMGSRC + item[imgKey]"
         alt=""
-        v-if="!!item[imgKey]"
+        v-if="!!item[imgKey] && !readable"
+      />
+      <img
+        :src="PROCESSENVIMGSRC + item[imgKey]"
+        alt=""
+        v-else-if="!!item[imgKey] && readable"
+        @click="openImg(item[imgKey])"
       />
       <img :src="showImage" alt="" v-else />
     </div>
-    <div class="trash">
+    <div class="trash" v-if="!readable">
         <img 
         :src="showTrashImage" alt=""
         v-if="!!item[imgKey]"
@@ -38,6 +45,10 @@ export default {
       type: [String],
       require: true,
     },
+    readable: {
+      type: Boolean,
+      require: true
+    }
   },
   data() {
     return {
@@ -62,6 +73,9 @@ export default {
     },
   },
   methods: {
+    openImg(imgSrc) {
+      this.$emit('openImg', imgSrc)
+    },
     openUpload() {
       this.$refs.input.click();
     },

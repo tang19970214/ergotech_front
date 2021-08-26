@@ -13,6 +13,11 @@
               <span class="text-white">完成日期</span>
             </div>
           </th>
+          <th class="w-20 px-4 py-2 bg-tableOperate">
+            <div class="w-full text-center">
+              <span class="text-white">操作</span>
+            </div>
+          </th>
         </tr>
       </thead>
 
@@ -26,6 +31,11 @@
           <td class="w-28 py-4">
             <div class="w-full text-center">
               <p class="text-sm font-medium">{{item.modifyDate}}</p>
+            </div>
+          </td>
+          <td class="w-20 py-4">
+            <div class="w-full text-center">
+              <button class="bg-primary py-1 px-3 text-sm text-white"  @click="goCheck(item.id)">檢視</button>
             </div>
           </td>
         </tr>
@@ -44,6 +54,12 @@ export default {
   props: {
     tableList: {
       type: Array,
+    },
+  },
+  methods: {
+    goCheck(id) {
+      console.log(id);
+      this.$emit("goCheck", id);
     },
   },
 };

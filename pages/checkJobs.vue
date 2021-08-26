@@ -8,8 +8,8 @@
 
         <div class="hidden sm:block flex items-center">
           <button class="w-16 h-8 bg-white rounded border border-gray-400 text-sm font-bold shadow mr-2" @click="goBack()">回列表</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2" @click="formBtn('save')">暫存</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" @click="formBtn('send')">送出</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2" v-if="!readable" @click="formBtn('save')">暫存</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" v-if="!readable" @click="formBtn('send')">送出</button>
         </div>
       </div>
 
@@ -21,14 +21,14 @@
 
           <!-- form -->
           <div class="w-full mt-4 shadow" v-if="list.length>0">
-            <Form @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" :submitForm="submitForm" />
+            <Form :readable="readable" @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" :submitForm="submitForm" />
           </div>
-          <FormFooter @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus"/>
+          <FormFooter :readable="readable" @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus"/>
         </div>
       </div>
     </div>
 
-    <Modal :submitForm="submitForm" :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :targetItem="modalList.targetItem" :introduceList="modalList.introduceList" @closeModal="closeModal" :currentSugNum="modalList.currentSugNum" />
+    <Modal :readable="readable" :submitForm="submitForm" :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :targetItem="modalList.targetItem" :introduceList="modalList.introduceList" @closeModal="closeModal" :currentSugNum="modalList.currentSugNum" />
     <Notice :openNotice="openNotice" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
   </div>
 </template>
@@ -62,7 +62,7 @@ export default {
         page: 1,
         limit: 999,
       },
-
+      readableStatus: true,
       defaultMenu: 1,
       defaultStep: 1,
       stepValidate: false,
@@ -222,6 +222,7 @@ export default {
         console.log(res);
         if(code === 200 && result) { // 如果有資料(result)代表是暫存，並把值帶回去submitForm
           this.missionResultId = result.id
+          this.readableStatus = result.status
           let missionResult = result.missionQuest
           missionResult.forEach((item) => {
             this.submitForm.forEach((submitItem)=> {
@@ -456,6 +457,13 @@ export default {
         status = false
       }
       return status
+    },
+    readable() {
+      /**
+       * this.readableStatus會傳回來的true 代表可以被編輯,
+       * false 代表不行被編輯，但在template上好閱讀做 BooleanItem = !BooleanItem。
+       */
+      return this.readableStatus ? false : true
     }
   },
   mounted() {

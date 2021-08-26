@@ -64,7 +64,7 @@
             <form class="w-full">
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">帳號</label>
-                <strong class="text-sm">abcde123456</strong>
+                <strong class="text-sm">{{userInfo.account}}</strong>
               </div>
               <!-- <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">密碼</label>
@@ -76,15 +76,15 @@
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">姓名</label>
-                <strong class="text-sm">王小明</strong>
+                <strong class="text-sm">{{userInfo.name}}</strong>
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">手機號碼</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" placeholder="0987654321">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.phone" placeholder="0987654321">
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">email</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" placeholder="abcde123456@gmail.com">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.email" placeholder="abcde123456@gmail.com">
               </div>
             </form>
           </div>
