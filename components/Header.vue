@@ -8,7 +8,7 @@
 
         <div class="w-full h-full px-6 box-border flex items-center justify-end sm:justify-between">
           <div class="hidden sm:block flex items-center">
-            <label class="text-white text-sm">公司名 {{userInfo.organizations}}</label>
+            <label class="text-white text-sm">{{companyName}}</label>
           </div>
 
           <!-- 下拉 -->
@@ -29,7 +29,7 @@
       </div>
 
       <div class="block sm:hidden w-full h-8 bg-white flex items-center justify-center">
-        <strong class="text-primary text-sm">公司名</strong>
+        <strong class="text-primary text-sm">{{companyName}}</strong>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
               </div> -->
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">部門</label>
-                <strong class="text-sm">生產部門</strong>
+                <strong class="text-sm">{{departmentName}}</strong>
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">姓名</label>
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       userInfo: {},
-
+      company: {},
       openSelect: false,
       optionList: [
         { id: 1, text: "使用者帳號維護" },
@@ -101,6 +101,14 @@ export default {
       // modal
       openModal: false,
     };
+  },
+  computed: {
+    companyName() {
+      return this.company.item?.parentName
+    },
+    departmentName() {
+      return this.company.item?.name
+    }
   },
   methods: {
     onBtnClick(id) {
@@ -149,9 +157,22 @@ export default {
         );
       });
     },
+    getUserCompamy () {
+      this.$api.getOrgsTree().then((res)=> {
+        console.log(res.data);
+        this.company = res.data.result[0]
+      })
+    },
+    updateUserProfile() {
+      let data = {}
+      this.$api.updateUserProfile(data).then((ress)=> {
+        console.log(res);
+      })
+    }
   },
   mounted() {
     this.getProfileList();
+    this.getUserCompamy();
   },
 };
 </script>

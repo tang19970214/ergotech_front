@@ -9,7 +9,7 @@
         <div class="hidden sm:block flex items-center">
           <button class="w-16 h-8 bg-white rounded border border-gray-400 text-sm font-bold shadow mr-2" @click="goBack()">回列表</button>
           <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2" v-if="!readable" @click="formBtn('save')">暫存</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" v-if="!readable" @click="formBtn('send')">送出</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" v-if="!readable" @click="formBtn('sendConfirm')">送出</button>
         </div>
       </div>
 
@@ -58,6 +58,7 @@ export default {
   },
   data() {
     return {
+      swalWithBootstrapButtons,
       listQuery: {
         page: 1,
         limit: 999,
@@ -305,7 +306,6 @@ export default {
        * 
       */
      let val = JSON.parse(JSON.stringify(value))
-     console.log(val);
       switch (val.type) {
         case "help":
           this.modalList = {
@@ -376,15 +376,16 @@ export default {
           }
           break;
         case "save":
-          console.log(this.submitForm)
+          this.$store.dispatch("handleLoading", true);
           await this.addMissionResult()
+          this.$store.dispatch("handleLoading", false);
           this.noticeInfo = {
             type: "success",
             message: "暫存成功",
           };
           this.openNotice = true;
           break;
-        case "send":
+        case "sendConfirm":
           let status = this.submitForm.find((submitItem)=> submitItem.checkResult === '')
           if(!!status) {
             this.nexyOrPreType = ''
@@ -395,11 +396,10 @@ export default {
             this.openNotice = true;
             return
           } else {
-            await this.UpdateMissionResult()
-            this.nexyOrPreType = 'send'
+            this.nexyOrPreType = 'sendConfirm'
             this.noticeInfo = {
-              type: "success",
-              message: "保存成功",
+              type: "warning",
+              message: "確認送出 ? ",
             };
             this.openNotice = true;
           }
@@ -409,7 +409,8 @@ export default {
     closeModal() {
       this.openModal = false;
     },
-    closeNotice(value) {
+    async closeNotice(value) {
+      console.log(this.nexyOrPreType);
       if (value) this.nexyOrPreType = value
       switch (this.nexyOrPreType) {
         case 'next':
@@ -436,6 +437,18 @@ export default {
           break;
         case 'send':
           this.goBack();
+          break;
+        case 'sendConfirm':
+          this.$store.dispatch("handleLoading", true);
+          await this.UpdateMissionResult()
+          this.$store.dispatch("handleLoading", false);
+          this.nexyOrPreType = 'send'
+          this.noticeInfo = {
+            type: "success",
+            message: "檢核完成",
+          };
+          this.openNotice = true;
+          return
           break;
         default:
           break;

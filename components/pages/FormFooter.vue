@@ -21,7 +21,7 @@
           </button>
 
           <!-- 送出 -->
-          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" v-if="!readable" @click="formBtn('send')">
+          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" v-if="!readable" @click="formBtn('sendConfirm')">
             <strong class="text-sm text-white">送出</strong>
           </button>
         </div>
@@ -48,7 +48,7 @@
         </button>
 
         <!-- 送出 -->
-        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" v-if="!readable" @click="formBtn('send')">
+        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" v-if="!readable" @click="formBtn('sendConfirm')">
           <strong class="text-sm text-white">送出</strong>
         </button>
       </div>

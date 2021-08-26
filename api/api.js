@@ -28,6 +28,21 @@ const api = {
     });
   },
 
+  updateUserProfile(data) {
+    return request({
+      url: "/Users/AddOrUpdate",
+      method: "post",
+      data
+    });
+  },
+
+  getOrgsTree() {
+    return request({
+      url: "/check/getorgstree",
+      method: "get",
+    });
+  },
+
   logout() {
     return request({
       url: "/check/logout",
