@@ -42,7 +42,7 @@
       </div>
 
       <div class="block sm:hidden w-full h-8 bg-white flex items-center justify-center">
-        <strong class="text-primary text-sm">公司名</strong>
+        <strong class="text-primary text-sm">{{companyName}}</strong>
       </div>
     </div>
 
@@ -104,6 +104,7 @@ export default {
   data() {
     return {
       userInfo: {},
+      company: {},
 
       openSelect: false,
       optionList: [
@@ -114,6 +115,11 @@ export default {
       // modal
       openModal: false,
     };
+  },
+  computed: {
+    companyName() {
+      return this.company.item?.parentName
+    },
   },
   methods: {
     onBtnClick(id) {
@@ -162,9 +168,15 @@ export default {
         );
       });
     },
+    getUserCompamy () {
+      this.$api.getOrgsTree().then((res)=> {
+        this.company = res.data.result[0]
+      })
+    },
   },
   mounted() {
     this.getProfileList();
+    this.getUserCompamy();
   },
 };
 </script>

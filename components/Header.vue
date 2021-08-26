@@ -67,17 +67,17 @@
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">手機號碼</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.phone" placeholder="0987654321">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" v-model="userSubmitform.phone" placeholder="0987654321">
               </div>
               <div class="w-full flex items-center mb-4">
                 <label class="formLabel text-sm">email</label>
-                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" :value="userInfo.email" placeholder="abcde123456@gmail.com">
+                <input type="text" class="w-full border rounded-sm text-sm px-2 py-1" v-model="userSubmitform.email" placeholder="abcde123456@gmail.com">
               </div>
             </form>
           </div>
           <!--footer-->
           <div class="w-full p-3 flex items-center justify-end">
-            <button class="py-2 px-5 bg-primary box-border text-sm font-medium text-white rounded-sm">確定</button>
+            <button class="py-2 px-5 bg-primary box-border text-sm font-medium text-white rounded-sm" @click="updateUserClient">確定</button>
           </div>
         </div>
       </div>
@@ -92,6 +92,10 @@ export default {
     return {
       userInfo: {},
       company: {},
+      userSubmitform: {
+        email:'',
+        phone: ''
+      },
       openSelect: false,
       optionList: [
         { id: 1, text: "使用者帳號維護" },
@@ -148,9 +152,24 @@ export default {
           break;
       }
     },
+    updateUserClient() {
+      let data = {
+        id: this.userInfo.id,
+        email: this.userSubmitform.email,
+        phone: this.userSubmitform.phone
+      }
+      this.$api.UpdateClient(data).then(res=> {
+        if(res.data.code == 200) {
+          this.getProfileList();
+          this.openModal = false;
+        }
+      })
+    },
     getProfileList() {
       this.$api.getUserProfile().then((res) => {
         this.userInfo = res.data.result;
+        this.userSubmitform.phone = res.data.result.phone
+        this.userSubmitform.email = res.data.result.email
         window.localStorage.setItem(
           "userInfo",
           JSON.stringify(res.data.result)
@@ -159,16 +178,9 @@ export default {
     },
     getUserCompamy () {
       this.$api.getOrgsTree().then((res)=> {
-        console.log(res.data);
         this.company = res.data.result[0]
       })
     },
-    updateUserProfile() {
-      let data = {}
-      this.$api.updateUserProfile(data).then((ress)=> {
-        console.log(res);
-      })
-    }
   },
   mounted() {
     this.getProfileList();

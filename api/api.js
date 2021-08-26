@@ -28,9 +28,9 @@ const api = {
     });
   },
 
-  updateUserProfile(data) {
+  UpdateClient(data) { //userClient
     return request({
-      url: "/Users/AddOrUpdate",
+      url: "/Users/UpdateClient",
       method: "post",
       data
     });

@@ -279,15 +279,15 @@ export default {
 
     fileUpload(uploadTarget) {
       const { e, item, imgkey } = uploadTarget;
-      console.log(e, item, imgkey);
+      // console.log(e, item, imgkey);
       const formFile = new FormData();
       formFile.append("files", e.target.files[0], e.target.files[0].name);
       this.$api
         .upload(formFile)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.submitForm.forEach((submitItem) => {
-            console.log("upload");
+            // console.log("upload");
             if (submitItem.compQuestDetailId === item.compQuestDetailId) {
               submitItem[imgkey] = res.data.result[0].filePath;
             }
@@ -299,10 +299,10 @@ export default {
     },
     deletePic(deleteTarget) {
       const {item, imgkey } = deleteTarget;
-      console.log(item, imgkey);
+      // console.log(item, imgkey);
 
       this.submitForm.forEach((submitItem) => {
-        console.log("delete");
+        // console.log("delete");
         if (submitItem.compQuestDetailId === item.compQuestDetailId) {
           submitItem[imgkey] = "";
         }

@@ -58,7 +58,6 @@ export default {
   },
   data() {
     return {
-      swalWithBootstrapButtons,
       listQuery: {
         page: 1,
         limit: 999,
@@ -94,7 +93,7 @@ export default {
     stepValidation() {
       let status
       const resultArray =  this.list[this.defaultMenu - 1].typeList[this.defaultStep - 1].detaiList.find(submitItemDetail=> submitItemDetail.submitItem.checkResult === '')
-      console.log(resultArray);
+      // console.log(resultArray);
       if (resultArray) {
         status = false
       } else {

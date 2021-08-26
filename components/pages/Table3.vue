@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     goCheck(id) {
-      console.log(id);
       this.$emit("goCheck", id);
     },
   },

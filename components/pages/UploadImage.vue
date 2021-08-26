@@ -80,11 +80,9 @@ export default {
       this.$refs.input.click();
     },
     fileUpload(e, item, imgkey) {
-      console.log('fileUpload',e, item, imgkey);
       this.$emit("fileUpload", { e, item, imgkey });
     },
-    deletePic(e, item, imgkey){
-         console.log('fileUpload',e, item, imgkey);
+    deletePic(e, item, imgkey){    
         this.$emit("deletePic", { e, item, imgkey });
     }
   },
