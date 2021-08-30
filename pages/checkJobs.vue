@@ -132,7 +132,11 @@ export default {
           const { result, code } = res.data
           if (code === 200) {
           // 先取出所有的問題
-          let listResult = result['compQuests'][0]['compQuestDetails'];
+          if( result['compQuests'][0] && result['compQuests'][0]['compQuestDetails']) {
+            let listResult = result['compQuests'][0]['compQuestDetails'];
+          } else {
+            this.$store.dispatch("handleLoading", false);
+          }
           // 排序
           listResult.sort((itemA,itemB)=> {
             let diffStatus = -1
