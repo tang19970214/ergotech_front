@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <div class="w-full text-center font-bold text-lg text-primary font-mono">企業名稱</div>
+        <div class="w-full text-center font-bold text-lg text-primary font-mono">現場檢核員</div>
 
         <form id="form" novalidate>
           <label class="text-sm font-bold">帳號</label>

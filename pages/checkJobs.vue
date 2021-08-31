@@ -132,8 +132,9 @@ export default {
           const { result, code } = res.data
           if (code === 200) {
           // 先取出所有的問題
+          let listResult
           if( result['compQuests'][0] && result['compQuests'][0]['compQuestDetails']) {
-            let listResult = result['compQuests'][0]['compQuestDetails'];
+            listResult = result['compQuests'][0]['compQuestDetails'];
           } else {
             this.$store.dispatch("handleLoading", false);
           }
@@ -249,7 +250,7 @@ export default {
       if(this.missionResultId !== ''){
         await this.AddOrUpdateDetail()
       } else {
-        let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+        let userInfo = JSON.parse(window.localStorage.getItem('userInfoClient'))
         let data = {
           userId: userInfo.id,
           checkMissionId: this.$route.params.id,
@@ -265,7 +266,7 @@ export default {
     // 送出填寫任務
     async UpdateMissionResult() {
       await this.addMissionResult()
-      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      let userInfo = JSON.parse(window.localStorage.getItem('userInfoClient'))
       let data = {
         id: this.missionResultId,
         userId: userInfo.id,

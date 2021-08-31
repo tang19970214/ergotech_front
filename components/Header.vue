@@ -2,10 +2,13 @@
   <div>
     <div class="fixed top-0 w-full z-30">
       <div class="headerBG bg-primary w-full h-14 sm:h-16 flex items-center justify-center">
-        <nuxt-link to="/checkOperation">
-          <img class="w-36 sm:w-60 h-10 sm:h-16 ml-2 sm:ml-0" src="@/assets/images/Logo.png" alt="人因工程檢核表">
+        <nuxt-link to="/checkOperation" class="min-w-max flex items-center justify-center">
+          <img class="w-18 sm:w-60 h-10 sm:h-16 ml-2 sm:ml-0 mx-1.5" src="@/assets/images/Logo.png" alt="人因工程檢核表">
+          <img class="w-18 h-10 sm:h-16" :src="this.company.item.iconName" v-if="this.company.item && this.company.item.iconName" alt="">
         </nuxt-link>
-
+        <div>
+        </div>
+        
         <div class="w-full h-full px-6 box-border flex items-center justify-end sm:justify-between">
           <div class="hidden sm:block flex items-center">
             <label class="text-white text-sm">{{companyName}}</label>
@@ -171,7 +174,7 @@ export default {
         this.userSubmitform.phone = res.data.result.phone
         this.userSubmitform.email = res.data.result.email
         window.localStorage.setItem(
-          "userInfo",
+          "userInfoClient",
           JSON.stringify(res.data.result)
         );
       });

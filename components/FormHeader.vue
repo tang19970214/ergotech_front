@@ -163,7 +163,7 @@ export default {
       this.$api.getUserProfile().then((res) => {
         this.userInfo = res.data.result;
         window.localStorage.setItem(
-          "userInfo",
+          "userInfoClient",
           JSON.stringify(res.data.result)
         );
       });

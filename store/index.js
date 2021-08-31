@@ -31,7 +31,7 @@ const store = () => new Vuex.Store({
           .then((response) => {
             const data = response.data
             setToken(data.token)
-            window.localStorage.setItem("token", data.token)
+            window.localStorage.setItem("tokenClient", data.token)
             commit("SET_TOKEN", data.token)
             resolve()
           })
