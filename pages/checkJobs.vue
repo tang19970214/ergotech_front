@@ -224,7 +224,7 @@ export default {
     return new Promise((resolve, reject) => {
       this.$api.GetByMissionResultByMissionId({ id: this.$route.params.id }).then((res)=> {
         const {result, code} = res.data
-        console.log(res);
+        // console.log(res);
         if(code === 200 && result) { // 如果有資料(result)代表是暫存，並把值帶回去submitForm
           this.missionResultId = result.id
           this.readableStatus = result.status

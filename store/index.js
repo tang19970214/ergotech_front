@@ -29,11 +29,13 @@ const store = () => new Vuex.Store({
       return new Promise((resolve, reject) => {
         Vue.prototype.$api.login(userInfo.username, userInfo.password)
           .then((response) => {
-            const data = response.data
-            setToken(data.token)
-            window.localStorage.setItem("tokenClient", data.token)
-            commit("SET_TOKEN", data.token)
-            resolve()
+            if(response.data.code == 200) {
+              const data = response.data
+              setToken(data.token)
+              window.localStorage.setItem("tokenClient", data.token)
+              commit("SET_TOKEN", data.token)
+            }
+            resolve(response)
           })
           .catch((error) => {
             reject(error)
