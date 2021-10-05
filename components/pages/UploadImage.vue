@@ -54,7 +54,7 @@ export default {
     return {
       PROCESSENVIMGSRC: process.env.VUE_APP_BASE_IMG_URL,
       showImage: require("../../assets/images/uploadImg.png"),
-      showTrashImage: require("../../assets/images/trash.webp"),
+      showTrashImage: require("../../assets/images/trash.png"),
       // uploadTextObj: {
       //     uploadText: true,
       //     NoUploadText: false,
