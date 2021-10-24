@@ -134,11 +134,12 @@ export default {
           const { result, code } = res.data
           if (code === 200) {
           // 先取出所有的問題
-          console.log(!!result.compQuests)
-          // if(result.compQuests) {
-            
-          // }
-          let listResult = result['compQuests'][0]['compQuestDetails'];
+          let listResult
+          if( result['compQuests'][0] && result['compQuests'][0]['compQuestDetails']) {
+            listResult = result['compQuests'][0]['compQuestDetails'];
+          } else {
+            this.$store.dispatch("handleLoading", false);
+          }
           // 排序
           listResult.sort((itemA,itemB)=> {
             let diffStatus = -1
@@ -225,7 +226,7 @@ export default {
     return new Promise((resolve, reject) => {
       this.$api.GetByMissionResultByMissionId({ id: this.$route.params.id }).then((res)=> {
         const {result, code} = res.data
-        console.log(res);
+        // console.log(res);
         if(code === 200 && result) { // 如果有資料(result)代表是暫存，並把值帶回去submitForm
           this.missionResultId = result.id
           this.readableStatus = result.status
@@ -251,7 +252,7 @@ export default {
       if(this.missionResultId !== ''){
         await this.AddOrUpdateDetail()
       } else {
-        let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+        let userInfo = JSON.parse(window.localStorage.getItem('userInfoClient'))
         let data = {
           userId: userInfo.id,
           checkMissionId: this.$route.params.id,
@@ -267,7 +268,7 @@ export default {
     // 送出填寫任務
     async UpdateMissionResult() {
       await this.addMissionResult()
-      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      let userInfo = JSON.parse(window.localStorage.getItem('userInfoClient'))
       let data = {
         id: this.missionResultId,
         userId: userInfo.id,

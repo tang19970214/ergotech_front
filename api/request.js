@@ -10,7 +10,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    const token = window.localStorage.getItem("token");
+    const token = window.localStorage.getItem("tokenClient");
     token && (config.headers["X-Token"] = `${token}`);
     return config;
   },

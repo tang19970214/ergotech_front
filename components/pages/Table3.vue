@@ -13,16 +13,16 @@
               <span class="text-white">完成日期</span>
             </div>
           </th>
-          <th class="w-20 px-4 py-2 bg-tableOperate">
+          <!-- <th class="w-20 px-4 py-2 bg-tableOperate">
             <div class="w-full text-center">
               <span class="text-white">操作</span>
             </div>
-          </th>
+          </th> -->
         </tr>
       </thead>
 
       <tbody class="bg-gray-200" v-if="tableList.length > 0">
-        <tr class="bg-white border-b" v-for="item in tableList" :key="item.id">
+        <tr class="bg-white border-b cursor-pointer" v-for="item in tableList" :key="item.id"  @click="goCheck(item.id)">
           <td class="px-4 py-4">
             <div class="w-full">
               <p class="text-sm font-medium">{{item.name}}</p>
@@ -33,11 +33,11 @@
               <p class="text-sm font-medium">{{item.modifyDate}}</p>
             </div>
           </td>
-          <td class="w-20 py-4">
+          <!-- <td class="w-20 py-4">
             <div class="w-full text-center">
-              <button class="bg-primary py-1 px-3 text-sm text-white"  @click="goCheck(item.id)">檢視</button>
+              <button class="bg-primary py-1 px-3 text-sm text-white">檢視</button>
             </div>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>

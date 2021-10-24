@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <div class="w-full text-center font-bold text-lg text-primary font-mono">企業名稱</div>
+        <div class="w-full text-center font-bold text-lg text-primary font-mono">現場檢核員</div>
 
         <form id="form" novalidate>
           <label class="text-sm font-bold">帳號</label>
@@ -60,16 +60,27 @@ export default {
             username: vm.temp.account,
             password: vm.temp.password,
           })
-          .then(() => {
-            this.$swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "登入成功",
-              showConfirmButton: false,
-              timer: 1500,
-            });
+          .then((res) => {
             vm.$store.dispatch("handleLoading", false);
-            vm.$router.push("/checkOperation");
+            if (res.data.code == 200) {
+              this.$swal.fire({
+                // position: "top-end",
+                icon: "success",
+                title: "登入成功",
+                showConfirmButton: false,
+                timer: 1500,
+              }).then(()=> {
+                vm.$router.push("/checkOperation");
+              });
+            } else {
+              this.$swal.fire({
+                // position: "top-end",
+                icon: "error",
+                title: res.data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              })
+            }
           });
       }
     },

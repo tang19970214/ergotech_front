@@ -96,7 +96,7 @@ export default {
       }
     },
     openUserModal() {
-      this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      this.userInfo = JSON.parse(window.localStorage.getItem("userInfoClient"));
       this.openModal = true;
     },
   },
