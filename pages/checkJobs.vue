@@ -29,7 +29,7 @@
     </div>
 
     <Modal :readable="readable" :submitForm="submitForm" :openModal="openModal" :headerText="modalList.headerText" :title="modalList.title" :contentType="modalList.contentType" :targetItem="modalList.targetItem" :introduceList="modalList.introduceList" @closeModal="closeModal" :currentSugNum="modalList.currentSugNum" />
-    <Notice :openNotice="openNotice" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
+    <Notice :openNotice="openNotice" :notValidText="noticeInfo.notValidText" :type="noticeInfo.type" :nexyOrPreType="nexyOrPreType" :message="noticeInfo.message" :introduce="noticeInfo.introduce" @closeNotice="closeNotice" />
   </div>
 </template>
 
@@ -87,13 +87,15 @@ export default {
         message: "",
         introduce: "",
       },
+      notValidText: [],
     };
   },
   methods: {
     stepValidation() {
       let status
       const resultArray =  this.list[this.defaultMenu - 1].typeList[this.defaultStep - 1].detaiList.find(submitItemDetail=> submitItemDetail.submitItem.checkResult === '')
-      // console.log(resultArray);
+      const resultArrayList = this.list[this.defaultMenu - 1].typeList[this.defaultStep - 1].detaiList.filter(submitItemDetail=> submitItemDetail.submitItem.checkResult === '')
+      this.notValidText = resultArrayList.map((item)=> (item.detailNo+item.detailName))
       if (resultArray) {
         status = false
       } else {
@@ -132,6 +134,10 @@ export default {
           const { result, code } = res.data
           if (code === 200) {
           // 先取出所有的問題
+          console.log(!!result.compQuests)
+          // if(result.compQuests) {
+            
+          // }
           let listResult = result['compQuests'][0]['compQuestDetails'];
           // 排序
           listResult.sort((itemA,itemB)=> {
@@ -355,6 +361,7 @@ export default {
               type: "warning",
               message: "尚有題目未答",
               introduce: "此頁尚有題目未填答，確定前往上一頁？",
+              notValidText: this.notValidText
             };
             this.openNotice = true;
           } else {
@@ -363,11 +370,11 @@ export default {
           break;
         case "next":
           if (this.stepNextStatus && !this.stepValidation()) {
-            // if(){}
             this.noticeInfo = {
               type: "warning",
               message: "尚有題目未答",
               introduce: "此頁尚有題目未填答，確定前往下一頁？",
+              notValidText: this.notValidText
             };
             this.openNotice = true;
           } else {
@@ -386,6 +393,8 @@ export default {
           break;
         case "sendConfirm":
           let status = this.submitForm.find((submitItem)=> submitItem.checkResult === '')
+          // let statusArry = this.submitForm.filter((submitItem)=> submitItem.checkResult === '')
+          // console.log(statusArry)
           if(!!status) {
             this.nexyOrPreType = ''
             this.noticeInfo = {
@@ -453,6 +462,7 @@ export default {
           break;
       }
       this.openNotice = false;
+      this.notValidText = []
     },
   },
   computed: {

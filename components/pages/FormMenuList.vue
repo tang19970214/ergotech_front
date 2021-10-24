@@ -10,7 +10,7 @@
           </div>
 
           <div>
-            <strong class="text-sm text-warning">({{caculateTotalDetailCheckedNumber(menuList[defaultMenu - 1])}}/{{caculateTotalDetailNumber(menuList[defaultMenu - 1])}})</strong>
+            <strong class="text-sm text-warning">(<span :class="{'text-red-500': caculateTotalDetailCheckedNumber(menuList[defaultMenu - 1])!== caculateTotalDetailNumber(menuList[defaultMenu - 1])}">{{caculateTotalDetailCheckedNumber(menuList[defaultMenu - 1])}}</span>/{{caculateTotalDetailNumber(menuList[defaultMenu - 1])}})</strong>
           </div>
         </div>
 
@@ -31,7 +31,7 @@
               </div>
 
               <div class="w-11">
-                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">({{caculateTotalDetailCheckedNumber(item)}}/{{caculateTotalDetailNumber(item)}})</strong>
+                <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(<span :class="{'text-red-500': caculateTotalDetailCheckedNumber(item)!==caculateTotalDetailNumber(item)}">{{caculateTotalDetailCheckedNumber(item)}}</span>/{{caculateTotalDetailNumber(item)}})</strong>
               </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="w-11">
-          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">({{caculateTotalDetailCheckedNumber(item)}}/{{caculateTotalDetailNumber(item)}})</strong>
+          <strong class="text-sm" :class="{'text-white': item.id == defaultMenu, 'text-warning': item.id !== defaultMenu}">(<span :class="{'text-red-500': caculateTotalDetailCheckedNumber(item)!==caculateTotalDetailNumber(item)}">{{caculateTotalDetailCheckedNumber(item)}}</span>/{{caculateTotalDetailNumber(item)}})</strong>
         </div>
       </div>
     </div>

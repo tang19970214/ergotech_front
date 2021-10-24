@@ -11,6 +11,7 @@
           <font-awesome-icon class="text-7xl mb-2" :class="setColor(type)" :icon="['fas', setIcon(type)]" />
           <strong class="text-3xl mb-1" :class="setColor(type)">{{message}}</strong>
           <strong class="text-lg text-center">{{introduce}}</strong>
+          <p class="text-sm w-full text-left text-red-500" v-for="(item,index) in notValidText" :key="index">{{item}}</p>
         </div>
         <!--footer-->
         <div class="w-full p-3 space-x-4 flex items-center">
@@ -44,6 +45,9 @@ export default {
     },
     introduce: {
       type: String,
+    },
+    notValidText: {
+      type: [Array]
     },
     nexyOrPreType: {
       type: String
