@@ -6,12 +6,12 @@
           <!-- 上一個類型 -->
           <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" @click="formBtn('prev')"  :class="{'status__disable': !stepPreStatus}">
             <font-awesome-icon class="text-white text-xs mr-1" :icon="['fas', 'chevron-left']" />
-            <strong class="text-sm text-white">上一個類型</strong>
+            <strong class="text-sm text-white">上一頁</strong>
           </button>
 
           <!-- 下一個類型 -->
           <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" @click="formBtn('next')"  :class="{'status__disable': !stepNextStatus}">
-            <strong class="text-sm text-white">下一個類型</strong>
+            <strong class="text-sm text-white">下一頁</strong>
             <font-awesome-icon class="text-white text-xs ml-1" :icon="['fas', 'chevron-right']" />
           </button>
 
@@ -21,7 +21,7 @@
           </button>
 
           <!-- 送出 -->
-          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" v-if="!readable" @click="formBtn('sendConfirm')">
+          <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center" :class="{'status__disable': sendStatus}" v-if="!readable" @click="formBtn('sendConfirm')">
             <strong class="text-sm text-white">送出</strong>
           </button>
         </div>
@@ -33,12 +33,12 @@
         <!-- 上一個類型 -->
         <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" @click="formBtn('prev')" :class="{'status__disable': !stepPreStatus}">
           <font-awesome-icon class="text-white text-xs mr-1" :icon="['fas', 'chevron-left']" />
-          <strong class="text-sm text-white">上一個類型</strong>
+          <strong class="text-sm text-white">上一頁</strong>
         </button>
 
         <!-- 下一個類型 -->
         <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" @click="formBtn('next')"  :class="{'status__disable': !stepNextStatus}">
-          <strong class="text-sm text-white">下一個類型</strong>
+          <strong class="text-sm text-white">下一頁</strong>
           <font-awesome-icon class="text-white text-xs ml-1" :icon="['fas', 'chevron-right']" />
         </button>
 
@@ -48,7 +48,7 @@
         </button>
 
         <!-- 送出 -->
-        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" v-if="!readable" @click="formBtn('sendConfirm')">
+        <button class="bg-primary px-3 py-1 rounded-sm flex items-center justify-center mx-1" :class="{'status__disable': sendStatus}" v-if="!readable" @click="formBtn('sendConfirm')">
           <strong class="text-sm text-white">送出</strong>
         </button>
       </div>
@@ -70,6 +70,10 @@ export default {
     readable: {
       type: Boolean,
       require: true
+    },
+    sendStatus: {
+      type: Boolean,
+      require: true,
     }
   },
   methods: {
