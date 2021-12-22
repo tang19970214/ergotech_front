@@ -91,7 +91,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: "http://renyin.mass.org.tw/"
+    // publicPath: "http://renyin.mass.org.tw/"
+    publicPath: "http://localhost/"
   },
 
   buildModules: [

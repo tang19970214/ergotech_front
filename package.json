@@ -7,7 +7,8 @@
     "prod": "cross-env NODE_ENV=prod nuxt --port 1803",
     "build": "cross-env NODE_ENV=prod nuxt build",
     "start": "nuxt start",
-    "generate": "cross-env NODE_ENV=prod nuxt generate"
+    "generate": "cross-env NODE_ENV=prod nuxt generate",
+    "generateDev": "cross-env NODE_ENV=dev nuxt generate"
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
