@@ -1,7 +1,7 @@
 <template>
   <div class="w-full min-h-screen flex items-center justify-center">
     <div class="flex items-center justify-center flex-col">
-      <div class="font-bold text-white text-5xl mb-16">Login</div>
+      <div class="font-bold text-white text-5xl mb-16">登入</div>
       <div class="relative p-12 box-border bg-white rounded shadow-md">
         <div class="absolute -top-11 left-0 w-full sign flex items-center justify-center">
           <img src="@/assets/images/loginTitle.svg" alt="人因工程檢核表">
@@ -63,15 +63,17 @@ export default {
           .then((res) => {
             vm.$store.dispatch("handleLoading", false);
             if (res.data.code == 200) {
-              this.$swal.fire({
-                // position: "top-end",
-                icon: "success",
-                title: "登入成功",
-                showConfirmButton: false,
-                timer: 1500,
-              }).then(()=> {
-                vm.$router.push("/checkOperation");
-              });
+              this.$swal
+                .fire({
+                  // position: "top-end",
+                  icon: "success",
+                  title: "登入成功",
+                  showConfirmButton: false,
+                  timer: 1500,
+                })
+                .then(() => {
+                  vm.$router.push("/checkOperation");
+                });
             } else {
               this.$swal.fire({
                 // position: "top-end",
@@ -79,15 +81,15 @@ export default {
                 title: res.data.message,
                 showConfirmButton: false,
                 timer: 1500,
-              })
+              });
             }
           });
       }
     },
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch("handleLoading", false);
-  }
+  },
 };
 </script>
 
