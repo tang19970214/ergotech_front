@@ -9,7 +9,7 @@
         <div class="hidden sm:block flex items-center">
           <button class="w-16 h-8 bg-white rounded border border-gray-400 text-sm font-bold shadow mr-2" @click="goBack()">回列表</button>
           <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow mr-2" v-if="!readable" @click="formBtn('save')">暫存</button>
-          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" v-if="!readable" @click="formBtn('sendConfirm')">送出</button>
+          <button class="w-14 h-8 bg-primary text-white rounded text-sm font-bold shadow" :class="{'status__disable': sendStatus}" v-if="!readable" @click="formBtn('sendConfirm')">送出</button>
         </div>
       </div>
 
@@ -23,7 +23,7 @@
           <div class="w-full mt-4 shadow" v-if="list.length>0">
             <Form :readable="readable" @openFormModal="openFormModal" :list="list[defaultMenu - 1].typeList[defaultStep - 1].detaiList" :defaultStep="defaultStep" :submitForm="submitForm" />
           </div>
-          <FormFooter :readable="readable" @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus"/>
+          <FormFooter :sendStatus="sendStatus" :readable="readable" @formBtn="formBtn" :stepNextStatus="stepNextStatus" :stepPreStatus="stepPreStatus"/>
         </div>
       </div>
     </div>
@@ -88,6 +88,7 @@ export default {
         introduce: "",
       },
       notValidText: [],
+      sendStatus: false
     };
   },
   methods: {
@@ -394,21 +395,19 @@ export default {
           break;
         case "sendConfirm":
           let status = this.submitForm.find((submitItem)=> submitItem.checkResult === '')
-          // let statusArry = this.submitForm.filter((submitItem)=> submitItem.checkResult === '')
-          // console.log(statusArry)
           if(!!status) {
-            this.nexyOrPreType = ''
-            this.noticeInfo = {
-                type: "warning",
-                message: "尚有題目未答",
-            };
-            this.openNotice = true;
+            // this.nexyOrPreType = ''
+            // this.noticeInfo = {
+            //     type: "warning",
+            //     message: "尚有題目未答",
+            // };
+            // this.openNotice = true;
             return
           } else {
             this.nexyOrPreType = 'sendConfirm'
             this.noticeInfo = {
               type: "warning",
-              message: "確認送出 ? ",
+              message: "送出後無法更改，確認送出? ",
             };
             this.openNotice = true;
           }
@@ -507,5 +506,26 @@ export default {
       }, 500);
     });
   },
+  watch:{
+    submitForm: {
+      handler(){
+        let status = this.submitForm.find((submitItem)=> submitItem.checkResult === '')
+        this.sendStatus = !!status
+      },
+      deep: true,
+      immediate: true
+    }
+  }
 };
 </script>
+
+<style lang="scss" scoped>
+.status{
+  &__disable{
+    cursor:not-allowed;
+    opacity: 0.5;
+  }
+}
+</style>
+
+

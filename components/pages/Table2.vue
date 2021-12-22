@@ -10,7 +10,12 @@
           </th>
           <th class="w-28 px-4 py-2 bg-tableHeader">
             <div class="w-full text-center">
-              <span class="text-white">存檔日期</span>
+              <span class="text-white">存檔時間</span>
+            </div>
+          </th>
+           <th class="w-28 px-4 py-2 bg-tableHeader">
+            <div class="w-full text-center">
+              <span class="text-white">預定完成日</span>
             </div>
           </th>
           <!-- <th class="w-20 px-4 py-2 bg-tableOperate">
@@ -26,6 +31,11 @@
           <td class="px-4 py-4">
             <div class="w-full">
               <p class="text-sm font-medium">{{item.name}}</p>
+            </div>
+          </td>
+          <td class="w-28 py-4">
+            <div class="w-full text-center">
+              <p class="text-sm font-medium">{{item.missionResultModifyDate}}</p>
             </div>
           </td>
           <td class="w-28 py-4">
